@@ -22,16 +22,24 @@ client.query(`CREATE TABLE IF NOT EXISTS users(
 );
 COPY users FROM '../helpers/users.csv' DELIMITER '|' CSV HEADER;
 `); 
+
+client.query(`CREATE TABLE IF NOT EXISTS recipes_category(
+    id            serial        PRIMARY KEY,
+    name        varchar(100)  NOT NULL,
+    is_deleted    boolean       NOT NULL
+)`);
 client.query(`CREATE TABLE IF NOT EXISTS recipes(
     id            serial        PRIMARY KEY,
     title         varchar(100)  NOT NULL,
     description   text          NOT NULL,
     is_deleted    boolean       NOT NULL,
     owner_id      integer       references users(id),
-    category_id   integer       NOT NULL,
+    category_id   integer       references recipes_category(id),
     photo         varchar(100),
     rating        integer
 )`);
+
+
 
 client.query(`CREATE TABLE IF NOT EXISTS ingradients(
     id            serial        PRIMARY KEY,

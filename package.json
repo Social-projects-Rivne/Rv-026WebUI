@@ -7,7 +7,8 @@
     "devserver": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --debug --hot --devtool eval-source-map --output-pathinfo --watch --colors --inline --content-base ./ --port 8090 --host 0.0.0.0",
     "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "start": "webpack && npm run build && nodemon dist/app.js"
+    "start": "webpack && npm run build && nodemon dist/app.js",
+    "pginit":"node ./dist/helpers/pginit.js"
   },
   "repository": {
     "type": "git",

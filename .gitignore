@@ -59,3 +59,5 @@ typings/
 
 dist/
 bundle.jsconfig.js
+config.js
+config.example.js

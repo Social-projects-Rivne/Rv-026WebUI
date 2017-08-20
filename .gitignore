@@ -58,6 +58,6 @@ typings/
 .env
 
 dist/
-bundle.jsconfig.js
+bundle.js
 config.js
 config.example.js

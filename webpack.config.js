@@ -39,7 +39,7 @@ module.exports = {
       },
       {
           test: /\.jsx$/,
-          loader: "react-hot!babel",
+          loader: "react-hot!babel?presets=es2015&retainLines=true",
           exclude: [/node_modules/, /public/]
       },
       {
@@ -48,6 +48,7 @@ module.exports = {
       }
     ]
   },
+  devtool: "source-map",
   resolve: {
     extensions: ['', '.js', '.jsx']
   },

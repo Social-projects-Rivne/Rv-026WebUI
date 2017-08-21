@@ -1,5 +1,6 @@
 
 import express from 'express';
+
 import bodyParser from 'body-parser';
 import path from 'path';
 import cors from 'cors';
@@ -11,7 +12,6 @@ const port = process.env.port || 3090;
 
 app.use(cors());
 app.use(bodyParser.json({ type: '*/*' }));
-
 
 app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 

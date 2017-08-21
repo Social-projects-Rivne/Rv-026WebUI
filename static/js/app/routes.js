@@ -5,9 +5,8 @@ import NotFound from '../common/NotFound';
 import MainLayout from '../layouts/MainLayout';
 import MainPage from '../pages/MainPage/MainPage';
 import SignInPage from '../pages/SignInPage/SignInPage';
+
 import Recipes from '../pages/Recipes/Recipes';
-
-
 
 
 const routes = (
@@ -18,6 +17,5 @@ const routes = (
         <Route path="*" component={NotFound} />
     </Route>
 );
-
 
 export default routes;

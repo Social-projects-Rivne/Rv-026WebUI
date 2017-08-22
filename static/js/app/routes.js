@@ -7,6 +7,8 @@ import MainPage from '../pages/MainPage/MainPage';
 import SignInPage from '../pages/SignInPage/SignInPage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import SignUpSuccess from '../pages/SignUpSuccess/SignUpSuccess';
+import Terms from '../pages/Terms/Terms';
+
 
 
 const routes = (
@@ -15,6 +17,7 @@ const routes = (
         <Route path="/signup" component={SignUpPage} />
         <Route path="/signin" component={SignInPage} />
         <Route path="/signupsuccess" component={SignUpSuccess} />
+        <Route path="/terms" component={Terms} />
 
 
         <Route path="*" component={NotFound} />

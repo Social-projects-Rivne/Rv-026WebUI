@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import React, { Component } from 'react';
 import {Button, FormControl, FormGroup} from 'react-bootstrap';
 
@@ -34,6 +34,10 @@ class SignUpForm extends Component {
             passwordConfirm: {
                 value: '',
                 error: 'Required',
+            },
+            terms: {
+                value: '',
+                error: 'Required'
             }
         };
 
@@ -170,6 +174,13 @@ class SignUpForm extends Component {
                 return new Error('Required');
             }
             return true;
+        },
+
+        terms: (f) => {
+            if (!f.checked){
+                return new Error('Required');
+            }
+            return true;
         }
     }
 
@@ -229,6 +240,18 @@ class SignUpForm extends Component {
                         onChange={this.handleChange}
                         />
                     {this.errorMessage(this.state.passwordConfirm.error)}
+                </FormGroup>
+
+                <FormGroup>
+                    <input
+                        type='checkbox'
+                        ref='terms'
+                        name='terms'
+                        id="SignupForm--terms"
+                        onClick={this.handleChange}
+                        />
+                    <span> I agree to the <Link to='/terms'> Terms and Conditions</Link></span>
+                    {this.errorMessage(this.state.terms.error)}
                 </FormGroup>
 
                 <Button bsStyle='primary' type='submit' >Sign Up</Button>

@@ -24,7 +24,7 @@ signupController.checkEmailExistence = (req, res) => {
             console.log(err.stack);
             res.send(err.stack);
         } else {
-            if (result.rows[0]) {
+            if (result.rows[0] && !result.rows[0].is_deleted) {
             res.send('emailExists');
             } else {
             res.send('emailDoesntExist');
@@ -43,75 +43,70 @@ signupController.checkEmailExistence = (req, res) => {
 signupController.register = (req, res) => {
     let credentials = req.body;
     credentials.password = crypto.createHash('sha256').update(credentials.password).digest('hex');
-    //creating id for email password confirmation, save it to db with email;
-    const confirmId = uuidv4();
 
     const client = new pg.Client(conString);
     client.connect();
-    client.query(signupModel.insertIntoRegistration(confirmId, credentials.email, credentials.phone, credentials.password),
+    client.query(signupModel.upsertIntoUsers(credentials.email, credentials.phone, credentials.password),
     (err,result) => {
-        if(err) console.log(err);
+        if (err) {
+            console.log(err);
+        } else {
+            client.query(signupModel.getId(credentials.email), (err,res) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    const confirmStr = crypto.createHash('sha1').update(''+res.rows[0].id).digest('hex')+res.rows[0].id;
+                    const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}/${confirmStr}`;
+                    //setup nodemailer
+                    let smtpTrans, mailOpts;
+                    smtpTrans = nodemailer.createTransport(smtpTransport({
+                        service:'Gmail',
+                        auth:{
+                            user:"noreplyfmd@gmail.com",
+                            pass:"happysmile1"
+                        }
+                    }));
 
-        //setup nodemailer
-        let mailOpts, smtpTrans;
+                    mailOpts = {
+                        from:req.body.email,
+                        to:credentials.email,
+                        subject:"Confirm registration",
+                        text:fullUrl
+                    };
 
-        const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}/${confirmId}`;
+                    smtpTrans.sendMail(mailOpts, (e, response) => {
+                        if(e) console.log(e);
+                    })
 
-        smtpTrans = nodemailer.createTransport(smtpTransport({
-            service:'Gmail',
-            auth:{
-                user:"noreplyfmd@gmail.com",
-                pass:"happysmile1"
-            }
-        }));
-
-        mailOpts = {
-            from:req.body.email,
-            to:credentials.email,
-            subject:"Confirm registration",
-            text:fullUrl
-        };
-
-        smtpTrans.sendMail(mailOpts, (e, response) => {
-            if(e) console.log(e);
-        })
-
-        client.end((e) => {
-            if (e) {
-                console.log('error during disconnection', e.stack)
-             }
-        })
-
-    });
+                    client.end((e) => {
+                        if (e) {
+                            console.log('error during disconnection', e.stack)
+                         }
+                    })
+                }
+            }) // second query end
+        }
+    }); // first query end
 };
 
-signupController.confirmId = (req,res) => {
-    const confirmId = req.params.confirmId;
+signupController.confirmEmail = (req,res) => {
+    const confirmId = req.params.confirmEmail.slice(40);
 
     const client = new pg.Client(conString);
     client.connect();
-    client.query(signupModel.findEmailByConfirmId(confirmId), (err, result) => {
-        if(err) console.log(err);
-
-        if (result.rows[0]) {
-            const email = result.rows[0].email;
-
-            client.query(signupModel.moveFromRegistrationToUsers(confirmId, email),
-            (e,res) => {
-                if (e) console.log(e);
-
-                client.end((err) => {
-                    if (err) {
-                        console.log('error during disconnection', err.stack)
-                    }
-                });
-
-            });
-            res.redirect('/signin')
-        } else {
+    client.query(signupModel.updateIsDeleted(confirmId), (err, result) => {
+        if (err) {
+            console.log(err);
             res.sendFile(path.resolve(__dirname, '..', '..', 'dist', 'index.html'));
+        } else {
+            res.redirect('/signin')
         }
 
+        client.end((err) => {
+            if (err) {
+                console.log('error during disconnection', err.stack)
+            }
+        });
     })
 }
 

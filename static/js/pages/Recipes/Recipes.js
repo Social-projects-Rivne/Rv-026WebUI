@@ -1,24 +1,36 @@
 import React, { Component } from 'react';
 import Result from './Result';
+import { Grid, Row, Col } from 'react-bootstrap'; 
 
 class Recipes extends React.Component {  
-   constructor() {
-        super();
+   constructor(props) {
+        super(props);
         this.state = { recipes: [] };
     }
     
     componentDidMount() {
-        fetch(`http://localhost:3090/api/getallrecipes`) 
-            .then(response => response.json() )
-            .then( ({rows: recipes }) => this.setState({recipes})) 
+      var url = `http://localhost:3090/api/recipes/all`;
+      someMethod(url);
+      fetch(url) 
+        .then(response => response.json() )
+        .then( ({rows: recipes }) => this.setState({recipes})) 
+    }
+
+    someMethod(url) {
+      console.log(url);
+      fetch(url) 
+        .then(response => response.json() )
+        .then( ({rows: recipes }) => this.setState({recipes}) )
     }
     
     render() {
-      let recipes = this.state.recipes       
+      let recipes = this.state.recipes;       
       return(
-        <div>
-          <Result result={this.state.recipes}/>
-        </div>
+        <Grid>
+          <Row>
+            <Result parentMethod={this.someMethod} result={this.state.recipes}></Result>
+          </Row>
+        </Grid>
       );
     }
 }

@@ -1,8 +1,8 @@
-var userName = "opoo";
-var pasword = "itcourse";
+var userName = "postgres";
+var pasword = "postgres";
 var dbServerLocation = "localhost";
 var serverPort = "5432";
-var dbName = "webui";
+var dbName = "testdb";
 
 var str = `postgres://${userName}:${pasword}@${dbServerLocation}:${serverPort}/${dbName}`;
 

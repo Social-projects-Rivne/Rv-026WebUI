@@ -21,4 +21,19 @@ recipeController.getAllRecepies = (req, res) => {
 	  });
 };
 
+recipeController.getAllRecepiesByCategory = (req, res) => {
+	console.log(req.params);
+	var searchId = req.params.id;
+	client.query(recipeModel.GetAllRecipesByCategory(searchId), (err, result)=>{
+		if(result.rows){
+			console.log("OK");
+			console.log(result.rows);
+			return res.json(result);
+		}
+		else{
+			console.log(err);
+		}
+	});
+};
+
 module.exports=recipeController;

@@ -60,3 +60,4 @@ typings/
 dist/
 bundle.js
 config.js
+package-lock.json

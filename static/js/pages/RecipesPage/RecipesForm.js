@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { 
+    Button, 
+    FormControl, 
+    FormGroup,
+    ButtonGroup,
+    Thumbnail
+} from 'react-bootstrap';
 
 class RecipesForm extends Component {
     constructor(props) {
@@ -74,37 +81,59 @@ class RecipesForm extends Component {
         let {imagePreviewUrl} = this.state;
         let imagePreview = null;
         if(imagePreviewUrl){
-            imagePreview = (<img src={imagePreviewUrl} />);
+            imagePreview = (<Thumbnail alt="171x180" src={imagePreviewUrl} />);
         }
 
         return (
-            <div>
-                <form onSubmit={this.onSubmit}>
-                    <input type="text"
-                           placeholder="Title recipe"
-                           value={this.state.title}
-                           onChange={this.onTitleChange} 
+            <form onSubmit={this.onSubmit}>
+                <FormGroup>
+                    <label htmlFor="RecipesForm--title">Title</label>
+                    <FormControl
+                        type="text"
+                        name="title"
+                        id="RecipesForm--title"
+                        required
+                        placeholder="Title recipe"
+                        value={this.state.title}
+                        onChange={this.onTitleChange} 
+                />
+                    
+                </FormGroup>
+                <FormGroup>
+                    <label htmlFor="RecipesForm--description">Description</label>
+                    <FormControl
+                        componentClass="textarea" 
+                        name="description"
+                        id="RecipesForm--description"
+                        required
+                        placeholder="Description recipe"
+                        value={this.state.description}
+                        onChange={this.onDescriptionChange} 
                     />
-                    <input type="text"
-                           placeholder="Description recipe"
-                           value={this.state.description}
-                           onChange={this.onDescriptionChange} 
+                    
+                </FormGroup>
+                <FormGroup>
+                    <label htmlFor="RecipesForm--photo">Photo</label>
+                    <FormControl
+                        type="file"
+                        name="photo"
+                        id="RecipesForm--photo"
+                        required
+                        onChange={this.onPhotoChange} 
+                        accept="image/x-png,image/gif,image/jpeg"
                     />
-                    <input type="file"
-                           onChange={this.onPhotoChange}
-                           accept="image/x-png,image/gif,image/jpeg" 
-                    />
-                    <div className="btn-group btn-group-justified">
-                        <div className="btn-group">
-                            <button type="submit" className="btn btn-success">Create</button>
-                        </div>
-                        <div className="btn-group">
-                            <Link to="/recipes" className="btn btn-danger">Cancel</Link>
-                        </div>
-                    </div>
-                </form>
+                    
+                </FormGroup>
                 {imagePreview}
-            </div>
+                <ButtonGroup justified>
+                    <ButtonGroup>
+                        <Button type="submit" bsStyle='success'>Create</Button>
+                    </ButtonGroup>
+                    <ButtonGroup className="btn-group">
+                        <Link to="/recipes" className="btn btn-danger">Cancel</Link>
+                    </ButtonGroup>
+                </ButtonGroup>
+            </form>
         );
     }
 }

@@ -1,5 +1,5 @@
 var userName = "postgres";
-var pasword = "postgres";
+var pasword = "root";
 var dbServerLocation = "localhost";
 var serverPort = "5432";
 var dbName = "testdb";

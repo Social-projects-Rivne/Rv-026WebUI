@@ -32,36 +32,22 @@ class RecipesForm extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    emptyValidateTitle(value){
+    emptyValidate(value, emptyField, emptyMessage){
         if(_.isEmpty(value)) {
-            this.setState({emptyTitle: 'required title'});
+            this.setState({[emptyField]:[emptyMessage]});
         } else {
-            this.setState({emptyTitle: null});
-        }
-    }
-    emptyValidateDescription(value){
-        if(_.isEmpty(value)) {
-            this.setState({emptyDescription: 'required description'});
-        } else {
-            this.setState({emptyDescription: null});
-        }
-    }
-    emptyValidatePhoto(value){
-        if(_.isEmpty(value)) {
-            this.setState({emptyPhoto: 'required photo'});
-        } else {
-            this.setState({emptyPhoto: null});
+            this.setState({[emptyField]: null});
         }
     }
 
     onTitleChange(e) {
         this.setState({title: e.target.value});
-        this.emptyValidateTitle(e.target.value);
+        this.emptyValidate(e.target.value, "emptyTitle", "required title");
     }
 
     onDescriptionChange(e) {
         this.setState({description: e.target.value});
-        this.emptyValidateDescription(e.target.value);
+        this.emptyValidate(e.target.value, "emptyDescription", "required description");
     }
 
     onPhotoChange(e) {
@@ -69,7 +55,7 @@ class RecipesForm extends Component {
 
         let reader = new FileReader();
         let file = e.target.files[0];
-        this.emptyValidatePhoto(e.target.files);
+        this.emptyValidate(e.target.files, "emptyPhoto", "required photo");
 
         if (file && file.type.match('image.*')) {
             reader.onloadend = () => {

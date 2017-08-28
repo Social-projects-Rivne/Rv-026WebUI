@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import TestComponentOnMainPage from './TestComponentOnMainPage';
 
-
-class MainPage extends Component {
-    render(){
-        return(
-            <div>
-                <h2>Main Page</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore consequatur, odio facilis? 
+class MainPage extends React.Component {  
+   render() {
+      return (
+         <div>
+            <Header/>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore consequatur, odio facilis? 
                 Illo similique architecto voluptatem, asperiores! 
                 Quo minus explicabo delectus modi unde, recusandae 
                 facere aperiam at quis eius. Soluta!
                 </p>
                 <TestComponentOnMainPage />
-            </div> 
-        );
-    }
+         </div>
+      );
+   }
 }
 
 export default MainPage;

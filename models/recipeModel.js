@@ -3,8 +3,8 @@ recipeModel.GetAllRecipes = () => {
     return `SELECT * FROM recipes`
   };
 
-recipeModel.GetAllRecipesByCategory = (id) => {
-    return `SELECT * FROM recipes WHERE category_id='${id}'`
+recipeModel.getTagsRecipes = () => {
+    return `SELECT * FROM tags_recipes`
   };
 
 module.exports=recipeModel;

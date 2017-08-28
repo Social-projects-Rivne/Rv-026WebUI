@@ -10,17 +10,9 @@ class Recipes extends React.Component {
     
     componentDidMount() {
       var url = `http://localhost:3090/api/recipes/all`;
-      someMethod(url);
       fetch(url) 
         .then(response => response.json() )
         .then( ({rows: recipes }) => this.setState({recipes})) 
-    }
-
-    someMethod(url) {
-      console.log(url);
-      fetch(url) 
-        .then(response => response.json() )
-        .then( ({rows: recipes }) => this.setState({recipes}) )
     }
     
     render() {
@@ -28,7 +20,7 @@ class Recipes extends React.Component {
       return(
         <Grid>
           <Row>
-            <Result parentMethod={this.someMethod} result={this.state.recipes}></Result>
+            <Result result={this.state.recipes}></Result>
           </Row>
         </Grid>
       );

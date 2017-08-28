@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import AlertContainer from 'react-alert'
 
 import RecipesForm from './RecipesForm';
 
@@ -7,6 +8,15 @@ class RecipesNew extends Component {
     constructor(props){
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    alertOptions = {
+      offset: 14,
+      position: 'bottom left',
+      theme: 'light',
+      time: 4000,
+      transition: 'fade',
+      type: 'success'
     }
 
     addRecipe(recipe) {
@@ -23,7 +33,6 @@ class RecipesNew extends Component {
             xhr.onload = function () {
                 if (this.status == 200) {
                     resolve(this.response);
-                    console.log('success',this.response);
                 } else {
                     reject(this.statusText);
                 }
@@ -33,13 +42,20 @@ class RecipesNew extends Component {
     }
 
     handleSubmit(recipe){
-        this.addRecipe(recipe);
+        this.addRecipe(recipe)
+            .then(res => {
+                this.msg.show(res, {
+                  type: 'success'
+                })
+            })
+            .catch(err => console.log(err));
     }
 
     render(){
         return (
             <div className="container">
                 <RecipesForm handleSubmit={this.handleSubmit} />
+                <AlertContainer ref={a => this.msg = a} {...this.alertOptions} />
             </div>
         )
     }

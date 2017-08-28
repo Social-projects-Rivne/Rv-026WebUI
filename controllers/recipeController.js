@@ -30,7 +30,7 @@ recipeController.createRecipe = (req, res, next) => {
       var fileExtension = originalFilename.split('.').pop();
       if(availableHeaderTypes.includes(headers['content-type']))
       {
-        let copyToPath = "../public/images/" + originalFilename;
+        let copyToPath = "/public/images/" + originalFilename;
         let imageName = uuid.v4();
         let fullPath = `public/images/${imageName}.${fileExtension}`;
         fs.readFile(tempPath, (err, data) => {
@@ -50,7 +50,7 @@ recipeController.createRecipe = (req, res, next) => {
                 if (err) {
                   return next(err); 
                 } else {
-                  res.send({"message": "Recipe created!"});
+                  res.send("Recipe created!");
                 }
               });
             });

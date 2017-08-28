@@ -109,6 +109,7 @@ class RecipesForm extends Component {
 
         return (
             <form onSubmit={this.onSubmit}>
+                <h1>Create New Recipe</h1>
                 <FormGroup>
                     <label htmlFor="RecipesForm--title">Title</label>
                     <FormControl

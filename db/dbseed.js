@@ -28,7 +28,7 @@ db.query(`INSERT INTO users (fullname, role_id, passhesh, email, is_premium, pho
   else {console.log(res)}
 });
 
-db.query(`INSERT INTO users (fullname, role, passhesh, email, is_premium, phone_number, is_deleted, gravatar, about_me) VALUES
+db.query(`INSERT INTO users (fullname, role_id, passhesh, email, is_premium, phone_number, is_deleted, gravatar, about_me) VALUES
 ('StepanGiga', 1, 'ba79baeb9f10896a46ae74715271b7f586e74789', 'JohnSRosa@armyspy.com', TRUE, '+1-420-555-0101', FALSE, 'none', 'Im happy!');`,
 (err, res) => {
   if (err) {console.log(err)}

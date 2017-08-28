@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import AlertContainer from 'react-alert'
 
+import config from '../../../../config';
+
 import RecipesForm from './RecipesForm';
 
 class RecipesNew extends Component {
@@ -29,7 +31,7 @@ class RecipesNew extends Component {
             data.append("photo", recipe.photo);
             data.append("rating", recipe.rating);     
             var xhr = new XMLHttpRequest();       
-            xhr.open('post', 'http://localhost:3090/api/recipe', true);        
+            xhr.open('post', `${config.serverUrl}/api/recipe`, true);        
             xhr.onload = function () {
                 if (this.status == 200) {
                     resolve(this.response);

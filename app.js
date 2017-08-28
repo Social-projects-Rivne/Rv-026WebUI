@@ -4,10 +4,11 @@ import express from 'express';
 import morgan from 'morgan';
 import path from 'path';
 
+import config from './config';
+
 import recipeRoutes from './routes/recipe';
 
 const app = express();
-const port = process.env.port || 3090;
 
 app.use(morgan('combined'));
 
@@ -23,7 +24,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
 });
 
-app.listen(port, () => {
-    console.log("Server listening on port ", port);
+app.listen(config.port, config.host, () => {
+    console.log("Server listening on port ", config.port);
 });
                                                  

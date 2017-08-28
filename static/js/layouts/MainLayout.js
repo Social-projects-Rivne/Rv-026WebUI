@@ -4,13 +4,13 @@ import Header from './Header';
 import Footer from './Footer';
 
 class MainLayout extends Component {
-    render () {
+    render() {
         return (
             <div>
                 <Header />
                     {this.props.children}
                 <Footer />
-            </div> 
+            </div>
         );
     }
 }

@@ -2,24 +2,18 @@ import crypto from 'crypto';
 import path from 'path';
 
 import nodemailer from 'nodemailer';
-import pg from 'pg';
 import smtpTransport from 'nodemailer-smtp-transport';
 import uuidv4 from 'uuid/v4';
 
-import config from '../pg_config';
+import db from '../db';
 import signupModel from '../models/signupModel';
-
-//db configuration
-const conString   = config.str;
 
 let signupController = {};
 
 signupController.checkEmailExistence = (req, res) => {
     const emailForCheck = req.body.email;
 
-    const client = new pg.Client(conString);
-    client.connect();
-    client.query(signupModel.findEmail(emailForCheck), (err, result) => {
+    db.query(signupModel.findEmail(emailForCheck), (err, result) => {
         if (err) {
             console.log(err.stack);
             res.send(err.stack);
@@ -30,13 +24,6 @@ signupController.checkEmailExistence = (req, res) => {
             res.send('emailDoesntExist');
             }
         }
-
-        client.end((err) => {
-            if (err) {
-                console.log('error during disconnection', err.stack)
-            }
-        })
-
     });
 };
 
@@ -44,14 +31,14 @@ signupController.register = (req, res) => {
     let credentials = req.body;
     credentials.password = crypto.createHash('sha256').update(credentials.password).digest('hex');
 
-    const client = new pg.Client(conString);
-    client.connect();
-    client.query(signupModel.upsertIntoUsers(credentials.email, credentials.phone, credentials.password),
+    // const client = new pg.Client(conString);
+    // client.connect();
+    db.query(signupModel.upsertIntoUsers(credentials.email, credentials.phone, credentials.password),
     (err,result) => {
         if (err) {
             console.log(err);
         } else {
-            client.query(signupModel.getId(credentials.email), (err,res) => {
+            db.query(signupModel.getId(credentials.email), (err,res) => {
                 if (err) {
                     console.log(err);
                 } else {
@@ -77,12 +64,6 @@ signupController.register = (req, res) => {
                     smtpTrans.sendMail(mailOpts, (e, response) => {
                         if(e) console.log(e);
                     })
-
-                    client.end((e) => {
-                        if (e) {
-                            console.log('error during disconnection', e.stack)
-                         }
-                    })
                 }
             }) // second query end
         }
@@ -92,21 +73,13 @@ signupController.register = (req, res) => {
 signupController.confirmEmail = (req,res) => {
     const confirmId = req.params.confirmEmail.slice(40);
 
-    const client = new pg.Client(conString);
-    client.connect();
-    client.query(signupModel.updateIsDeleted(confirmId), (err, result) => {
+    db.query(signupModel.updateIsDeleted(confirmId), (err, result) => {
         if (err) {
             console.log(err);
             res.sendFile(path.resolve(__dirname, '..', '..', 'dist', 'index.html'));
         } else {
             res.redirect('/signin')
         }
-
-        client.end((err) => {
-            if (err) {
-                console.log('error during disconnection', err.stack)
-            }
-        });
     })
 }
 

@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
+import SignInForm from './SignInForm';
+
+const formStyle = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+}
+
+const h1Style = {
+    textAlign: 'center'
+}
 
 class SignInPage extends Component {
     render(){
         return(
             <div>
-                <h2>Sign In Page</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore consequatur, odio facilis? 
-                Illo similique architecto voluptatem, asperiores! 
-                Quo minus explicabo delectus modi unde, recusandae 
-                facere aperiam at quis eius. Soluta!
-                </p>
-            </div> 
+                <h1 style={h1Style}> Sign in </h1>
+                <div style={formStyle}>
+                    <SignInForm/>
+                </div>
+            </div>
         );
     }
 }

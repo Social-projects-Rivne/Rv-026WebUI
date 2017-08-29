@@ -4,21 +4,18 @@ import config from  '../db/config.js';
 
 const conString = `postgres://${config.userName}:${config.password}@${config.dbServerLocation}:${config.serverPort}/${config.dbName}`;
 
-const pool = new Pool({
-    connectionString: conString,
-})
+const pool = new Pool({ connectionString: conString,});
 const client = new Client(conString);
 
-
 module.exports = {
-   query: (text, params, callback) => {
-     const start = Date.now()
-     return pool.query(text, params, (err, res) => {
-       const duration = Date.now() - start
-       console.log('executed query', { text, duration, rows: res.rowCount })
-       callback(err, res)
-     })
-   },
+  query: (text, values, callback) => {
+    const start = Date.now()
+    return pool.query(text, values, (err, res) => {
+      const duration = Date.now() - start
+      console.log('executed query', { text, duration, rows: res.rowCount })
+      callback(err, res)
+    })
+  },
   getClient: (callback) => {
     pool.connect((err, client, done) => {
       const query = client.query.bind(client)

@@ -1,8 +1,8 @@
-var userName = "postgres";
-var password = "postgres";
+var userName = "opoo";
+var password = "itcourse";
 var dbServerLocation = "localhost";
 var serverPort = "5432";
-var dbName = "test";
+var dbName = "webui";
 
 module.exports = {
     userName,

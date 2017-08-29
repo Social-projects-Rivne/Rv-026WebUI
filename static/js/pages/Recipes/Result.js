@@ -48,16 +48,10 @@ class Result extends React.Component{
 class ResultItem extends React.Component{
     constructor(props) {
         super(props);
-        this.state = { tags: [], tagsRecipes: [] };
     }
 
     componentDidMount() {
-      fetch(`http://localhost:3090/api/tags/all`) 
-        .then(response => response.json() )
-        .then( ({rows: tags }) => this.setState({tags}))
-      fetch(`http://localhost:3090/api/recipes/tags`) 
-        .then(response => response.json() )
-        .then( ({rows: tagsRecipes }) => this.setState({tagsRecipes}))
+
     }
 
     render(){
@@ -66,7 +60,7 @@ class ResultItem extends React.Component{
         return(
             <Col sm={3}>
                 <div style={recipeHead}>
-                    <img className="img-rounded" src={"../../../../../public/images/recipes/"+recipe.photo} style={imgStyle}/>
+                    <img className="img-rounded" src={recipe.photo} style={imgStyle}/>
                     <span style={title}>{recipe.title}</span>
                 </div>
                 <p style={description}>{recipe.description}</p>

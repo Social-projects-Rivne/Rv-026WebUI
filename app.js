@@ -6,7 +6,6 @@ import cors from 'cors';
 import express from 'express';
 
 import recipeRoutes from './routes/recipe';
-import tagRoutes from './routes/tag';
 import signInRoutes from './routes/signin';
 import signUpRoutes from './routes/signup';
 
@@ -22,7 +21,6 @@ app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
 //using imported routes
 app.use(recipeRoutes);
-app.use(tagRoutes);
 app.use(signInRoutes);
 app.use(signUpRoutes);
 

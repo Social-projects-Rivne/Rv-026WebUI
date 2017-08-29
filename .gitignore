@@ -59,4 +59,6 @@ typings/
 
 dist/
 bundle.js
-pg_config.js
+db/dbcreate.js
+db/dbseed.js
+db/config.js

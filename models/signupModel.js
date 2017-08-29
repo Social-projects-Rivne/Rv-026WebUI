@@ -5,7 +5,7 @@ signupModel.findEmail = (email) => {
 };
 
 signupModel.upsertIntoUsers = (email, phone, password) => {
-    return `INSERT INTO users (email, phone, password, is_deleted) VALUES ('${email}', '${phone}', '${password}', true) ON CONFLICT (email) DO UPDATE SET phone = '${phone}', password = '${password}'`;
+    return `INSERT INTO users (email, phone_number, password) VALUES ('${email}', '${phone}', '${password}') ON CONFLICT (email) DO UPDATE SET phone_number = '${phone}', password = '${password}'`;
 }
 
 signupModel.getId = (email) => {

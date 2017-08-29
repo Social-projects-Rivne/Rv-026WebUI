@@ -30,10 +30,10 @@ module.exports=function(){
   const createUsers ={
     text: `CREATE TABLE IF NOT EXISTS users(
               id              serial        PRIMARY KEY,
-              fullname        varchar(64)   UNIQUE                        NOT NULL,
+              fullname        varchar(64)   NOT NULL,
               role_id         integer       references    users_roles(id)       NOT NULL,
-              passhesh        varchar(40)   NOT NULL,
-              email           varchar(50)   NOT NULL,
+              password        varchar(64)   NOT NULL,
+              email           varchar(50)   UNIQUE    NOT NULL,
               is_premium      boolean       NOT NULL,
               phone_number    varchar(24)   NOT NULL,
               is_deleted      boolean       NOT NULL      DEFAULT TRUE,
@@ -116,7 +116,7 @@ module.exports=function(){
     value:[],
   }
   commentArr[7] ={
-    text:`COMMENT ON COLUMN users.passhesh IS 'Crypted  presentation of user password'`,
+    text:`COMMENT ON COLUMN users.password IS 'Crypted  presentation of user password'`,
     value:[],
   }
   commentArr[8] ={

@@ -14,27 +14,27 @@ db.query(`INSERT INTO users_roles (user_role) VALUES ('admin');`,
   else {console.log(res)}
 });
 
-db.query(`INSERT INTO users (id, fullname, role_id, passhesh, email, is_premium, phone_number, is_deleted, gravatar, about_me) VALUES
+db.query(`INSERT INTO users (id, fullname, role_id, password, email, is_premium, phone_number, is_deleted, gravatar, about_me) VALUES
 (51, 'JohnRosauser', 1, 'ba79baeb9f10896a46ae74715271b7f586e74123', 'JohnSRosa@armyspy.com', FALSE, '+1-202-322-0101', FALSE, 'none', 'Im happy!');`,
 (err, res) => {
   if (err) {console.log(err)}
   else {console.log(res)}
 });
 
-db.query(`INSERT INTO users (id, fullname, role_id, passhesh, email, is_premium, phone_number, is_deleted, gravatar, about_me) VALUES
+db.query(`INSERT INTO users (id, fullname, role_id, password, email, is_premium, phone_number, is_deleted, gravatar, about_me) VALUES
 (52, 'GarrRoss', 1, 'ba79baeb9f10896a46ae74715271b7f586e74456', 'JohnSRosa@armyspy.com', FALSE, '+1-202-555-1337', FALSE, 'none', 'Im happy!');`,
 (err, res) => {
   if (err) {console.log(err)}
   else {console.log(res)}
 });
 
-db.query(`INSERT INTO users (id, fullname, role_id, passhesh, email, is_premium, phone_number, is_deleted, gravatar, about_me) VALUES
+db.query(`INSERT INTO users (id, fullname, role_id, password, email, is_premium, phone_number, is_deleted, gravatar, about_me) VALUES
 (53, 'StepanGiga', 1, 'ba79baeb9f10896a46ae74715271b7f586e74789', 'JohnSRosa@armyspy.com', TRUE, '+1-420-555-0101', FALSE, 'none', 'Im happy!');`,
 (err, res) => {
   if (err) {console.log(err)}
   else {console.log(res)}
 });
-db.query(`INSERT INTO users (id, fullname, role_id, passhesh, email, is_premium, phone_number, is_deleted, gravatar, about_me) VALUES
+db.query(`INSERT INTO users (id, fullname, role_id, password, email, is_premium, phone_number, is_deleted, gravatar, about_me) VALUES
 (54, 'MyhailoPoplavskiy', 1, 'ba79baeb9f10896a46ae74715271b7f586e74999', 'JohnSRosa@armyspy.com', TRUE, '+8-800-555-35-35', FALSE, 'none', 'Im happy!');`,
 (err, res) => {
   if (err) {console.log(err)}

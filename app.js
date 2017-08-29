@@ -19,7 +19,6 @@ app.use(cookieParser());
 
 app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
-//using imported routes
 app.use(recipeRoutes);
 app.use(signInRoutes);
 app.use(signUpRoutes);

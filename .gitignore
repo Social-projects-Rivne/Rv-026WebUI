@@ -60,3 +60,5 @@ typings/
 dist/
 bundle.js
 bundle.js.map
+config.js
+

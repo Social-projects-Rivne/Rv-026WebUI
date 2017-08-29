@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SignInForm from './SignInForm';
+import SignUpForm from './SignUpForm';
 
 const formStyle = {
   display: "flex",
@@ -11,17 +11,17 @@ const h1Style = {
     textAlign: 'center'
 }
 
-class SignInPage extends Component {
-    render(){
+class SignUpPage extends Component {
+    render() {
         return(
             <div>
-                <h1 style={h1Style}> Sign in </h1>
+                <h1 style={h1Style}> Sign up </h1>
                 <div style={formStyle}>
-                    <SignInForm/>
+                    <SignUpForm/>
                 </div>
             </div>
         );
     }
 }
 
-export default SignInPage;
+export default SignUpPage;

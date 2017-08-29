@@ -30,13 +30,13 @@ module.exports=function(){
   const createUsers ={
     text: `CREATE TABLE IF NOT EXISTS users(
               id              serial        PRIMARY KEY,
-              fullname        varchar(64)   NOT NULL,
-              role_id         integer       references    users_roles(id)       NOT NULL,
-              password        varchar(64)   NOT NULL,
-              email           varchar(50)   UNIQUE    NOT NULL,
-              is_premium      boolean       NOT NULL,
-              phone_number    varchar(24)   NOT NULL,
-              is_deleted      boolean       NOT NULL      DEFAULT TRUE,
+              fullname        varchar(64),
+              role_id         integer       references    users_roles(id),
+              password        varchar(64),
+              email           varchar(50)   UNIQUE,
+              is_premium      boolean,
+              phone_number    varchar(24),
+              is_deleted      boolean DEFAULT TRUE,
               gravatar        varchar(100),
               about_me         text
           );`,

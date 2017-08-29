@@ -6,7 +6,7 @@ import recipeModel from '../models/recipeModel.js';
 
 let recipeController = {};
 
-recipeController.getAllRecepies = (req, res) => {	
+recipeController.getAllRecepies = (req, res) => {
     db.query(recipeModel.GetAllRecipes(), (err,result) => {
     	if(result.rows){
     		return res.json(result);

@@ -1,7 +1,3 @@
-import path from 'path';
-
-
-import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import cookieParser from 'cookie-parser';
@@ -25,10 +21,9 @@ app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
 //using imported routes
+app.use(recipeRoutes);
 app.use(signInRoutes);
 app.use(signUpRoutes);
-app.use(recipeRoutes);
-app.use(tagRoutes);
 
 app.listen(port, () => {
     console.log("Server listening on port ", port);

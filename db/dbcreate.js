@@ -12,7 +12,7 @@ module.exports=function(){
   const createTags = {
     text:`CREATE TABLE IF NOT EXISTS tags(
             id                  serial         PRIMARY KEY,
-            name                varchar(30)    UNIQUE       NOT NULL,
+            name                varchar(30)    UNIQUE,
             tag_description     text
           )`,
     values: [],
@@ -20,8 +20,8 @@ module.exports=function(){
   const createIngredients = {
     text:`CREATE TABLE IF NOT EXISTS ingredients(
             id            serial        PRIMARY KEY,
-            name          varchar(30)   UNIQUE      NOT NULL,
-            is_deleted    boolean       NOT NULL,
+            name          varchar(30)   UNIQUE,
+            is_deleted    boolean,
             photo         varchar(200)   
           )`,
     values: [],
@@ -30,13 +30,13 @@ module.exports=function(){
   const createUsers ={
     text: `CREATE TABLE IF NOT EXISTS users(
               id              serial        PRIMARY KEY,
-              fullname        varchar(64)   NOT NULL,
-              role_id         integer       references    users_roles(id)       NOT NULL,
-              password        varchar(64)   NOT NULL,
-              email           varchar(50)   UNIQUE    NOT NULL,
-              is_premium      boolean       NOT NULL,
-              phone_number    varchar(24)   NOT NULL,
-              is_deleted      boolean       NOT NULL      DEFAULT TRUE,
+              fullname        varchar(64),
+              role_id         integer       references    users_roles(id),
+              password        varchar(64),
+              email           varchar(50)   UNIQUE,
+              is_premium      boolean,
+              phone_number    varchar(24),
+              is_deleted      boolean             DEFAULT TRUE,
               gravatar        varchar(100),
               about_me         text
           );`,
@@ -46,9 +46,9 @@ module.exports=function(){
   const createRecipes = {
     text: `CREATE TABLE IF NOT EXISTS recipes(
               id            serial        PRIMARY KEY,
-              title         varchar(100)  UNIQUE        NOT NULL,
-              description   text          NOT NULL,
-              is_deleted    boolean       NOT NULL,
+              title         varchar(100)  UNIQUE,
+              description   text,
+              is_deleted    boolean,
               owner_id      integer       references users(id),
               photo         varchar(200),
               rating        integer

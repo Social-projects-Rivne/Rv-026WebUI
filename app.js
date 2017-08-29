@@ -6,7 +6,6 @@ import cors from 'cors';
 import express from 'express';
 
 import recipeRoutes from './routes/recipe';
-import tagRoutes from './routes/tag';
 import signInRoutes from './routes/signin';
 import signUpRoutes from './routes/signup';
 

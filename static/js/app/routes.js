@@ -6,6 +6,7 @@ import NotFound from '../common/NotFound';
 import MainLayout from '../layouts/MainLayout';
 import MainPage from '../pages/MainPage/MainPage';
 import SignInPage from '../pages/SignInPage/SignInPage';
+import Recipes from '../pages/Recipes/Recipes';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import SignUpSuccess from '../pages/SignUpSuccess/SignUpSuccess';
 import Terms from '../pages/Terms/Terms';
@@ -13,6 +14,7 @@ import Terms from '../pages/Terms/Terms';
 const routes = (
     <Route path="/" component={MainLayout}>
         <IndexRoute component={MainPage} />
+        <Route path="/recipes" component={Recipes} />
         <Route path="/signup" component={SignUpPage} />
         <Route path="/signupsuccess" component={SignUpSuccess} />
         <Route path="/terms" component={Terms} />

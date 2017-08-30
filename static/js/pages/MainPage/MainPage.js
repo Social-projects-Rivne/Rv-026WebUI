@@ -1,20 +1,41 @@
 import React, { Component } from 'react';
+import ReactDOM from "react-dom";
 import TestComponentOnMainPage from './TestComponentOnMainPage';
+
+const bannerBlock = {
+    fontSize:'80px',
+    color:'white',
+    marginLeft:'150px',
+    paddingRight:'20px'
+    }
+
+const comment = {
+    color:'white',
+    textAlign: 'center',
+    fontSize:'30px',
+    marginTop:'-30px',
+    paddingRight:'20px'
+}
+
+const background = {
+    background: 'url("public/images/New Project.png") no-repeat center',
+    height:'884px',
+    textAlign: 'center'
+    }
+
 
 class MainPage extends Component {
     render(){
         return(
             <div>
-                <h2>Main Page</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore consequatur, odio facilis? 
-                Illo similique architecto voluptatem, asperiores! 
-                Quo minus explicabo delectus modi unde, recusandae 
-                facere aperiam at quis eius. Soluta!
-                </p>
-                <TestComponentOnMainPage />
-            </div> 
+                <div style = {background}>
+                    <p style={bannerBlock}>FOOD MAKE & DELIEVERY</p>
+                    <p style={comment}>forget about hunger forever with FM&D!</p>
+                </div>
+            </div>
         );
     }
 }
 
-export default MainPage;
+ReactDOM.render(<MainPage/>, document.getElementById('page'));
+

@@ -9,6 +9,7 @@ import config from './config';
 import recipeRoutes from './routes/recipe';
 import signInRoutes from './routes/signin';
 import signUpRoutes from './routes/signup';
+import userRoutes from './routes/user';
 
 
 const app = express();
@@ -21,10 +22,12 @@ app.use(cookieParser());
 
 app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
+app.use(userRoutes);
 app.use(recipeRoutes);
 app.use(signInRoutes);
 app.use(signUpRoutes);
 
+
 app.listen(config.port, config.host, () => {
     console.log("Server listening on port ", config.port);
-});
+  });

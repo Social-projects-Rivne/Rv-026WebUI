@@ -13,6 +13,9 @@ import Terms from '../pages/Terms/Terms';
 
 import { RecipesPage, RecipesNew } from '../pages/RecipesPage';
 
+import User from '../pages/UserPage/UserPage';
+
+
 const routes = (
     <Route path="/" component={MainLayout}>
         <IndexRoute component={MainPage} />
@@ -23,6 +26,7 @@ const routes = (
         <Route path="/signin" onEnter={checkLogin} component={SignInPage} />
         <Route path="/recipes_page" component={RecipesPage} />
         <Route path="/recipes/new" component={RecipesNew} />
+        <Route path="/profile" component={User} />
         <Route path="*" component={NotFound} />
     </Route>
 );

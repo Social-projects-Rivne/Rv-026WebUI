@@ -6,7 +6,7 @@ import config from '../../../../config';
 
 import RecipesForm from './RecipesForm';
 
-class RecipesNew extends Component {
+class CreateRecipePage extends Component {
     constructor(props){
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,6 +29,7 @@ class RecipesNew extends Component {
             data.append("is_deleted", recipe.is_deleted);
             data.append("owner_id", recipe.owner_id);
             data.append("photo", recipe.photo);
+            data.append("tags", recipe.tags);
             data.append("rating", recipe.rating);     
             var xhr = new XMLHttpRequest();       
             xhr.open('post', `${config.serverUrl}/api/recipe`, true);        
@@ -63,4 +64,4 @@ class RecipesNew extends Component {
     }
 }
 
-export default RecipesNew;
+export default CreateRecipePage;

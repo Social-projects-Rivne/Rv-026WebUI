@@ -20,6 +20,7 @@ class RecipesForm extends Component {
             photo: "",
             imagePreviewUrl: "",
             rating: 0,
+            tags: "",
 
             emptyTitle: "",
             emptyDescription: "",
@@ -29,6 +30,7 @@ class RecipesForm extends Component {
         this.onDescriptionChange = this.onDescriptionChange.bind(this);
         this.onPhotoChange = this.onPhotoChange.bind(this);
         this.onPhotoClick = this.onPhotoClick.bind(this);
+        this.onTagsChange = this.onTagsChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
@@ -69,6 +71,11 @@ class RecipesForm extends Component {
         } 
     }
 
+    onTagsChange(e) {
+        this.setState({tags: e.target.value});
+        console.log(e.target.value);
+    }
+
     onPhotoClick(e) {
          e.target.value = null;
     }
@@ -80,7 +87,9 @@ class RecipesForm extends Component {
         var is_deleted = this.state.is_deleted;
         var owner_id = this.state.owner_id;
         var photo = this.state.photo;
+        var tags = this.state.tags;
         var rating = this.state.rating;
+
         if(!title || !description || !photo || !owner_id) {
             return;           
         }
@@ -90,11 +99,13 @@ class RecipesForm extends Component {
             is_deleted,
             owner_id,
             photo,
+            tags,//arrayTags,
             rating
         });
         this.setState({
             title:"",
-            description:""
+            description:"",
+            tags:""
         });
     }
 
@@ -135,7 +146,7 @@ class RecipesForm extends Component {
                         onChange={this.onDescriptionChange} 
                     />
                 {this.errorMessage(this.state.emptyDescription)}   
-                </FormGroup>
+                </FormGroup>                
                 <FormGroup>
                     <label htmlFor="RecipesForm--photo">Photo</label>
                     <FormControl
@@ -150,6 +161,19 @@ class RecipesForm extends Component {
                 {this.errorMessage(this.state.emptyPhoto)}       
                 </FormGroup>
                 {imagePreview}
+                <FormGroup>
+                    <label htmlFor="RecipesForm--tags">Tags</label>
+                    <FormControl
+                        componentClass="textarea" 
+                        name="tags"
+                        id="RecipesForm--tags"
+                        required
+                        placeholder="Write tags using commas"
+                        value={this.state.tags}
+                        onChange={this.onTagsChange} 
+                    />
+                {this.errorMessage(this.state.emptyTags)}   
+                </FormGroup>
                 <ButtonGroup justified>
                     <ButtonGroup>
                         <Button type="submit" bsStyle='success'>Create</Button>

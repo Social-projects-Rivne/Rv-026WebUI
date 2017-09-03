@@ -12,8 +12,16 @@ class recipeModel {
   saveRecipe (recipe) {
     var recipeValues = Object.keys(recipe).map((k) => recipe[k]);
     const query = {
-      text: 'INSERT INTO recipes (title, description, is_deleted, owner_id, photo, rating) VALUES($1, $2, $3, $4, $5, $6)',
+      text: 'INSERT INTO recipes (title, description, is_deleted, owner_id, photo, rating) VALUES($1, $2, $3, $4, $5, $6) RETURNING id',
       values: recipeValues
+    }
+    return query;
+  };
+
+  saveRecipeTag(recipeId, tagId){
+    const query = {
+      text: `INSERT INTO recipe_tag(resipe_id, tag_id) VALUES($1, $2)`,
+      values: [recipeId, tagId]
     }
     return query;
   };

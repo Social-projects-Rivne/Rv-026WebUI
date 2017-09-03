@@ -12,7 +12,7 @@ module.exports=function(){
   const createTags = {
     text:`CREATE TABLE IF NOT EXISTS tags(
             id                  serial         PRIMARY KEY,
-            name                varchar(30)    UNIQUE       NOT NULL,
+            name                varchar(30)    UNIQUE         NOT NULL,
             tag_description     text
           )`,
     values: [],
@@ -80,7 +80,7 @@ module.exports=function(){
   const createRecipe_tag = {
     text: `CREATE TABLE IF NOT EXISTS recipe_tag(
           id              serial      PRIMARY KEY,
-          resipe_id       integer     references ingredients(id),
+          resipe_id       integer     references recipes(id),
           tag_id          integer     references tags(id)
           )`,
   values: [],

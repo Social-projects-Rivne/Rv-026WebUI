@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import checkLogin from '../common/checkLogin';
+import checkUserId from '../common/checkUserId';
 import NotFound from '../common/NotFound';
 import MainLayout from '../layouts';
 import MainPage from '../pages/MainPage';
@@ -24,7 +25,7 @@ const routes = (
         <Route path="/signupsuccess" component={SignUpSuccess} />
         <Route path="/terms" component={Terms} />
         <Route path="/signin" onEnter={checkLogin} component={SignInPage} />
-        <Route path="/recipes/new" component={CreateRecipePage} />
+        <Route path="/recipes/new" onEnter={checkUserId} component={CreateRecipePage} />
         <Route path="/profile" component={User} />
         <Route path="*" component={NotFound} />
     </Route>

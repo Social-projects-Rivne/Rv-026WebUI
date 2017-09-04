@@ -6,6 +6,8 @@ import db from '../db';
 import recipeModel from '../models/recipeModel';
 import tagModel from '../models/tagModel';
 
+import signinController from '../controllers/signinController';
+
 let recipeController = {};
 
 recipeController.getAllRecepies = (req, res) => {
@@ -54,6 +56,7 @@ recipeController.createRecipe = (req, res, next) => {
         let copyToPath = "/public/images/recipes/" + originalFilename;
         let imageName = uuidv4();
         let fullPath = `public/images/recipes/${imageName}.${fileExtension}`;
+        let ownerId = signinController.sessions[req.cookies.access];
         fs.readFile(tempPath, (err, data) => {
           fs.writeFile(fullPath, data, (err) => {
             fs.unlink(tempPath, () => {
@@ -62,7 +65,7 @@ recipeController.createRecipe = (req, res, next) => {
                 fields.title[0],
                 fields.description[0],
                 false,
-                Number(fields.owner_id[0]),
+                ownerId,
                 fullPath,
                 Number(fields.rating[0])
               );
@@ -113,21 +116,21 @@ recipeController.createRecipe = (req, res, next) => {
 };
 
 recipeController.checkTitleExistence = (req, res) => {
-    const titleForCheck = req.body.title;
-    
-    var recipeObject = new recipeModel();
-    db.query(recipeObject.findTitle(titleForCheck), (err, result) => {
-        if (err) {
-            console.log(err.stack);
-            res.send(err.stack);
-        } else {
-            if (result.rows[0] && !result.rows[0].is_deleted) {
-              res.send('titleExists');
-            } else {
-              res.send('titleDoesntExist');
-            }
-        }
-    });
+  const titleForCheck = req.body.title;
+
+  var recipeObject = new recipeModel();
+  db.query(recipeObject.findTitle(titleForCheck), (err, result) => {
+    if (err) {
+      console.log(err.stack);
+      res.send(err.stack);
+    } else {
+      if (result.rows[0] && !result.rows[0].is_deleted) {
+        res.send('titleExists');
+      } else {
+        res.send('titleDoesntExist');
+      }
+    }
+  });
 };
 
 module.exports = recipeController;

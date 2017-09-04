@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import Result from './Result';
+import Recipe from './Recipe';
 import { Grid, Row, Col } from 'react-bootstrap'; 
 
-class Recipes extends React.Component {  
+class RecipesPage extends React.Component {  
    constructor(props) {
         super(props);
         this.state = { recipes: [] };
     }
     
     componentDidMount() {
-      var url = `http://localhost:3090/api/recipes/all`;
+      var url = `http://localhost:3090/api/recipes`;
       fetch(url) 
         .then(response => response.json() )
         .then( ({rows: recipes }) => this.setState({recipes})) 
@@ -20,11 +20,11 @@ class Recipes extends React.Component {
       return(
         <Grid>
           <Row>
-            <Result result={this.state.recipes}></Result>
+            <Recipe result={this.state.recipes}></Recipe>
           </Row>
         </Grid>
       );
     }
 }
 
-export default Recipes;
+export default RecipesPage;

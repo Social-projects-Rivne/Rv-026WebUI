@@ -4,7 +4,6 @@ import recipeController from '../controllers/recipeController';
 
 const router = express.Router();
 
-router.get('/api/recipes/all', recipeController.getAllRecepies);
-router.get('/api/recipes/tags', recipeController.getTagsRecipes);
+router.get('/api/recipes', recipeController.getAllRecepies);
 
 module.exports = router;

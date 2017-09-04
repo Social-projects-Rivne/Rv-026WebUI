@@ -26,26 +26,26 @@ const description = {
     fontSize: '16px'
 }
 
-class Result extends React.Component{
+class Recipe extends React.Component{
     constructor(props) {
         super(props);
     }
 
     render() {
-        var recipes = this.props.result.map(function(result,index){
-            return <ResultItem key={index} recipe={ result } />
+        var recipe = this.props.result.map(function(result,index){
+            return <RecipeItem key={index} recipe={ result } />
             });
         return(
             <div>
                 <div className="col-sm-12">
-                    {recipes}
+                    {recipe}
                 </div>
             </div>
         );
     }
 }
 
-class ResultItem extends React.Component{
+class RecipeItem extends React.Component{
     constructor(props) {
         super(props);
     }
@@ -56,7 +56,12 @@ class ResultItem extends React.Component{
 
     render(){
         var recipe = this.props.recipe;
-
+        var ids = recipe.tags_id;
+        var tags_name = recipe.tags_name;
+        var tags = [];
+        for (var i = 0; i < ids.length; i++) {
+          tags.push(<a href={ids[i]} className='badge' key={i}>{tags_name[i]}</a>);
+        }
         return(
             <Col sm={3}>
                 <div style={recipeHead}>
@@ -64,9 +69,10 @@ class ResultItem extends React.Component{
                     <span style={title}>{recipe.title}</span>
                 </div>
                 <p style={description}>{recipe.description}</p>
+                <p>{tags}</p>
             </Col>
         );
     }
 }
 
-export default Result;
+export default Recipe;

@@ -17,15 +17,4 @@ recipeController.getAllRecepies = (req, res) => {
 	  });
 };
 
-recipeController.getTagsRecipes = (req, res) => {
-	db.query(recipeModel.getTagsRecipes(), (err, result)=>{
-		if(result.rows){
-			return res.json(result);
-		}
-		else{
-			console.log(err);
-		}
-	});
-};
-
 module.exports=recipeController;

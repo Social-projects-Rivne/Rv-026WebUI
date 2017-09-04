@@ -10,9 +10,9 @@
     "start": "webpack && npm run build && nodemon dist/app.js",
     "dbcreate": "node ./dist/db/dbcreate.js",
     "dbseed": "node ./dist/db/dbseed.js",
-    "test": "mocha --compilers js:babel-core/register --recursive",
+    "test": "mocha --compilers js:babel-core/register --require babel-polyfill --recursive",
     "cover": "babel-node ./node_modules/.bin/isparta cover _mocha -- --recursive",
-    "lint:html": "eslint ./static"
+    "lint:frontEnd": "eslint ./static"
   },
   "repository": {
     "type": "git",
@@ -44,7 +44,6 @@
     "isparta": "^4.0.0",
     "json-loader": "^0.5.4",
     "mocha": "^3.5.0",
-    "morgan": "^1.8.2",
     "node-uuid": "^1.4.8",
     "nodemon": "^1.11.0",
     "proxyquire": "^1.8.0",
@@ -65,9 +64,7 @@
     "bootstrap": "^3.3.7",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.4",
-    "jquery": "^3.2.1",
     "multiparty": "^4.1.3",
-    "node-mailer": "^0.1.1",
     "nodemailer": "^4.1.0",
     "nodemailer-smtp-transport": "^2.7.4",
     "pg": "^7.2.0",

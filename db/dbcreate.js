@@ -22,7 +22,7 @@ module.exports=function(){
             id            serial        PRIMARY KEY,
             name          varchar(30)   UNIQUE      NOT NULL,
             is_deleted    boolean       NOT NULL,
-            photo         varchar(200)   
+            photo         varchar(200)
           )`,
     values: [],
   }
@@ -68,7 +68,7 @@ module.exports=function(){
   const createIngredients_map = {
     text: `CREATE TABLE IF NOT EXISTS ingredient_map(
           id              serial          PRIMARY KEY,
-          ingredient_id   integer         references ingredients(id), 
+          ingredient_id   integer         references ingredients(id),
           is_deleted      boolean         DEFAULT     FALSE,
           lat             real,
           lon             real,
@@ -80,7 +80,7 @@ module.exports=function(){
   const createRecipe_tag = {
     text: `CREATE TABLE IF NOT EXISTS recipe_tag(
           id              serial      PRIMARY KEY,
-          resipe_id       integer     references ingredients(id),
+          resipe_id       integer     references recipes(id),
           tag_id          integer     references tags(id)
           )`,
   values: [],
@@ -249,7 +249,7 @@ module.exports=function(){
         console.log(res);
     })
   })
-  
+
   var p2 =new Promise((resolve, reject) => {
     db.query(createUsers_roles,(err, res) => {
         resolve('Table created');
@@ -269,14 +269,14 @@ module.exports=function(){
   var p3 =new Promise((resolve, reject) =>{
       db.query(createTags,(err,res) => {
           resolve('Table created');
-        }) 
+        })
       })
   p3.then(res => {
       db.query(createRecipe_tag,(err, res) => {
           console.log(res);
       })
   })
-  
+
   Promise.all([p1, p2, p3]).then(value =>{
     addComments(commentArr)
   })

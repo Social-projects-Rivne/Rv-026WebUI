@@ -1,8 +1,8 @@
 var userName = "postgres";
-var password = "root";
+var password = "postgres";
 var dbServerLocation = "localhost";
 var serverPort = "5432";
-var dbName = "testdb";
+var dbName = "test";
 
 module.exports = {
     userName,

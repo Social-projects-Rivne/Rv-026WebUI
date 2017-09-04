@@ -25,6 +25,10 @@ class recipeModel {
     }
     return query;
   };
+
+  findTitle(title){
+    return `SELECT title,is_deleted FROM recipes WHERE title = '${title}' LIMIT 1`
+  };
     
   getAllRecipes () {
     return `SELECT * FROM recipes`

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import _ from 'underscore';
+import axios from 'axios';
+import config from '../../../../config';
 import { 
     Button, 
     FormControl, 
@@ -24,7 +26,13 @@ class RecipesForm extends Component {
 
             emptyTitle: "",
             emptyDescription: "",
-            emptyPhoto: ""
+            emptyPhoto: "",
+
+            buttonDisabledTitle: true,
+            buttonDisabledDescription: true,
+            buttonDisabledPhoto: true,
+
+            titleExists: ""
         }
         this.onTitleChange = this.onTitleChange.bind(this);
         this.onDescriptionChange = this.onDescriptionChange.bind(this);
@@ -32,6 +40,7 @@ class RecipesForm extends Component {
         this.onPhotoClick = this.onPhotoClick.bind(this);
         this.onTagsChange = this.onTagsChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.checkTitleExists = this.checkTitleExists.bind(this);
     }
 
     emptyValidate(value, emptyField, emptyMessage){
@@ -44,12 +53,15 @@ class RecipesForm extends Component {
 
     onTitleChange(e) {
         this.setState({title: e.target.value});
-        this.emptyValidate(e.target.value, "emptyTitle", "required title");
+        this.setState({buttonDisabledTitle: !e.target.value});
+        this.emptyValidate(e.target.value, "emptyTitle", "Title is Required");
+        this.checkTitleExists(e.target.value);
     }
 
     onDescriptionChange(e) {
         this.setState({description: e.target.value});
-        this.emptyValidate(e.target.value, "emptyDescription", "required description");
+        this.setState({buttonDisabledDescription: !e.target.value});
+        this.emptyValidate(e.target.value, "emptyDescription", "Description is Required");
     }
 
     onPhotoChange(e) {
@@ -57,7 +69,8 @@ class RecipesForm extends Component {
 
         let reader = new FileReader();
         let file = e.target.files[0];
-        this.emptyValidate(e.target.files, "emptyPhoto", "required photo");
+        this.setState({buttonDisabledPhoto: false});
+        this.emptyValidate(e.target.files, "emptyPhoto", "Photo is Required");
 
         if (file && file.type.match('image.*')) {
             reader.onloadend = () => {
@@ -73,11 +86,36 @@ class RecipesForm extends Component {
 
     onTagsChange(e) {
         this.setState({tags: e.target.value});
-        console.log(e.target.value);
     }
 
     onPhotoClick(e) {
          e.target.value = null;
+         this.emptyValidate(e.target.value, "emptyPhoto", "Photo is Required");
+         this.setState({buttonDisabledPhoto: true});
+    }
+
+    titleCheckTimeout = null;
+    checkTitleExists(title) {
+        if (this.titleCheckTimeout !== null) {
+            clearTimeout(this.titleCheckTimeout);
+        }
+        this.titleCheckTimeout = setTimeout(() => {
+            axios.post(`${config.serverUrl}/api/checkTitleExistence`, { title })
+            .then((res) => {
+                if (res.data === 'titleExists') {
+                    this.setState({titleExists: "Title exist"});
+                    this.setState({buttonDisabledTitle: true});
+                } else if (res.data === 'titleDoesntExist') {
+                    this.setState({titleExists: ""});
+                } else {
+                    console.log(res.data);
+                }
+            })
+            .catch((err) => {
+                console.log(err.stack);
+                console.log('Failed to check email');
+            });
+        }, 0);
     }
 
     onSubmit(e){
@@ -99,13 +137,16 @@ class RecipesForm extends Component {
             is_deleted,
             owner_id,
             photo,
-            tags,//arrayTags,
+            tags,
             rating
         });
         this.setState({
-            title:"",
-            description:"",
-            tags:""
+            title: "",
+            description: "",
+            tags: "",
+
+            buttonDisabledTitle: true,
+            buttonDisabledDescription: true
         });
     }
 
@@ -117,7 +158,7 @@ class RecipesForm extends Component {
         if(imagePreviewUrl){
             imagePreview = (<Thumbnail alt="171x180" src={imagePreviewUrl} />);
         }
-
+        
         return (
             <form onSubmit={this.onSubmit}>
                 <h1>Create New Recipe</h1>
@@ -127,12 +168,12 @@ class RecipesForm extends Component {
                         type="text"
                         name="title"
                         id="RecipesForm--title"
-                        required
                         placeholder="Title recipe"
                         value={this.state.title}
                         onChange={this.onTitleChange} 
                     />
                 {this.errorMessage(this.state.emptyTitle)}    
+                {this.errorMessage(this.state.titleExists)}    
                 </FormGroup>
                 <FormGroup>
                     <label htmlFor="RecipesForm--description">Description</label>
@@ -140,7 +181,6 @@ class RecipesForm extends Component {
                         componentClass="textarea" 
                         name="description"
                         id="RecipesForm--description"
-                        required
                         placeholder="Description recipe"
                         value={this.state.description}
                         onChange={this.onDescriptionChange} 
@@ -153,7 +193,6 @@ class RecipesForm extends Component {
                         type="file"
                         name="photo"
                         id="RecipesForm--photo"
-                        required
                         onChange={this.onPhotoChange} 
                         onClick ={this.onPhotoClick} 
                         accept="image/x-png,image/gif,image/jpeg"
@@ -167,7 +206,6 @@ class RecipesForm extends Component {
                         componentClass="textarea" 
                         name="tags"
                         id="RecipesForm--tags"
-                        required
                         placeholder="Write tags using commas"
                         value={this.state.tags}
                         onChange={this.onTagsChange} 
@@ -176,7 +214,16 @@ class RecipesForm extends Component {
                 </FormGroup>
                 <ButtonGroup justified>
                     <ButtonGroup>
-                        <Button type="submit" bsStyle='success'>Create</Button>
+                        <Button 
+                        type="submit" 
+                        bsStyle='success' 
+                        disabled={
+                            this.state.buttonDisabledTitle||
+                            this.state.buttonDisabledDescription||
+                            this.state.buttonDisabledPhoto}
+                        >
+                        Create
+                        </Button>
                     </ButtonGroup>
                     <ButtonGroup className="btn-group">
                         <Link to="/recipes" className="btn btn-danger">Cancel</Link>

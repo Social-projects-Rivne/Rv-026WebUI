@@ -112,4 +112,22 @@ recipeController.createRecipe = (req, res, next) => {
   });
 };
 
+recipeController.checkTitleExistence = (req, res) => {
+    const titleForCheck = req.body.title;
+    
+    var recipeObject = new recipeModel();
+    db.query(recipeObject.findTitle(titleForCheck), (err, result) => {
+        if (err) {
+            console.log(err.stack);
+            res.send(err.stack);
+        } else {
+            if (result.rows[0] && !result.rows[0].is_deleted) {
+              res.send('titleExists');
+            } else {
+              res.send('titleDoesntExist');
+            }
+        }
+    });
+};
+
 module.exports = recipeController;

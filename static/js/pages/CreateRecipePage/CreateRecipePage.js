@@ -14,7 +14,7 @@ class CreateRecipePage extends Component {
 
     alertOptions = {
       offset: 14,
-      position: 'bottom left',
+      position: 'top right',
       theme: 'light',
       time: 4000,
       transition: 'fade',

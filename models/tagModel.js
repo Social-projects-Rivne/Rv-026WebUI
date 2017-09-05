@@ -9,7 +9,6 @@ tagModel.saveTags = (tagValue) => {
       text: `INSERT INTO tags (name, tag_description) VALUES ($1,$2) RETURNING id`,
       values: [tagValue, null]
     }
-    console.log(query);
     return query
 };
 

@@ -18,7 +18,6 @@ class RecipesForm extends Component {
             title: "",
             description: "",
             is_deleted: false,
-            owner_id: 0,
             photo: "",
             imagePreviewUrl: "",
             rating: 0,
@@ -123,19 +122,17 @@ class RecipesForm extends Component {
         var title = this.state.title.trim();
         var description = this.state.description.trim();
         var is_deleted = this.state.is_deleted;
-        var owner_id = this.state.owner_id;
         var photo = this.state.photo;
         var tags = this.state.tags;
         var rating = this.state.rating;
 
-        if (!title || !description || !photo || !owner_id) {
+        if (!title || !description || !photo ) {
             return;
         }
         this.props.handleSubmit({
             title,
             description,
             is_deleted,
-            owner_id,
             photo,
             tags,
             rating

@@ -27,7 +27,6 @@ class CreateRecipePage extends Component {
             data.append("title", recipe.title);
             data.append("description", recipe.description);
             data.append("is_deleted", recipe.is_deleted);
-            data.append("owner_id", recipe.owner_id);
             data.append("photo", recipe.photo);
             data.append("tags", recipe.tags);
             data.append("rating", recipe.rating);

@@ -7,10 +7,10 @@
     "devserver": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --debug --hot --devtool eval-source-map --output-pathinfo --watch --colors --inline --content-base ./ --port 8090 --host 0.0.0.0",
     "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "start": "webpack && npm run build && nodemon dist/app.js",
+    "start": "nodemon dist/app.js",
     "dbcreate": "node ./dist/db/dbcreate.js",
     "dbseed": "node ./dist/db/dbseed.js",
-    "gulp": "node ./node_modules/gulp/bin/gulp.js"
+    "gulp": "node ./node_modules/gulp4/bin/gulp.js"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,9 @@
     "css-loader": "^0.22.0",
     "file-loader": "^0.8.5",
     "gulp-babel": "^7.0.0",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-watch": "^4.3.11",
     "json-loader": "^0.5.4",
     "morgan": "^1.8.2",
     "node-uuid": "^1.4.8",
@@ -56,7 +59,7 @@
     "bootstrap": "^3.3.7",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.4",
-    "gulp": "^3.9.1",
+    "gulp4": "4.0.0-alpha.2",
     "jquery": "^3.2.1",
     "multiparty": "^4.1.3",
     "node-mailer": "^0.1.1",

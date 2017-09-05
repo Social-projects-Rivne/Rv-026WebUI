@@ -12,4 +12,13 @@ tagModel.saveTags = (tagValue) => {
     return query
 };
 
+tagModel.findTagByName = (tagName) => {
+    const query = {
+      text: `SELECT t.id FROM tags t WHERE t.name = $1::text`,
+      values: [tagName]
+    }
+    return query
+};
+
+
 module.exports = tagModel;

@@ -87,20 +87,40 @@ recipeController.createRecipe = (req, res, next) => {
                       var uniqueTagsArray = recipeArrayTags.filter((o) => {
                         return allTagsNameArray.indexOf(o) == -1;
                       });
-
-                      for (var i = 0; i < uniqueTagsArray.length; i++) {
-                        db.query(tagModel.saveTags(uniqueTagsArray[i]), (err, resultat) => {
-                          if (err) {
-                            return next(err);
-                          } else {
-                            var idTag = resultat.rows[0].id;
-                            db.query(recipeObject.saveRecipeTag(idReicpe, idTag), (err, result) => {
-                              if (err) {
-                                return next(err);
-                              }
-                            });
-                          }
-                        });
+                      var repetitiveTagsArray = recipeArrayTags.filter((o) => {
+                        return allTagsNameArray.indexOf(o) !== -1;
+                      });
+                      if(repetitiveTagsArray.length > 0) {
+                        for (var i = 0; i < repetitiveTagsArray.length; i++) {
+                          db.query(tagModel.findTagByName(repetitiveTagsArray[i]), (err, resultat) => {
+                            if (err) {
+                              return next(err);
+                            } else {
+                              var idTag = resultat.rows[0].id;
+                              db.query(recipeObject.saveRecipeTag(idReicpe, idTag), (err, result) => {
+                                if (err) {
+                                  return next(err);
+                                }
+                              });
+                            }
+                          });
+                        }
+                      }
+                      if(uniqueTagsArray.length > 0) {
+                        for (var i = 0; i < uniqueTagsArray.length; i++) {
+                          db.query(tagModel.saveTags(uniqueTagsArray[i]), (err, resultat) => {
+                            if (err) {
+                              return next(err);
+                            } else {
+                              var idTag = resultat.rows[0].id;
+                              db.query(recipeObject.saveRecipeTag(idReicpe, idTag), (err, result) => {
+                                if (err) {
+                                  return next(err);
+                                }
+                              });
+                            }
+                          });
+                        }
                       }
                       res.send("Recipe created!");
                     }

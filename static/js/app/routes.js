@@ -7,6 +7,7 @@ import MainLayout from '../layouts';
 import MainPage from '../pages/MainPage';
 import SignInPage from '../pages/SignInPage';
 import Recipes from '../pages/Recipes/Recipes';
+import RecipePage from '../pages/RecipePage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import SignUpSuccess from '../pages/SignUpSuccess/SignUpSuccess';
 import Terms from '../pages/Terms/Terms';
@@ -20,6 +21,7 @@ const routes = (
     <Route path="/" component={MainLayout}>
         <IndexRoute component={MainPage} />
         <Route path="/recipes" component={Recipes} />
+        <Route path="/recipes/:id" component={RecipePage} />
         <Route path="/signup" component={SignUpPage} />
         <Route path="/signupsuccess" component={SignUpSuccess} />
         <Route path="/terms" component={Terms} />

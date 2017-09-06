@@ -9,7 +9,7 @@ class Recipes extends React.Component {
     }
     
     componentDidMount() {
-      var url = `http://localhost:3090/api/recipes/all`;
+      var url = `http://localhost:3090/api/recipes`;
       fetch(url) 
         .then(response => response.json() )
         .then( ({rows: recipes }) => this.setState({recipes})) 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router';
 
 const imgStyle = {
     width: '100%',
@@ -8,12 +9,12 @@ const imgStyle = {
 }
 
 const recipeHead = {
-    display:'inline-block',  
+    display:'inline-block',
     position:'relative'
 }
 
 const title = {
-    display:'inline-block',  
+    display:'inline-block',
     position:'absolute',
     bottom: '10px',
     left: '15px',
@@ -56,8 +57,10 @@ class ResultItem extends React.Component{
 
     render(){
         var recipe = this.props.recipe;
+        const recipeUrl = '/recipes/' + recipe.id;
 
         return(
+            <Link to={recipeUrl}>
             <Col sm={3}>
                 <div style={recipeHead}>
                     <img className="img-rounded" src={recipe.photo} style={imgStyle}/>
@@ -65,6 +68,7 @@ class ResultItem extends React.Component{
                 </div>
                 <p style={description}>{recipe.description}</p>
             </Col>
+            </Link>
         );
     }
 }

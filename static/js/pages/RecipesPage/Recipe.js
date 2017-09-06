@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 const imgStyle = {
@@ -60,7 +61,7 @@ class RecipeItem extends React.Component{
         var tags_name = recipe.tags_name;
         var tags = [];
         for (var i = 0; i < ids.length; i++) {
-          tags.push(<a href={ids[i]} className='badge' key={i}>{tags_name[i]}</a>);
+          tags.push(<span key={i}><Link to={`${ids[i]}`} className='badge'>{tags_name[i]}</Link>{'\u00A0'}</span>);
         }
         return(
             <Col sm={3}>

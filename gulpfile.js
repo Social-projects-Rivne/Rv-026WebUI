@@ -33,12 +33,15 @@ gulp.task('translate', () => {
 
 gulp.task('startWebpack', () => {
      return gulp.src('./static/js/index.js')
-    .pipe(webpack (require('./webpack2.config.js') ))
+    .pipe(webpack(require('./webpack2.config.js') ))
     .pipe(gulp.dest('dist/'));
 })
 
-gulp.task('run', () =>{
-    var stream = nodemon({script:'dist/app.js"'})
+gulp.task('start', () =>{
+    var stream = nodemon({script: 'dist/app.js'
+    , ext: 'js html'
+    , env: { 'NODE_ENV': 'development' }
+})
     stream
     .on('restart', function () {
       console.log('restarted!')
@@ -49,18 +52,25 @@ gulp.task('run', () =>{
     })
 })
 
+gulp.task('watch', () => {
+    gulp.watch([
+        './controllers/**/*.*',
+        './db/**/*.*',
+        './helpers/**/*.*',
+        './models/**/*.*',
+        './routes/**/*.*',
+        './app.js',
+        './config.js'],gulp.series('translate'));
+    
+    gulp.watch([
+            './public/**/*.*',
+            './index.html'],gulp.series('copy'));
+})
 
-gulp.task('default',gulp.series(gulp.parallel('translate', 'copy', 'startWebpack')));
+gulp.task('nodemon:start', gulp.parallel('start', 'watch') )
 
-gulp.watch([
-    './controllers/**/*.*',
-    './db/**/*.*',
-    './helpers/**/*.*',
-    './models/**/*.*',
-    './routes/**/*.*',
-    './app.js',
-    './config.js'],gulp.series('translate'));
+gulp.task('default',gulp.series(
+    gulp.parallel('translate', 'copy', 'startWebpack')
+));
 
-gulp.watch([
-        './public/**/*.*',
-        './index.html'],gulp.series('copy'));
+

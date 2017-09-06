@@ -1,6 +1,12 @@
+const WebpackShellPlugin = require('webpack-shell-plugin');
 var path = require('path');
 
+var plugins = [];
 
+plugins.push(new WebpackShellPlugin({
+    onBuildStart: ['echo "Starting"'],
+    onBuildEnd: ['npm run gulp nodemon:start']
+  }));
 
 module.exports = {
     entry: './static/js/index.js',
@@ -9,7 +15,8 @@ module.exports = {
         publicPath:'/',
         filename: 'bundle.js'
     },
-   
+    watch: true,
+    plugins: plugins,
     module: {
         rules:[
             {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from "react-dom";
 
 const footer = {
     display: 'inline-block'
@@ -41,4 +40,4 @@ class Footer extends Component {
     }
 }
 
-ReactDOM.render(<Footer/>, document.getElementById('footer'));
+export default Footer;

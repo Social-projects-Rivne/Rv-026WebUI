@@ -5,11 +5,20 @@ const sourcemaps = require('gulp-sourcemaps');
 const watch = require('gulp-watch');
 const nodemon = require('gulp-nodemon');
 
+var browserSync = require('browser-sync').create();
+var reload = browserSync.reload;
+
+gulp.task('bs:init', (done) =>{
+    browserSync.init({
+        proxy:"http://localhost:3090" 
+    })
+   done();
+})
 
 gulp.task('copy', () => {
     return gulp.src([
         './public/**/*.*',
-        './index.html'],{base:'.', sinse:gulp.lastRun('copy')})
+        './index.html'],{base:'.', since: gulp.lastRun('copy')})
         .pipe(gulp.dest('dist/'));
     
 })
@@ -22,7 +31,7 @@ gulp.task('translate', () => {
         './models/**/*.*',
         './routes/**/*.*',
         './app.js',
-        './config.js'], {base:'.', sinse:gulp.lastRun('translate')})
+        './config.js'], {base:'.', since: gulp.lastRun('translate')})
        // .pipe(sourcemaps.init())
        .pipe(babel({
            presets: ["react", "es2015", "stage-1"]
@@ -31,28 +40,40 @@ gulp.task('translate', () => {
        .pipe(gulp.dest('dist'))
 })
 
-gulp.task('startWebpack', () => {
+gulp.task('startWebpack', (done) => {
      return gulp.src('./static/js/index.js')
     .pipe(webpack(require('./webpack2.config.js') ))
     .pipe(gulp.dest('dist/'));
+    done();
 })
 
-gulp.task('start', () =>{
-    var stream = nodemon({script: 'dist/app.js'
-    , ext: 'js html'
-    , env: { 'NODE_ENV': 'development' }
-})
-    stream
-    .on('restart', function () {
-      console.log('restarted!')
+gulp.task('start', (done) =>{
+
+    var started = false;
+    
+	return nodemon({
+        script: 'dist/app.js'
     })
-    .on('crash', function() {
-      console.error('Application has crashed!\n')
-       stream.emit('restart', 10)  // restart the server in 10 seconds 
+    .on('start', () => {
+		// to avoid nodemon being started multiple times
+		// thanks @matthisk
+		if (!started) {
+			done();
+			started = true; 
+        }
     })
+    .on('restart', () => {
+        setTimeout( () => {
+            reload({
+                stream: false
+            });
+        }, 1000);
+      });
 })
 
-gulp.task('watch', () => {
+gulp.task('watch', (done) => {
+    browserSync.watch("dist/**/*.*").on("change", reload);
+    
     gulp.watch([
         './controllers/**/*.*',
         './db/**/*.*',
@@ -65,12 +86,16 @@ gulp.task('watch', () => {
     gulp.watch([
             './public/**/*.*',
             './index.html'],gulp.series('copy'));
+    done();
 })
 
-gulp.task('nodemon:start', gulp.parallel('start', 'watch') )
+gulp.task('nodemon:start', gulp.series('start', 'bs:init','watch') , (done) =>
+{
+    done();
+} )
 
-gulp.task('default',gulp.series(
+gulp.task('default',
     gulp.parallel('translate', 'copy', 'startWebpack')
-));
+);
 
 

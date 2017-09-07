@@ -52,13 +52,7 @@ module.exports = {
                          exclude: [/node_modules/, /public/],
                          use:{
                              loader:'react-hot!babel?presets=es2015&retainLines=true',
-                         },
-                
-              
-
-                
-
-            
+                         },            
         }],
         
     }

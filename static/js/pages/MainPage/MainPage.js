@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import ReactDOM from "react-dom";
-import TestComponentOnMainPage from './TestComponentOnMainPage';
 
 const bannerBlock = {
     fontSize:'80px',
     color:'white',
     marginLeft:'150px',
     paddingRight:'20px'
-    }
+}
 
 const comment = {
     color:'white',
@@ -21,21 +19,21 @@ const background = {
     background: 'url("public/images/New Project.png") no-repeat center',
     height:'884px',
     textAlign: 'center'
-    }
+}
 
 
 class MainPage extends Component {
     render(){
         return(
-            <div>
-                <div style = {background}>
-                    <p style={bannerBlock}>FOOD MAKE & DELIEVERY</p>
-                    <p style={comment}>forget about hunger forever with FM&D!</p>
-                </div>
+            <div style = {background}>
+                <p style={bannerBlock}>FOOD MAKE & DELIEVERY</p>
+                <p style={comment}>forget about hunger forever with FM&D!</p>
             </div>
+
         );
     }
 }
 
-ReactDOM.render(<MainPage/>, document.getElementById('page'));
+export default MainPage;
+
 

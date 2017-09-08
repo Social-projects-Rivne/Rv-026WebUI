@@ -57,3 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+package-lock.json
+dist/
+bundle.js
+bundle.js.map
+db/config.js

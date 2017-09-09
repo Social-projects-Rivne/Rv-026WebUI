@@ -12,7 +12,7 @@ module.exports=function(){
   const createTags = {
     text:`CREATE TABLE IF NOT EXISTS tags(
             id                  serial         PRIMARY KEY,
-            name                varchar(30)    UNIQUE       NOT NULL,
+            name                varchar(30)    UNIQUE         NOT NULL,
             tag_description     text
           )`,
     values: [],

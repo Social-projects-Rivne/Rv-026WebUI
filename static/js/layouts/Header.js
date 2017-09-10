@@ -13,6 +13,8 @@ import {
     MenuItem
 } from 'react-bootstrap';
 
+import SearchComponent from '../common/SearchComponent';
+
 class Header extends Component {
     handleClick(e) {
         e.preventDefault();
@@ -29,6 +31,7 @@ class Header extends Component {
     render() {
         return (
             <header>
+
                 <Navbar inverse collapseOnSelect>
                     <Navbar.Header>
                         <Navbar.Brand>
@@ -54,9 +57,13 @@ class Header extends Component {
                             <NavItem componentClass="span" >
                                 <Link className='btn btn-default' onClick={this.handleClick}>Log out</Link>
                             </NavItem>
+                            <NavItem componentClass="span" >
+                                <SearchComponent />
+                            </NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
+
             </header>
         );
     }

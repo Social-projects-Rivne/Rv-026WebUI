@@ -5,6 +5,7 @@ import SearchElement from './SearchElement';
 class SearchElements extends Component{
     constructor(props){
         super(props);
+        console.log('allElements', props.allElements);
     }
 
     render(){
@@ -17,7 +18,6 @@ class SearchElements extends Component{
             <SearchElement/>
         </div>
         );
-            
     }
 }
 

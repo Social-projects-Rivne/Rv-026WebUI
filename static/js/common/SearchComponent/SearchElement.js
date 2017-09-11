@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 const searchel = {
-    marginTop: '5px',
+    marginTop: '-3px',
     position: 'relative',
     display: 'block',
     width: '400px',
@@ -13,10 +13,10 @@ const image ={
     width: '100px',
     height: '80px', 
 }
-const text ={
-    marginLeft: '105px',
-    marginTop: '-50px',
 
+const text = {
+    marginLeft:'105px',
+    marginTop: '-50px'
 }
 
 
@@ -26,12 +26,13 @@ class SearchElement extends Component{
         super(props);
     }
     render(){
+        const element = this.props.element;
         return(
-            <div className = "search-element" style={searchel}>
-                    <img style={image} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXzJxdzEfyK3SqlD-eTWSGxQ1fUcEjypOHbRkq1SeDlQPgJZCy7A"/>
-                    <div style={text}>
-                    <p>Назва страви</p>
-                    <p>Рейтинг:*****</p>
+            <div key={element.id} className="search-element" style={searchel}>
+                    <img style={image} src={element.photo} />
+                    <div style ={text}>
+                    <p>{element.title}</p>
+                    <p>Рейтинг:{element.rating}</p>
                     </div>
 
             </div>

@@ -1,27 +1,36 @@
 import React, {Component} from 'react';
 import SearchElement from './SearchElement';
 
+
 const se = {
     position: 'absolute',
     widht: '400px'
-
 }
+
 class SearchElements extends Component{
     constructor(props){
         super(props);
     }
 
+    renderListSearchElements(){
+        return this.props.allElements.map(element => {
+            return(
+                <SearchElement 
+                    key={element.id} 
+                    element={element}
+                />
+            );
+        });
+    }
+
     render(){
         return(
-        <div style={se} className="search-elements">
-            <SearchElement/>
-            <SearchElement/>
-            <SearchElement/>
-            <SearchElement/>
-            <SearchElement/>
-        </div>
+
+
+            <div style={se} className="search-elements">
+                {this.renderListSearchElements()}
+            </div>
         );
-            
     }
 }
 

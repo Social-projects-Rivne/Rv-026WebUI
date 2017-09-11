@@ -2,7 +2,7 @@ const testData = [{
     "id": 99,
     "title": "testik1",
     "description": "Description 1 lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut aut, quidem natus cum possimus odit assumenda non nisi est deserunt asperiores at modi excepturi adipisci delectus placeat rerum nulla, quae.",
-    "photo": "public/images/recipes/ee06846c-5176-4bc7-b0f3-df6925c798fc.jpg",
+    "photo": "public/images/recipes/first.jpg",
     "owner_id": 1,
     "rating": 0,
     "is_deleted": false
@@ -11,7 +11,7 @@ const testData = [{
     "id": 100,
     "title": "testik2",
     "description": "Description 2 lorem ipsum dolor sit amet, consectetur adipisicing elit. Corrupti quas culpa nisi quidem unde, harum illo? Voluptate nihil fugit tenetur ducimus! Pariatur animi suscipit blanditiis ea non minima reiciendis quibusdam.",
-    "photo": null,
+    "photo": "public/images/recipes/second.jpg",
     "owner_id": 1,
     "rating": 0,
     "is_deleted": false,

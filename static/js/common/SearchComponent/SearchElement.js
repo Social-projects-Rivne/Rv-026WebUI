@@ -17,11 +17,12 @@ class SearchElement extends Component{
         super(props);
     }
     render(){
+        const element = this.props.element;
         return(
-            <div className = "search-element" style={searchel}>
-                    <img style={image} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXzJxdzEfyK3SqlD-eTWSGxQ1fUcEjypOHbRkq1SeDlQPgJZCy7A"/>
-                    <p>Назва страви</p>
-                    <p>Рейтинг:*****</p>
+            <div key={element.id} className="search-element" style={searchel}>
+                <img style={image} src={element.photo} />
+                <p>{element.title}</p>
+                <p>Рейтинг:{element.rating}</p>
             </div>
         );
     }

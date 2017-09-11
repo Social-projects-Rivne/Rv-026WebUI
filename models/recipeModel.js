@@ -74,6 +74,24 @@ class recipeModel {
         return query;
     };
 
+    findRicipeByName(recipeName) {
+        const query ={
+            text:
+                `SELECT r.id,
+                r.title,
+                r.is_deleted,
+                u.fullname,
+                r.photo,
+                r.rating
+                FROM recipes r INNER JOIN users u ON u.id=r.owner_id;
+                WHERE r.title LIKE $1%`,
+                values:[recipeName]
+            
+        }
+        return query;
+
+    }
+
 }
 
 module.exports = recipeModel;

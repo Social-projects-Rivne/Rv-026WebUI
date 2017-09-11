@@ -5,6 +5,10 @@ const footer = {
 }
 
 const footerWhole = {
+    position: 'absolute',
+    left: '0',
+    bottom: '0',
+    width: '100%',
     padding:'10px',
     textAlign: 'center',
     backgroundColor: '#333',

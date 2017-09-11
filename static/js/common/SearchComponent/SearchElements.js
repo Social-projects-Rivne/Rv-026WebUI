@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import SearchElement from './SearchElement';
 
+const se = {
+    position: 'absolute',
+    widht: '400px'
 
+}
 class SearchElements extends Component{
     constructor(props){
         super(props);
@@ -9,7 +13,7 @@ class SearchElements extends Component{
 
     render(){
         return(
-        <div className="search-elements">
+        <div style={se} className="search-elements">
             <SearchElement/>
             <SearchElement/>
             <SearchElement/>

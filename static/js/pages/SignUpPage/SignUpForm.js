@@ -1,10 +1,10 @@
 import axios from 'axios';
+import createHash from 'sha.js';
 import { browserHistory, Link } from 'react-router';
 import React, { Component } from 'react';
 import {Button, FormControl, FormGroup} from 'react-bootstrap';
 
 const errorStyle = {
-    color: 'red',
     fontSize: '12px',
     marginTop: '5px'
 }
@@ -21,23 +21,23 @@ class SignUpForm extends Component {
         this.state = {
             email: {
                 value: '',
-                error: 'Required',
+                error: '*Required',
             },
             phone: {
                 value: '',
-                error: 'Required',
+                error: '*Required',
             },
             password: {
                 value: '',
-                error: 'Required',
+                error: '*Required',
             },
             passwordConfirm: {
                 value: '',
-                error: 'Required',
+                error: '*Required',
             },
             terms: {
                 value: '',
-                error: 'Required'
+                error: '*Required'
             }
         };
 
@@ -62,7 +62,8 @@ class SignUpForm extends Component {
             let credentials = {};
             credentials.email = this.state.email.value;
             credentials.phone = this.state.phone.value;
-            credentials.password = this.state.password.value;
+            const sha256 = createHash('sha256');
+            credentials.password = sha256.update(this.state.password.value, 'utf8').digest('hex');
 
             axios.post('/api/register', credentials)
             .then(res => true )
@@ -76,29 +77,20 @@ class SignUpForm extends Component {
     }
 
     setFieldValue(name, value) {
-        this.setState(Object.assign(this.state, {
-            [name]: Object.assign(this.state[name], {
-            value,
-            })
-        }));
+        this.setState({ [name]: {...this.state[name],value,} });
     }
 
-    //this.state[name].error=error
     setFieldError(name, error) {
-        this.setState(Object.assign(this.state, {
-            [name]: Object.assign(this.state[name], {
-                error,
-            })
-        }));
+        this.setState({ [name]: {...this.state[name],error,} })
     }
 
     clearFieldError(name) {
         if (this.state[name].error !== null) {
-            this.setState(Object.assign(this.state, {
-                [name]: Object.assign(this.state[name], {
-                    error: null,
-                })
-            }));
+            this.setState({ [name]: {
+                ...this.state[name],
+                error: null,
+                }
+            })
         }
     }
 
@@ -129,7 +121,7 @@ class SignUpForm extends Component {
             .then((res) => {
                 console.log(res.data);
                 if (res.data === 'emailExists') {
-                    this.setFieldError('email', 'Email already exists');
+                    this.setFieldError('email', '*Email already exists');
                 } else if (res.data === 'emailDoesntExist') {
                     this.clearFieldError('email');
                 } else {
@@ -146,10 +138,10 @@ class SignUpForm extends Component {
     checks = {
         email: (f) => {
             if (f.validity.valueMissing) {
-                return new Error('Required');
+                return new Error('*Required');
             }
             if (!f.validity.valid) {
-                return new Error('Email is invalid');
+                return new Error('*Email is invalid');
             }
             this.checkEmailExists(f.value);
             return true;
@@ -157,28 +149,28 @@ class SignUpForm extends Component {
 
         password: (f) => {
             if (f.validity.valueMissing) {
-                return new Error('Required');
+                return new Error('*Required');
             }
             return true;
         },
 
         passwordConfirm: (f) => {
             if (f.value !== this.state.password.value) {
-                return new Error('Passwords do not match');
+                return new Error('*Passwords do not match');
             }
             return true;
             },
 
         phone: (f) => {
             if (f.validity.valueMissing) {
-                return new Error('Required');
+                return new Error('*Required');
             }
             return true;
         },
 
         terms: (f) => {
             if (!f.checked){
-                return new Error('Required');
+                return new Error('*Required');
             }
             return true;
         }

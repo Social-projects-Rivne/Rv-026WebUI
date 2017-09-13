@@ -29,10 +29,6 @@ signupController.checkEmailExistence = (req, res) => {
 
 signupController.register = (req, res) => {
     let credentials = req.body;
-    credentials.password = crypto.createHash('sha256').update(credentials.password).digest('hex');
-
-    // const client = new pg.Client(conString);
-    // client.connect();
     db.query(signupModel.upsertIntoUsers(credentials.email, credentials.phone, credentials.password),
     (err,result) => {
         if (err) {

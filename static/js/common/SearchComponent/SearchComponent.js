@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import SearchBar from './SearchBar';
 import SearchElements from './SearchElements';
+
 const  searchcomp = {
     position: 'absolute'
 } 

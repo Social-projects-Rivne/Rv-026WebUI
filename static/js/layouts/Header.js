@@ -13,7 +13,7 @@ import {
     MenuItem
 } from 'react-bootstrap';
 
-import SearchComponent from '../common/SearchComponent';
+
 
 class Header extends Component {
     handleClick(e) {
@@ -57,9 +57,7 @@ class Header extends Component {
                             <NavItem componentClass="span" >
                                 <Link className='btn btn-default' onClick={this.handleClick}>Log out</Link>
                             </NavItem>
-                            <NavItem componentClass="span" >
-                                <SearchComponent />
-                            </NavItem>
+                           
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

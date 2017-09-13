@@ -4,7 +4,7 @@ import SearchElement from './SearchElement';
 
 const se = {
     position: 'absolute',
-    widht: '400px'
+    widht: '100%'
 }
 
 class SearchElements extends Component{

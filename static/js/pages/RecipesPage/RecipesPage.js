@@ -3,7 +3,11 @@ import Recipe from './Recipe';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 import config from '../../../../config';
+import SearchComponent from '../../common/SearchComponent';
 
+const style = {
+    marginTop: '25px'
+}
 class RecipesPage extends Component {
     constructor(props) {
         super(props);
@@ -28,7 +32,10 @@ class RecipesPage extends Component {
     render() {
         let recipes = this.state.recipes;
         return (
-            <Grid>
+            
+            <Grid >
+                <SearchComponent />
+                <div style={style}/>
                 <Row>
                     <Recipe result={this.state.recipes} />
                 </Row>

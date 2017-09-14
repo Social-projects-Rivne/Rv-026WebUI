@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import SearchBar from './SearchBar';
 import SearchElements from './SearchElements';
+import DropDown from './DropDown';
 
 import config from '../../../../config';
 
@@ -39,6 +40,7 @@ class SearchComponent extends Component {
 
             <div>
                 <SearchBar onSearchItemChange={elementSearch} />
+                <DropDown />
                 <SearchElements allElements={this.state.elements} />
             </div>
         );

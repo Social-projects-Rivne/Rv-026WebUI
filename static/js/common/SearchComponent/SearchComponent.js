@@ -19,8 +19,6 @@ class SearchComponent extends Component {
             elements: []
         };
 
-        this.elementSearch('');
-
     }
 
     elementSearch(item) {
@@ -36,7 +34,6 @@ class SearchComponent extends Component {
     render() {
         const elementSearch = _.debounce(item => { this.elementSearch(item) }, 300);
         return (
-
             <div>
                 <SearchBar onSearchItemChange={elementSearch} />
                 <SearchElements allElements={this.state.elements} />

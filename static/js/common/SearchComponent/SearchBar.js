@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-const style ={
-    backgroundImage:'url(./public/images/icons/searchIcon.svg)',
-    backgroundRepeat:'no-repeat',
+const style = {
+    backgroundImage: 'url(./public/images/icons/searchIcon.svg)',
+    backgroundRepeat: 'no-repeat',
     backgroundPosition: '5px',
     paddingLeft: '40px'
 }
@@ -22,7 +22,7 @@ class SearchBar extends Component {
     render() {
         return (
             <div className="search-bar">
-                <input style = {style}
+                <input style={style}
                     type="text"
                     className="form-control"
                     value={this.state.item}

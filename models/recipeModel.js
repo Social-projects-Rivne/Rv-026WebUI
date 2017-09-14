@@ -77,16 +77,17 @@ class recipeModel {
     findRicipeByName(recipeName) {
         const query ={
             text:
-                `SELECT r.id,
-                r.title,
-                r.is_deleted,
-                u.fullname,
-                r.photo,
-                r.rating
-                FROM recipes r INNER JOIN users u ON u.id=r.owner_id;
-                WHERE r.title LIKE $1%`,
-                values:[recipeName]
-            
+            `SELECT r.id,
+	                r.title, 
+	                r.is_deleted, 
+	                r.photo, 
+	                r.rating,
+	                u.fullname
+            FROM recipes r
+            INNER JOIN users u ON u.id = r.owner_id
+            WHERE LOWER(r.title) LIKE $1||'%'
+            `,
+            values:[recipeName]
         }
         return query;
 

@@ -5,13 +5,11 @@ import axios from 'axios';
 import SearchBar from './SearchBar';
 import SearchElements from './SearchElements';
 
-const  searchcomp = {
-    position: 'absolute'
-} 
-
 import config from '../../../../config';
 
-import testData from './testData';
+const searchcomp = {
+    position: 'absolute'
+}
 
 class SearchComponent extends Component {
     constructor(props) {
@@ -21,23 +19,22 @@ class SearchComponent extends Component {
             elements: []
         };
 
-        //this.elementSearch('');
+        this.elementSearch('');
 
     }
 
-    elementSearch(item){
-        //this is a test axios with the wrong link  
-        //to check the output of the recipes from database
-        console.log(this.state.elements);
-        axios.get(`${config.serverUrl}/api/recipes`, {
-            item
-        })
-        .then(response => this.setState({elements: response.data}))
-        .catch(error => console.log(error));
+    elementSearch(item) {
+        if (item) {
+            axios.post(`${config.serverUrl}/api/recipes/search`, { item })
+                .then(response => { console.log(response); this.setState({ elements: response.data }) })
+                .catch(error => console.log(error));
+        } else {
+            this.setState({ elements: [] });
+        }
     }
 
     render() {
-        const elementSearch = _.debounce(item => { this.elementSearch(item) }, 300 );
+        const elementSearch = _.debounce(item => { this.elementSearch(item) }, 300);
         return (
 
             <div>

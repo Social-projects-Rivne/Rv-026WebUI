@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 const searchel = {
     marginTop: '-3px',
@@ -6,35 +6,34 @@ const searchel = {
     display: 'block',
     width: '400px',
     backgroundColor: '#9d9d9d',
-    zIndex:1
+    zIndex: 1
 }
 
-const image ={
+const image = {
     width: '100px',
-    height: '80px', 
+    height: '80px',
 }
 
 const text = {
-    marginLeft:'105px',
+    marginLeft: '105px',
     marginTop: '-50px'
 }
 
 
 
-class SearchElement extends Component{
-    constructor(props){
+class SearchElement extends Component {
+    constructor(props) {
         super(props);
     }
-    render(){
+    render() {
         const element = this.props.element;
-        return(
+        return (
             <div key={element.id} className="search-element" style={searchel}>
-                    <img style={image} src={element.photo} />
-                    <div style ={text}>
+                <img style={image} src={element.photo} />
+                <div style={text}>
                     <p>{element.title}</p>
                     <p>Рейтинг:{element.rating}</p>
-                    </div>
-
+                </div>
             </div>
         );
     }

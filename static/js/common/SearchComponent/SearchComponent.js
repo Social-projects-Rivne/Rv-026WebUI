@@ -23,10 +23,9 @@ class SearchComponent extends Component {
         this.typeChange = this.typeChange.bind(this);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        var item = this.state.item;
+    componentDidUpdate(prevProps, prevState) {        
         if (prevState.type !== this.state.type) {
-            this.elementSearch(item);
+            this.elementSearch(this.state.item);
         }
     }
 
@@ -50,12 +49,14 @@ class SearchComponent extends Component {
             this.setState({ item });
         } else {
             this.setState({ elements: [] });
+            this.setState({item:''})
         }
 
     }
 
     typeChange(type) {
-        this.setState({ type })
+        this.setState({ type });
+        this.setState({ elements: [] });
     }
 
     render() {

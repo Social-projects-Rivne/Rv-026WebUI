@@ -59,6 +59,7 @@ typings/
 
 package-lock.json
 dist/
+coverage/
 bundle.js
 bundle.js.map
 db/config.js

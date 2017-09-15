@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 
 const style = {
+    display: 'block',
+    float: 'left',
+    width: '60%'
+  
+}
+const style1 = {
+    
     backgroundImage: 'url(./public/images/icons/searchIcon.svg)',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: '5px',
@@ -21,10 +28,11 @@ class SearchBar extends Component {
 
     render() {
         return (
-            <div className="search-bar">
-                <input style={style}
-                    type="text"
+            <div className="search-bar" style={style}>
+                <input 
                     className="form-control"
+                    style = {style1}
+                    type="text"
                     value={this.state.item}
                     onChange={event => this.onInputChange(event.target.value)}
                 />

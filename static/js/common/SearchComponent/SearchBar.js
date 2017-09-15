@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 const style = {
-    display: 'block',
+    display: 'inline-block',
     float: 'left',
-    width: '60%'
+    width: '70%'
   
 }
 const style1 = {

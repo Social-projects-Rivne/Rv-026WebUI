@@ -3,12 +3,15 @@ import _ from 'lodash';
 import axios from 'axios';
 
 import SearchBar from './SearchBar';
-import SearchElements from './SearchElements';
 import DropDown from './DropDown';
+import SearchButton from './SearchButton';
+import SearchElements from './SearchElements';
+
+
 
 const searchcomp = {
     position: 'absolute'
-}
+} 
 
 class SearchComponent extends Component {
     constructor(props) {
@@ -62,8 +65,11 @@ class SearchComponent extends Component {
         const elementSearchDelay = _.debounce((item) => { this.elementSearch(item) }, 300);
         return (
             <div>
+                
                 <SearchBar onSearchItemChange={elementSearchDelay} />
                 <DropDown onSearchTypeChange={this.typeChange} />
+                <SearchButton />
+                
                 <SearchElements allElements={this.state.elements} />
             </div>
         );

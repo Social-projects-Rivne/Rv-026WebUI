@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 
 const style = {
-    display: 'block',
-    float: 'right',
-    width: '40%'
+    display: 'inline-block',
+    float: 'left',
+    width: '20%'
 }
 class DropDown extends Component {
     constructor(props){

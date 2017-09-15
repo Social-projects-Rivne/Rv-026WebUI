@@ -108,13 +108,7 @@ const recipeHelper = (dbResponse) => {
 recipeController.getRecipeById = (req, res) => {
     const id = req.params.id;
 
-    const isPositiveIntegerNumeric = (arg) => {
-        if (isNaN(+arg)) return false;
-        const k = Math.floor(arg);
-        return k === +arg && +arg > 0;
-    };
-
-    if (!isPositiveIntegerNumeric(id)) {
+    if (!id.match(/^[0-9]+$/)) {
         res.json(new Error('Wrong id').message);
         return;
     }
@@ -124,7 +118,7 @@ recipeController.getRecipeById = (req, res) => {
         if (err) {
             res.json(err.name);
         } else if (result.rows.length === 0) {
-            res.json(new Error('Wrong id').message);
+            res.json(new Error('No such id in db').message);
         } else {
             const recipe = recipeHelper(result.rows);
 

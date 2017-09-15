@@ -169,23 +169,42 @@ recipeController.getAllRecepies = (req, res, next) => {
 recipeController.getRecepiesByName = (req, res, next) => {
     var recipeObject = new recipeModel();
     var recipeName = req.body.item;
-    
-        db.query(recipeObject.findRicipeByName(recipeName), (err, result) => {
-            if (err) {
-                console.log('error!');
-                return next(err);
-            } else {
-                console.log('Result', result.rows)
-                var recipes = result.rows;
-                var recipesNotDeleted = recipes.filter((o) => {
-                    if (!o.is_deleted) {
-                        return recipes.indexOf(o) !== -1;
-                    }
-                });
-                res.send(recipesNotDeleted);
-            }
-        });
+    db.query(recipeObject.findRicipeByName(recipeName), (err, result) => {
+        if (err) {
+            console.log('error!');
+            return next(err);
+        } else {
+            console.log('Result', result.rows)
+            var recipes = result.rows;
+            var recipesNotDeleted = recipes.filter((o) => {
+                if (!o.is_deleted) {
+                    return recipes.indexOf(o) !== -1;
+                }
+            });
+            res.send(recipesNotDeleted);
+        }
+    });
     
 }
+
+recipeController.getRecepiesByTagType = (req, res, next) => {
+    var recipeObject = new recipeModel();
+    var tagType = req.body.item;
+    db.query(recipeObject.findRicipeByTagType(tagType), (err, result) => {
+        if (err) {
+            console.log('error!');
+            return next(err);
+        } else {
+            var recipes = result.rows;
+            var recipesNotDeleted = recipes.filter((o) => {
+                if (!o.is_deleted) {
+                    return recipes.indexOf(o) !== -1;
+                }
+            });
+            res.send(recipesNotDeleted);
+        }
+    });
+}
+
 
 module.exports = recipeController;

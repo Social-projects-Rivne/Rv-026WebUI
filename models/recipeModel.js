@@ -75,7 +75,7 @@ class recipeModel {
     };
 
     findRicipeByName(recipeName) {
-        const query ={
+        const query = {
             text:
             `SELECT r.id,
 	                r.title, 
@@ -90,8 +90,29 @@ class recipeModel {
             values:[recipeName]
         }
         return query;
+    };
 
-    }
+    findRicipeByTagType(tagType) {
+        const query = {
+            text:`
+            SELECT r.id,
+	                r.title, 
+	                r.is_deleted, 
+	                r.photo, 
+	                r.rating,
+	                u.fullname
+            FROM recipes r 
+            FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
+            INNER JOIN tags t ON rt.tag_id = t.id 
+            INNER JOIN users u ON u.id = r.owner_id
+            GROUP BY r.id, u.id
+            HAVING $1 = any(array_agg(t.tag_type))
+            `,
+            values:[tagType]
+        }
+        return query;
+    };
+    
 
 }
 

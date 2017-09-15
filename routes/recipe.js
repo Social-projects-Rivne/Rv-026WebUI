@@ -10,5 +10,6 @@ router.get('/api/:tag_id/recipes', recipeController.getRecipesByTagId);
 router.get('/api/recipes', recipeController.getAllRecepies);
 
 router.post('/api/recipes/search', recipeController.getRecepiesByName);
+router.post('/api/recipes/search/tagtype', recipeController.getRecepiesByTagType);
 
 module.exports = router;

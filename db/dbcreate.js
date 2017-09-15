@@ -13,7 +13,8 @@ module.exports=function(){
     text:`CREATE TABLE IF NOT EXISTS tags(
             id                  serial         PRIMARY KEY,
             name                varchar(30)    UNIQUE         NOT NULL,
-            tag_description     text
+            tag_description     text,
+            tag_type            varchar(30)
           )`,
     values: [],
   }

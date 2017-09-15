@@ -38,8 +38,7 @@ class SearchComponent extends Component {
                         .catch(error => console.log(error));
                     break;
                 case "searchByTagCategory":
-                    //test request which will be changed
-                    axios.post(`/api/recipes/search`, { item })
+                    axios.post(`/api/recipes/search/tagtype`, { item })
                         .then(response => { this.setState({ elements: response.data }) })
                         .catch(error => console.log(error));
                     break;

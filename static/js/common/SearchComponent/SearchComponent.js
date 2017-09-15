@@ -6,8 +6,6 @@ import SearchBar from './SearchBar';
 import SearchElements from './SearchElements';
 import DropDown from './DropDown';
 
-import config from '../../../../config';
-
 const searchcomp = {
     position: 'absolute'
 }
@@ -17,27 +15,55 @@ class SearchComponent extends Component {
         super(props);
 
         this.state = {
-            elements: []
+            elements: [],
+            type: '',
+            item: ''
         };
 
+        this.typeChange = this.typeChange.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        var item = this.state.item;
+        if (prevState.type !== this.state.type) {
+            this.elementSearch(item);
+        }
     }
 
     elementSearch(item) {
         if (item) {
-            axios.post(`${config.serverUrl}/api/recipes/search`, { item })
-                .then(response => { console.log(response); this.setState({ elements: response.data }) })
-                .catch(error => console.log(error));
+            switch (this.state.type) {
+                case "searchByName":
+                    axios.post(`/api/recipes/search`, { item })
+                        .then(response => { this.setState({ elements: response.data }) })
+                        .catch(error => console.log(error));
+                    break;
+                case "searchByTagCategory":
+                    //test request which will be changed
+                    axios.post(`/api/recipes/search`, { item })
+                        .then(response => { this.setState({ elements: response.data }) })
+                        .catch(error => console.log(error));
+                    break;
+                default:
+                    this.setState({ elements: [] });
+            }
+            this.setState({ item });
         } else {
             this.setState({ elements: [] });
         }
+
+    }
+
+    typeChange(type) {
+        this.setState({ type })
     }
 
     render() {
-        const elementSearch = _.debounce(item => { this.elementSearch(item) }, 300);
+        const elementSearchDelay = _.debounce((item) => { this.elementSearch(item) }, 300);
         return (
             <div>
-                <SearchBar onSearchItemChange={elementSearch} />
-                <DropDown />
+                <SearchBar onSearchItemChange={elementSearchDelay} />
+                <DropDown onSearchTypeChange={this.typeChange} />
                 <SearchElements allElements={this.state.elements} />
             </div>
         );

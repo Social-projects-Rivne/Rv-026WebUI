@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import SearchElement from './SearchElement';
 
-
 const se = {
     position: 'absolute',
     top: '110px',

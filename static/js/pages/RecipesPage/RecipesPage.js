@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Recipe from './Recipe';
 import { Grid, Row, Col } from 'react-bootstrap';
 
-import config from '../../../../config';
 import SearchComponent from '../../common/SearchComponent';
 
 const style = {
@@ -12,6 +11,7 @@ class RecipesPage extends Component {
     constructor(props) {
         super(props);
         this.state = { recipes: [] };
+        this.getRecipes = this.getRecipes.bind(this);
     }
 
     componentDidMount() {
@@ -23,10 +23,14 @@ class RecipesPage extends Component {
     }
 
     getRecipesByTagId(tagId) {
-        var url = tagId ? `${config.serverUrl}/api/${tagId}/recipes` : `${config.serverUrl}/api/recipes`;
+        var url = tagId ? `/api/${tagId}/recipes` : `/api/recipes`;
         fetch(url)
             .then(response => response.json())
             .then(response => this.setState({ recipes: response }))
+    }
+
+    getRecipes(elements){
+        this.setState({ recipes: elements});
     }
 
     render() {
@@ -34,7 +38,7 @@ class RecipesPage extends Component {
         return (
             
             <Grid >
-                <SearchComponent />
+                <SearchComponent getRecipes={this.getRecipes} />
                 <div style={style}/>
                 <Row>
                     <Recipe result={this.state.recipes} />

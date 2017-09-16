@@ -4,14 +4,17 @@ import axios from 'axios';
 
 import SearchBar from './SearchBar';
 import DropDown from './DropDown';
-import SearchButton from './SearchButton';
 import SearchElements from './SearchElements';
-
-
 
 const searchcomp = {
     position: 'absolute'
 } 
+
+const style = {
+    display: 'inline-block',
+    float: 'left',
+    width: '10%'
+}
 
 class SearchComponent extends Component {
     constructor(props) {
@@ -24,6 +27,7 @@ class SearchComponent extends Component {
         };
 
         this.typeChange = this.typeChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState) {        
@@ -61,15 +65,27 @@ class SearchComponent extends Component {
         this.setState({ elements: [] });
     }
 
+    onSubmit(e){
+        e.preventDefault();
+        var item = this.state.item;
+        var type = this.state.type;
+        var elements = this.state.elements;
+        if (!item || !type ) {
+            return;
+        }
+        this.props.getRecipes(elements);
+    }
+
+
     render() {
         const elementSearchDelay = _.debounce((item) => { this.elementSearch(item) }, 300);
         return (
             <div>
-                
-                <SearchBar onSearchItemChange={elementSearchDelay} />
-                <DropDown onSearchTypeChange={this.typeChange} />
-                <SearchButton />
-                
+                <form onSubmit={this.onSubmit}>
+                    <SearchBar onSearchItemChange={elementSearchDelay} />
+                    <DropDown onSearchTypeChange={this.typeChange} />
+                    <button type="submit" className="btn btn-success" style={style}>Find</button>
+                </form>
                 <SearchElements allElements={this.state.elements} />
             </div>
         );

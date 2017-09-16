@@ -78,14 +78,21 @@ class recipeModel {
         const query = {
             text:
             `SELECT r.id,
-	                r.title, 
-	                r.is_deleted, 
-	                r.photo, 
-	                r.rating,
-	                u.fullname
+	            r.title, 
+                r.description, 
+	            r.is_deleted, 
+	            r.photo, 
+                r.owner_id, 
+	            r.rating,
+	            u.fullname,
+                array_agg(t.id) as tags_id, 
+                array_agg(t.name) as tags_name
             FROM recipes r
+            FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
+            INNER JOIN tags t ON rt.tag_id = t.id 
             INNER JOIN users u ON u.id = r.owner_id
             WHERE LOWER(r.title) LIKE $1||'%'
+            GROUP BY r.id,u.id
             `,
             values:[recipeName]
         }
@@ -96,11 +103,15 @@ class recipeModel {
         const query = {
             text:`
             SELECT r.id,
-	                r.title, 
-	                r.is_deleted, 
-	                r.photo, 
-	                r.rating,
-	                u.fullname
+	            r.title, 
+                r.description, 
+	            r.is_deleted, 
+	            r.photo, 
+                r.owner_id, 
+	            r.rating,
+	            u.fullname,
+                array_agg(t.id) as tags_id, 
+                array_agg(t.name) as tags_name
             FROM recipes r 
             FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
             INNER JOIN tags t ON rt.tag_id = t.id 

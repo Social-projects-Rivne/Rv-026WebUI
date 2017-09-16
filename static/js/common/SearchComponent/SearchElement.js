@@ -20,8 +20,6 @@ const text = {
     marginTop: '-50px'
 }
 
-
-
 class SearchElement extends Component {
     constructor(props) {
         super(props);

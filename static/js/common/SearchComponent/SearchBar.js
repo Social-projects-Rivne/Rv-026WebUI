@@ -7,7 +7,6 @@ const style = {
   
 }
 const style1 = {
-    
     backgroundImage: 'url(./public/images/icons/searchIcon.svg)',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: '5px',

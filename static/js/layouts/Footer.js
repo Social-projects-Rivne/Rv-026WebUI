@@ -5,7 +5,7 @@ const footer = {
 }
 
 const footerWhole = {
-    position: 'absolute',
+    position: 'relative',
     left: '0',
     bottom: '0',
     width: '100%',

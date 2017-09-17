@@ -1,18 +1,5 @@
 import React, { Component } from 'react';
 
-const style = {
-    display: 'inline-block',
-    float: 'left',
-    width: '70%'
-  
-}
-const style1 = {
-    backgroundImage: 'url(./public/images/icons/searchIcon.svg)',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: '5px',
-    paddingLeft: '40px'
-}
-
 class SearchBar extends Component {
     constructor(props) {
         super(props);
@@ -27,15 +14,13 @@ class SearchBar extends Component {
 
     render() {
         return (
-            <div className="search-bar" style={style}>
-                <input 
-                    className="form-control"
-                    style = {style1}
-                    type="text"
-                    value={this.state.item}
-                    onChange={event => this.onInputChange(event.target.value)}
-                />
-            </div>
+            <input 
+                type="text" 
+                className="form-control input-search" 
+                placeholder="Find your dish" 
+                value={this.state.item}
+                onChange={event => this.onInputChange(event.target.value)}
+            />
         );
     }
 }

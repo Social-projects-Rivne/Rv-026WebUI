@@ -1,0 +1,36 @@
+.search-section{
+	text-align: center;
+	margin: 25px 0 25px 0;
+}
+
+.search-section .search-title{
+	margin: 10px 0px 25px 0px;
+}
+
+.search-section .header-search-group{
+	width: 80%;
+    margin: 0 auto;
+}
+
+.search-section .header-search-group .input-search{
+	width:70%;
+    background-image: url(../../public/images/icons/searchIcon.svg);
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    padding-left: 40px;
+}
+
+.search-section .header-search-group .select-search{
+    background-color: #337ab7;
+    color: white;
+    width:30%;
+    border-color: #2e6da4;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    border-radius: 4px 0px 0px 4px;
+}
+
+.search-section .select-search option{
+	background-color: white;
+    color: black;
+}

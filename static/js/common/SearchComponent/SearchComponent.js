@@ -6,16 +6,6 @@ import SearchBar from './SearchBar';
 import DropDown from './DropDown';
 import SearchElements from './SearchElements';
 
-const searchcomp = {
-    position: 'absolute'
-} 
-
-const style = {
-    display: 'inline-block',
-    float: 'left',
-    width: '10%'
-}
-
 class SearchComponent extends Component {
     constructor(props) {
         super(props);
@@ -30,7 +20,7 @@ class SearchComponent extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    componentDidUpdate(prevProps, prevState) {        
+    componentDidUpdate(prevProps, prevState) {
         if (prevState.type !== this.state.type) {
             this.elementSearch(this.state.item);
         }
@@ -55,7 +45,7 @@ class SearchComponent extends Component {
             this.setState({ item });
         } else {
             this.setState({ elements: [] });
-            this.setState({item:''})
+            this.setState({ item: '' })
         }
 
     }
@@ -65,29 +55,39 @@ class SearchComponent extends Component {
         this.setState({ elements: [] });
     }
 
-    onSubmit(e){
+    onSubmit(e) {
         e.preventDefault();
         var item = this.state.item;
         var type = this.state.type;
         var elements = this.state.elements;
-        if (!item || !type ) {
+        if (!item || !type) {
             return;
         }
         this.props.getRecipes(elements);
     }
 
-
     render() {
         const elementSearchDelay = _.debounce((item) => { this.elementSearch(item) }, 300);
         return (
-            <div>
-                <form onSubmit={this.onSubmit}>
-                    <SearchBar onSearchItemChange={elementSearchDelay} />
-                    <DropDown onSearchTypeChange={this.typeChange} />
-                    <button type="submit" className="btn btn-success" style={style}>Find</button>
-                </form>
-                <SearchElements allElements={this.state.elements} />
-            </div>
+            <section className="container">
+                <div className="search-section">
+                    <h1 className="search-title">Welcome! Whanna Chew?</h1>
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <form onSubmit={this.onSubmit}>
+                                <div className="input-group header-search-group">
+                                    <DropDown onSearchTypeChange={this.typeChange} />
+                                    <SearchBar onSearchItemChange={elementSearchDelay} />
+                                    <span className="input-group-btn">
+                                        <button type="submit" className="btn btn-primary">Go!</button>
+                                    </span>
+                                </div>
+                            </form>
+                            <SearchElements allElements={this.state.elements} />
+                        </div>
+                    </div>
+                </div>
+            </section>
         );
     }
 }

@@ -28,8 +28,6 @@ signupController.checkEmailExistence = (req, res) => {
 
 signupController.register = (req, res) => {
     const credentials = req.body;
-    credentials.password = crypto.createHash('sha256').update(credentials.password).digest('hex');
-
     db.query(signupModel.upsertIntoUsers(credentials.email, credentials.phone, credentials.password),
     (err) => {
         if (err) {
@@ -51,6 +49,7 @@ signupController.register = (req, res) => {
                         },
                     }));
 
+
                     const mailOpts = {
                         from: req.body.email,
                         to: credentials.email,
@@ -60,6 +59,7 @@ signupController.register = (req, res) => {
 
                     smtpTrans.sendMail(mailOpts, (e) => {
                         if (e) console.log(e);
+
                     });
                     res.json('registrationSuccessful');
                 }

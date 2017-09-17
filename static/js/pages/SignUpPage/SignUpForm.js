@@ -37,34 +37,49 @@ class SignUpForm extends Component {
             },
             terms: {
                 value: '',
-                error: '*Required'
-            }
+                error: '*Required',
+            },
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.checkEmailExists = this.checkEmailExists.bind(this);
+        this.errorsExist = this.errorsExist.bind(this);
     }
 
     setFieldValue(name, value) {
-        this.setState(Object.assign(this.state, {
-            [name]: Object.assign(this.state[name], {
-                value,
-            }),
-        }));
+        this.setState({ [name]: { ...this.state[name], value } });
     }
 
     setFieldError(name, error) {
-        this.setState(Object.assign(this.state, {
-            [name]: Object.assign(this.state[name], {
-                error,
-            }),
-        }));
+        this.setState({ [name]: { ...this.state[name], error } });
+    }
+
+    clearFieldError(name) {
+        if (this.state[name].error !== null) {
+            this.setState({ [name]: { ...this.state[name], error: null } });
+        }
     }
 
     handleSubmit(e) {
         e.preventDefault();
 
+        const credentials = {};
+        credentials.email = this.state.email.value;
+        credentials.phone = this.state.phone.value;
+        const sha256 = createHash('sha256');
+        credentials.password = sha256.update(this.state.password.value, 'utf8').digest('hex');
+        axios.post('/api/register', credentials)
+        .then(() => {
+            browserHistory.push('/signupsuccess');
+        })
+        .catch((err) => {
+            console.log(err.stack);
+            console.log('Failed to register');
+        });
+    }
+
+    errorsExist() {
         const errors = [];
         Object.keys(this.state).forEach((key) => {
             if (this.state[key].error) {
@@ -72,43 +87,8 @@ class SignUpForm extends Component {
             }
         });
 
-        if (errors.length !== 0) {
-            console.log('invalid form');
-        } else {
-            let credentials = {};
-            credentials.email = this.state.email.value;
-            credentials.phone = this.state.phone.value;
-            const sha256 = createHash('sha256');
-            credentials.password = sha256.update(this.state.password.value, 'utf8').digest('hex');
-
-            axios.post('/api/register', credentials)
-            .then((res) => {
-                browserHistory.push('/signupsuccess');
-            })
-            .catch((err) => {
-                console.log(err.stack);
-                console.log('Failed to register');
-            });
-
-        }
-    }
-
-    setFieldValue(name, value) {
-        this.setState({ [name]: {...this.state[name],value,} });
-    }
-
-    setFieldError(name, error) {
-        this.setState({ [name]: {...this.state[name],error,} })
-    }
-
-    clearFieldError(name) {
-        if (this.state[name].error !== null) {
-            this.setState({ [name]: {
-                ...this.state[name],
-                error: null,
-                }
-            })
-        }
+        if (errors.length === 0) return true;
+        return false;
     }
 
     handleChange(e) {
@@ -185,7 +165,7 @@ class SignUpForm extends Component {
         },
 
         terms: (f) => {
-            if (!f.checked){
+            if (!f.checked) {
                 return new Error('*Required');
             }
             return true;
@@ -196,12 +176,12 @@ class SignUpForm extends Component {
         m !== null
             ? <div style={errorStyle} className="SignupForm--errorText">{m}</div>
             : ''
-    );
+    )
 
     render() {
         return (
 
-            <form style={formStyle} onSubmit={this.handleSubmit} noValidate>
+            <form style={formStyle} onSubmit={this.handleSubmit} noValidate autoComplete="off">
 
                 <FormGroup>
                     <label htmlFor="SignupForm--email">Email</label>
@@ -211,6 +191,7 @@ class SignUpForm extends Component {
                         id="SignupForm--email"
                         required
                         onChange={this.handleChange}
+                        autoComplete="off"
                     />
                     {this.errorMessage(this.state.email.error)}
                 </FormGroup>
@@ -223,6 +204,7 @@ class SignUpForm extends Component {
                         id="SignupForm--phone"
                         required
                         onChange={this.handleChange}
+                        autoComplete="off"
                     />
                     {this.errorMessage(this.state.phone.error)}
                 </FormGroup>
@@ -235,6 +217,7 @@ class SignUpForm extends Component {
                         id="SignupForm--password"
                         required
                         onChange={this.handleChange}
+                        autoComplete="off"
                     />
                     {this.errorMessage(this.state.password.error)}
                 </FormGroup>
@@ -246,6 +229,7 @@ class SignUpForm extends Component {
                         name="passwordConfirm"
                         id="SignupForm--password-confirmation"
                         onChange={this.handleChange}
+                        autoComplete="off"
                     />
                     {this.errorMessage(this.state.passwordConfirm.error)}
                 </FormGroup>
@@ -261,7 +245,13 @@ class SignUpForm extends Component {
                     {this.errorMessage(this.state.terms.error)}
                 </FormGroup>
 
-                <Button bsStyle="primary" type="submit" >Sign Up</Button>
+                <Button
+                    bsStyle="primary"
+                    type="submit"
+                    disabled={!this.errorsExist()}
+                >
+                    Sign Up
+                </Button>
 
             </form>
         );

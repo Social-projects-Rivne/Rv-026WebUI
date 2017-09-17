@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Grid, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router';
+
 
 const imgStyle = {
     width: '100%',
@@ -57,7 +57,6 @@ class RecipeItem extends Component {
                 <p style={description}>{recipe.description}</p>
                 {tags.length > 0 ? <p>{tags}</p> : null}
             </Col>
-            </Link>
         );
 
     }

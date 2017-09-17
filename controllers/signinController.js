@@ -8,7 +8,6 @@ signinController.sessions = {};
 
 signinController.login = (req, res) => {
     const credentials = req.body;
-    console.log('credentials:', credentials);
     let response = '';
 
     db.query(signinModel.findUserByEmail(credentials.email),

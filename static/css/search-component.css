@@ -47,13 +47,13 @@
     margin-top: 2px;
     position: relative;
     display: block;
-    width: auto;
+    float: left;
+    width: 100%;
     height: 82px;
     background-color: white;
     border: #ccc 1px solid;
     z-index: 1;
-    opacity: 0.8;
-    
+    opacity: 0.8;  
 }
 
 .search-section .search-elements .search-element .image {
@@ -61,12 +61,26 @@
     height: 80px;
     display: block;
     float: left;
-    
 }
-
 .search-section .search-elements .search-element .text{
     display: block;
-    float: left;
+    float: left; 
+    width: calc(70% - 100px);
+}
+.search-section .search-elements .search-element .element-rating{
+    display: block;
+    float: left; 
+    font-weight: bolder;
+    color: gold;
+    font-size: 16pt;
+    width: 30%;
+
+}
+
+.search-section .search-elements .search-element .text .title{
+    font-weight: bolder;
+    text-align: left;
+    padding-left: 10%;
 }
 .search-section .search-elements .search-element:hover{
     background-color:#DCECF8;

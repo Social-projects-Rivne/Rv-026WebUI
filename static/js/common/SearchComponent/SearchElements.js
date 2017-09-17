@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 
 import SearchElement from './SearchElement';
 
-const se = {
-    position: 'absolute',
-    top: '110px',
-    widht: '100%'
-}
+
 
 class SearchElements extends Component {
     constructor(props) {
@@ -27,7 +23,7 @@ class SearchElements extends Component {
 
     render() {
         return (
-            <div style={se} className="search-elements">
+            <div className="search-elements">
                 {this.renderListSearchElements()}
             </div>
         );

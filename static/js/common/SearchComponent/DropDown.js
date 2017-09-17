@@ -14,7 +14,6 @@ class DropDown extends Component {
     render(){
         return(
             <select className="form-control select-search" onChange={this.onChange}>
-                <option value="select">Select</option>
                 <option value="searchByName">Name</option>
                 <option value="searchByTagCategory">Tag Type</option>
             </select>

@@ -12,7 +12,7 @@ class SearchComponent extends Component {
 
         this.state = {
             elements: [],
-            type: '',
+            type: 'searchByName',
             item: ''
         };
 

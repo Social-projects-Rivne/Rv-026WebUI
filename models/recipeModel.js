@@ -89,7 +89,7 @@ class recipeModel {
                 array_agg(t.name) as tags_name
             FROM recipes r
             FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
-            INNER JOIN tags t ON rt.tag_id = t.id 
+            LEFT JOIN tags t ON rt.tag_id = t.id 
             INNER JOIN users u ON u.id = r.owner_id
             WHERE LOWER(r.title) LIKE $1||'%'
             GROUP BY r.id,u.id
@@ -114,7 +114,7 @@ class recipeModel {
                 array_agg(t.name) as tags_name
             FROM recipes r 
             FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
-            INNER JOIN tags t ON rt.tag_id = t.id 
+            LEFT JOIN tags t ON rt.tag_id = t.id 
             INNER JOIN users u ON u.id = r.owner_id
             GROUP BY r.id, u.id
             HAVING $1 = any(array_agg(t.tag_type))

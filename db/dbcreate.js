@@ -40,7 +40,7 @@ module.exports=function(){
               about_me        text,
               is_activated    boolean DEFAULT FALSE,
               activation_id   char(36),
-              is_deleted      boolean DEFAULT FALSE
+              is_deleted      date
           );`,
     values: [],
   }

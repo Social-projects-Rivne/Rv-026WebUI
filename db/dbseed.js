@@ -15,12 +15,12 @@ db.query(`INSERT INTO users_roles (user_role) VALUES ('admin');`,
 });
 
   db.query(`INSERT INTO users
-  (id, fullname, role_id, password, email, is_premium, phone_number, gravatar, about_me, is_activated, activation_id, is_deleted)
+  (id, fullname, role_id, password, email, is_premium, phone_number, gravatar, about_me, is_activated)
   VALUES
-  (1, 'JohnRosauser', 1, 'ba79baeb9f10896a46ae74715271b7f586e74123', 'JohnSRosa1@armyspy.com', FALSE, '+1-202-322-0101', 'none', 'Im happy!', FALSE, null, FALSE),
-  (2, 'GarrRoss', 1, 'ba79baeb9f10896a46ae74715271b7f586e74456', 'VasiliySRosa2@armyspy.com', FALSE, '+1-202-555-1337', 'none', 'Im happy!', FALSE, null, FALSE),
-  (3, 'StepanGiga', 1, 'ba79baeb9f10896a46ae74715271b7f586e74789', 'PetroSRosa3@armyspy.com', TRUE, '+1-420-555-0101', 'none', 'Im happy!', FALSE, null, FALSE),
-  (4, 'MyhailoPoplavskiy', 1, 'ba79baeb9f10896a46ae74715271b7f586e74999', 'MariRosa4@armyspy.com', TRUE, '+8-800-555-35-35', 'none', 'Im happy!', FALSE, null, FALSE);`,
+  (1, 'JohnRosauser', 1, 'ba79baeb9f10896a46ae74715271b7f586e74123', 'JohnSRosa1@armyspy.com', FALSE, '+1-202-322-0101', 'none', 'Im happy!', FALSE),
+  (2, 'GarrRoss', 1, 'ba79baeb9f10896a46ae74715271b7f586e74456', 'VasiliySRosa2@armyspy.com', FALSE, '+1-202-555-1337', 'none', 'Im happy!', FALSE),
+  (3, 'StepanGiga', 1, 'ba79baeb9f10896a46ae74715271b7f586e74789', 'PetroSRosa3@armyspy.com', TRUE, '+1-420-555-0101', 'none', 'Im happy!', FALSE),
+  (4, 'MyhailoPoplavskiy', 1, 'ba79baeb9f10896a46ae74715271b7f586e74999', 'MariRosa4@armyspy.com', TRUE, '+8-800-555-35-35', 'none', 'Im happy!', FALSE);`,
   (err, res) => {
     if (err) {console.log(err)}
     else {console.log(res)}

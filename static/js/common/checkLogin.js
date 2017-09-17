@@ -12,6 +12,6 @@ const checkLogin = function checkLogin(nextState, replace, cb) {
         }
     })
     .catch(cb);
-}
+};
 
 module.exports = checkLogin;

@@ -20,7 +20,7 @@ class userModel {
       return query;
   };
 
-  updateUserRole(editedValue, userId) {  
+  updateUserRole(editedValue, userId) {
       const query = {
           text: `UPDATE users SET role_id = $1 WHERE id = '${userId}'`,
           values: [editedValue]

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Grid, Row, Col } from 'react-bootstrap';
 
+
 const imgStyle = {
     width: '100%',
     maxHeight: '150px',

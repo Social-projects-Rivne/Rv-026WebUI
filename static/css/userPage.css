@@ -1,0 +1,67 @@
+@font-face {
+    font-family: handwritten;
+    src: url(../fonts/handwritten.ttf);
+}
+
+.UserComponent, .UserComponent input, .UserComponent textarea{
+  font-family: handwritten;
+  font-size: 20px;
+  font-weight: 900;
+  word-wrap: break-word;
+}
+
+.UserComponent input[type="button"], .UserComponent input[type="button"]:focus, .UserComponent input[type="button"]:active{
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.UserComponent input[type="button"]:hover{
+  opacity: 0.8;
+}
+
+.UserComponent .formStyle{
+  width: 80%;
+  padding: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.UserComponent .cancelButton{
+  color: #B7340D;
+  width: 8%;
+}
+
+.UserComponent .updateButton{
+  color: #274B2F;
+  width: 8%;
+}
+
+.UserComponent input[type="text"],.UserComponent textarea{
+  display: inline-block;
+  width: 80%;
+  resize: vertical;
+  vertical-align: middle;
+}
+
+.UserComponent h1, .UserComponent h2, .UserComponent h3{
+  font-weight: 900;
+}
+
+.warningMessage {
+    color: #8a6d3b;
+    display: block;
+    margin: 10px 0;
+}
+
+.successMessage  {
+    color: #3c763d;
+    display: block;
+    margin: 10px 0;
+}
+
+.failedMessage  {
+    color: #C42128;
+    display: block;
+    margin: 10px 0;
+}

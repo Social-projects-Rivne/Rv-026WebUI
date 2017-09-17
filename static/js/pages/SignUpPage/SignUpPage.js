@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 import SignUpForm from './SignUpForm';
 
 const formStyle = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-}
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+};
 
 const h1Style = {
-    textAlign: 'center'
-}
+    textAlign: 'center',
+};
 
 class SignUpPage extends Component {
     render() {
-        return(
+        return (
             <div>
                 <h1 style={h1Style}> Sign up </h1>
                 <div style={formStyle}>
-                    <SignUpForm/>
+                    <SignUpForm />
                 </div>
             </div>
         );

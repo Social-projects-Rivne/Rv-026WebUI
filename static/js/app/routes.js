@@ -21,12 +21,12 @@ const routes = (
         <IndexRoute component={MainPage} />
         <Route path="/recipes" component={RecipesPage} />
         <Route path="/:tag_id/recipes" component={RecipesPage} />
+        <Route path="/recipes/new" onEnter={checkUserId} component={CreateRecipePage} />
         <Route path="/recipes/:id" component={RecipePage} />
         <Route path="/signup" component={SignUpPage} />
         <Route path="/signupsuccess" component={SignUpSuccess} />
         <Route path="/terms" component={Terms} />
         <Route path="/signin" onEnter={checkLogin} component={SignInPage} />
-        <Route path="/recipes/new" onEnter={checkUserId} component={CreateRecipePage} />
         <Route path="/profile" component={User} />
         <Route path="*" component={NotFound} />
     </Route>

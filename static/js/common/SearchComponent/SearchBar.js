@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class SearchBar extends Component {
     constructor(props) {
@@ -14,15 +15,19 @@ class SearchBar extends Component {
 
     render() {
         return (
-            <input 
-                type="text" 
-                className="form-control input-search" 
-                placeholder="Find your dish" 
+            <input
+                type="text"
+                className="form-control input-search"
+                placeholder="Find your dish"
                 value={this.state.item}
                 onChange={event => this.onInputChange(event.target.value)}
             />
         );
     }
 }
+
+SearchBar.propTypes = {
+    onSearchItemChange: PropTypes.func
+};
 
 export default SearchBar;

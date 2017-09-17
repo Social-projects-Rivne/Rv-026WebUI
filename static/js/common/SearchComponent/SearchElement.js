@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 
 const searchel = {
@@ -41,6 +42,10 @@ class SearchElement extends Component {
             </div>
         );
     }
+}
+
+SearchElement.PropTypes = {
+    element: PropTypes.object
 }
 
 export default SearchElement;

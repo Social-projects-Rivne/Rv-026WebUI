@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -91,5 +92,9 @@ class SearchComponent extends Component {
         );
     }
 }
+
+SearchComponent.propTypes = {
+    getRecipes: PropTypes.func
+};
 
 export default SearchComponent;

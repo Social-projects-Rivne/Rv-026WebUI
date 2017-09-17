@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import SearchElement from './SearchElement';
 
 const se = {
@@ -31,5 +33,10 @@ class SearchElements extends Component {
         );
     }
 }
+
+SearchElements.PropTypes = {
+    allElements: PropTypes.array
+}
+
 
 export default SearchElements;

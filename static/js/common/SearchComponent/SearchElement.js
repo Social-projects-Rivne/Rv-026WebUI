@@ -32,6 +32,6 @@ class SearchElement extends Component {
 
 SearchElement.PropTypes = {
     element: PropTypes.object
-}
+};
 
 export default SearchElement;

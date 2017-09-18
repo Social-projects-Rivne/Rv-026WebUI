@@ -4,9 +4,6 @@ import { Grid, Row, Col } from 'react-bootstrap';
 
 import SearchComponent from '../../common/SearchComponent';
 
-const style = {
-    marginTop: '25px'
-}
 class RecipesPage extends Component {
     constructor(props) {
         super(props);
@@ -29,20 +26,16 @@ class RecipesPage extends Component {
             .then(response => this.setState({ recipes: response }))
     }
 
-    getRecipes(elements){
-        this.setState({ recipes: elements});
+    getRecipes(elements) {
+        this.setState({ recipes: elements });
     }
 
     render() {
         let recipes = this.state.recipes;
         return (
-            
-            <Grid >
+            <Grid>
                 <SearchComponent getRecipes={this.getRecipes} />
-                <div style={style}/>
-                <Row>
-                    <Recipe result={this.state.recipes} />
-                </Row>
+                <Recipe result={this.state.recipes} />
             </Grid>
         );
     }

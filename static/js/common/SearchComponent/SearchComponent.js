@@ -70,22 +70,20 @@ class SearchComponent extends Component {
     render() {
         const elementSearchDelay = _.debounce((item) => { this.elementSearch(item) }, 300);
         return (
-            <section className="container">
-                <div className="search-section">
-                    <h1 className="search-title">Welcome! Whanna Chew?</h1>
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <form onSubmit={this.onSubmit}>
-                                <div className="input-group header-search-group">
-                                    <DropDown onSearchTypeChange={this.typeChange} />
-                                    <SearchBar onSearchItemChange={elementSearchDelay} />
-                                    <span className="input-group-btn">
-                                        <button type="submit" className="btn btn-primary">Go!</button>
-                                    </span>
-                                </div>
-                            </form>
-                            <SearchElements allElements={this.state.elements} />
-                        </div>
+            <section className="search-section">
+                <h1 className="search-title">Welcome! Whanna Chew?</h1>
+                <div className="row">
+                    <div className="col-lg-12">
+                        <form onSubmit={this.onSubmit}>
+                            <div className="input-group header-search-group">
+                                <DropDown onSearchTypeChange={this.typeChange} />
+                                <SearchBar onSearchItemChange={elementSearchDelay} />
+                                <span className="input-group-btn">
+                                    <button type="submit" className="btn btn-primary">Go!</button>
+                                </span>
+                            </div>
+                        </form>
+                        <SearchElements allElements={this.state.elements} />
                     </div>
                 </div>
             </section>

@@ -1,31 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { Grid, Row, Col } from 'react-bootstrap';
-
-const imgStyle = {
-    width: '100%',
-    maxHeight: '150px',
-    marginBottom: '15px'
-}
-
-const recipeHead = {
-    display: 'inline-block',
-    position: 'relative'
-}
-
-const title = {
-    display: 'inline-block',
-    position: 'absolute',
-    bottom: '10px',
-    left: '15px',
-    color: 'white',
-    fontSize: '26px'
-}
-
-const description = {
-    textAlign: 'justify',
-    fontSize: '16px'
-}
 
 class RecipeItem extends Component {
     constructor(props) {
@@ -42,23 +18,36 @@ class RecipeItem extends Component {
             if (ids[i]) {
                 tags.push(
                     <span key={i}>
-                        <Link to={`/${ids[i]}/recipes`} className='badge'>{tags_name[i]}</Link>{'\u00A0'}
+                        <Link to={`/${ids[i]}/recipes`} className='badge card-tag'>{tags_name[i]}</Link>{'\u00A0'}
                     </span>);
             }
         }
 
         return (
-            <Col sm={3}>
-                <div style={recipeHead}>
-                    <img className="img-rounded" src={recipe.photo} style={imgStyle} />
-                    <span style={title}>{recipe.title}</span>
+            <div className="card">
+                <img className="card-image" src={recipe.photo} alt={recipe.title} />
+                <div className="card-text">
+                    <h1 className="card-title">
+                        {recipe.title}
+                    </h1>
+                    <p className="card-description">
+                        {recipe.description}
+                    </p>
+                    <div>
+                        {tags.length > 0 ? <p>{tags}</p> : null}
+                    </div>
+                    <p className="card-read-more">
+                        <a href="#">Read More >></a>
+                    </p>
                 </div>
-                <p style={description}>{recipe.description}</p>
-                {tags.length > 0 ? <p>{tags}</p> : null}
-            </Col>
+            </div>
         );
 
     }
 }
+
+RecipeItem.PropTypes = {
+    recipe: PropTypes.object
+};
 
 export default RecipeItem;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import _ from 'underscore';
 import axios from 'axios';
@@ -230,5 +231,9 @@ class RecipesForm extends Component {
         );
     }
 }
+
+RecipesForm.PropTypes = {
+    handleSubmit: PropTypes.func
+};
 
 export default RecipesForm;

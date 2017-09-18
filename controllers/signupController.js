@@ -1,8 +1,8 @@
-import crypto from 'crypto';
 import path from 'path';
 
 import nodemailer from 'nodemailer';
 import smtpTransport from 'nodemailer-smtp-transport';
+import uuidv4 from 'uuid/v4';
 
 import db from '../db';
 import signupModel from '../models/signupModel';
@@ -28,50 +28,43 @@ signupController.checkEmailExistence = (req, res) => {
 
 signupController.register = (req, res) => {
     const credentials = req.body;
-    db.query(signupModel.upsertIntoUsers(credentials.email, credentials.phone, credentials.password),
+    const activationId = uuidv4();
+
+    db.query(signupModel.upsertIntoUsers(credentials.email, credentials.phone, credentials.password, activationId),
     (err) => {
         if (err) {
             console.log(err);
         } else {
-            db.query(signupModel.getId(credentials.email), (error, resInner) => {
-                if (error) {
-                    console.log(error);
-                } else {
-                    const confirmStr = crypto.createHash('sha1').update('' + resInner.rows[0].id).digest('hex') + resInner.rows[0].id;
-                    const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}/${confirmStr}`;
+            const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}/${activationId}`;
 
-                    // setup nodemailer
-                    const smtpTrans = nodemailer.createTransport(smtpTransport({
-                        service: 'Gmail',
-                        auth: {
-                            user: 'noreplyfmd@gmail.com',
-                            pass: 'happysmile1',
-                        },
-                    }));
+            // setup nodemailer
+            const smtpTrans = nodemailer.createTransport(smtpTransport({
+                service: 'Gmail',
+                auth: {
+                    user: 'noreplyfmd@gmail.com',
+                    pass: 'happysmile1',
+                },
+            }));
 
+            const mailOpts = {
+                from: req.body.email,
+                to: credentials.email,
+                subject: 'Confirm registration',
+                text: fullUrl,
+            };
 
-                    const mailOpts = {
-                        from: req.body.email,
-                        to: credentials.email,
-                        subject: 'Confirm registration',
-                        text: fullUrl,
-                    };
-
-                    smtpTrans.sendMail(mailOpts, (e) => {
-                        if (e) console.log(e);
-
-                    });
-                    res.json('registrationSuccessful');
-                }
-            }); // second query end
+            smtpTrans.sendMail(mailOpts, (e) => {
+                if (e) console.log(e);
+            });
+            res.json('registrationSuccessful');
         }
-    }); // first query end
+    });
 };
 
 signupController.confirmEmail = (req, res) => {
-    const confirmId = req.params.confirmEmail.slice(40);
+    const confirmId = req.params.confirmEmail;
 
-    db.query(signupModel.updateIsDeleted(confirmId), (err, result) => {
+    db.query(signupModel.updateIsActivated(confirmId), (err) => {
         if (err) {
             console.log(err);
             res.sendFile(path.resolve(__dirname, '..', '..', 'dist', 'index.html'));

@@ -4,6 +4,8 @@ import ReactLoading from 'react-loading';
 import React, { Component } from 'react';
 import wait from '../../common/wait';
 
+import Header from '../../common/Header';
+
 const photoStyle = {
     borderRadius: 10,
     width: '100%',
@@ -83,38 +85,47 @@ class RecipePage extends Component {
         const phase = this.state.process;
         if (phase === 'fetching') {
             return (
-                <ReactLoading style={centerDiv} type="bars" color="#444" height="70" width="20" />
+                <div>
+                    <Header />
+                    <ReactLoading style={centerDiv} type="bars" color="#444" height="70" width="20" />
+                </div>
             );
         } else if (phase === 'fetched') {
             return (
-                <div className="container">
-                    <div className="row">
-                        <div className="col-sm-5 text-center">
-                            <h1 style={h1NameStyle}>{recipe.title}</h1>
-                            <img src={recipe.photo} style={photoStyle} alt="" />
+                <div>
+                    <Header />
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-sm-5 text-center">
+                                <h1 style={h1NameStyle}>{recipe.title}</h1>
+                                <img src={recipe.photo} style={photoStyle} alt="" />
+                            </div>
+                            <div className="col-sm-7">
+                                <h3 style={h3NameStyle}>Rating:{recipe.rating}</h3>
+                                <h3 style={h3NameStyle}>Ingredients:</h3>
+                                <ol style={ulIngredients}>
+                                    {
+                                        recipe.ingredients.map((ingredient, index) => (
+                                            <li key={index}>{ingredient}</li>
+                                        ))
+                                    }
+                                </ol>
+                            </div>
                         </div>
-                        <div className="col-sm-7">
-                            <h3 style={h3NameStyle}>Rating:{recipe.rating}</h3>
-                            <h3 style={h3NameStyle}>Ingredients:</h3>
-                            <ol style={ulIngredients}>
-                                {
-                                    recipe.ingredients.map((ingredient, index) => (
-                                        <li key={index}>{ingredient}</li>
-                                    ))
-                                }
-                            </ol>
+                        <p>{recipe.description}</p>
+                        <div> Tags:&ensp;
+                            {this.createTagLinks(this.state.data.tags)}
                         </div>
-                    </div>
-                    <p>{recipe.description}</p>
-                    <div> Tags:&ensp;
-                        {this.createTagLinks(this.state.data.tags)}
-                    </div>
 
+                    </div>
                 </div>
             );
         } else if (phase === 'failedToFetch') {
             return (
-                <div>Failed to fetch data from server</div>
+                <div>
+                    <Header />
+                    <div>Failed to fetch data from server</div>
+                </div>
             );
         }
         return true;

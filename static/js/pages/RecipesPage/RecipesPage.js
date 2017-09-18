@@ -3,6 +3,7 @@ import Recipe from './Recipe';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 import config from '../../../../config';
+import Header from '../../common/Header';
 
 class RecipesPage extends Component {
     constructor(props) {
@@ -28,11 +29,14 @@ class RecipesPage extends Component {
     render() {
         let recipes = this.state.recipes;
         return (
-            <Grid>
-                <Row>
-                    <Recipe result={this.state.recipes} />
-                </Row>
-            </Grid>
+            <div>
+                <Header />
+                <Grid>
+                    <Row>
+                        <Recipe result={this.state.recipes} />
+                    </Row>
+                </Grid>
+            </div>
         );
     }
 }

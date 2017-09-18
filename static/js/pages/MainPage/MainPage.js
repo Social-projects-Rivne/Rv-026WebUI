@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Header from '../../common/Header';
+
 const bannerBlock = {
     fontSize:'80px',
     color:'white',
@@ -26,6 +28,7 @@ class MainPage extends Component {
     render(){
         return(
             <div style={background}>
+                <Header />
                 <p style={bannerBlock}>FOOD MAKE & DELIEVERY</p>
                 <p style={comment}>forget about hunger forever with FM&D!</p>
             </div>

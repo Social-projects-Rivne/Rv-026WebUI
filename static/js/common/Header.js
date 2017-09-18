@@ -4,6 +4,14 @@ import { browserHistory, Link } from 'react-router';
 import {Button, Form, FormGroup, FormControl, ButtonGroup, ButtonToolbar, Navbar, NavbarBrand, Collapse, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
 
 class Header extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { loggedIn: false};
+
+        this.renderLoginLogout = this.renderLoginLogout.bind(this);
+    }
+
     handleClick(e) {
         e.preventDefault();
         axios.get('/api/logout')
@@ -16,8 +24,31 @@ class Header extends Component {
             });
     }
 
-    render(){
-        return(
+    componentWillMount() {
+        if (document.cookie) {
+            this.setState({ loggedIn: true });
+        } else {
+            this.setState({ loggedIn: false });
+        }
+    }
+    renderLoginLogout() {
+        if (this.state.loggedIn) {
+            return (
+                <ul className="nav navbar-nav navbar-right">
+                    <li><a href="/api/logout">Log Out</a></li>
+                </ul>
+            );
+        }
+        return (
+            <ul className="nav navbar-nav navbar-right">
+                <li><a href="/signin">Log In</a></li>
+                <li><a href="/signup">Sign Up</a></li>
+            </ul>
+        );
+    }
+
+    render() {
+        return (
             <header>
                 <Navbar inverse collapseOnSelect>
                     <Navbar.Header>
@@ -39,12 +70,9 @@ class Header extends Component {
                                 <MenuItem divider />
                                 <MenuItem eventKey={5.3}>Separated link</MenuItem>
                             </NavDropdown>
-                            </Nav>
-
-                        <Nav pullRight>
-                            <NavItem eventKey={1} href="#">Login</NavItem>
-                            <NavItem eventKey={2} onClick={this.handleClick}>Log out</NavItem>
                         </Nav>
+
+                        {this.renderLoginLogout()};
                     </Navbar.Collapse>
                 </Navbar>
 

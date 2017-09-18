@@ -9,6 +9,7 @@ import MainPage from '../pages/MainPage';
 import SignInPage from '../pages/SignInPage';
 import RecipesPage from '../pages/RecipesPage';
 import CreateRecipePage from '../pages/CreateRecipePage';
+import RecipePage from '../pages/RecipePage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import SignUpSuccess from '../pages/SignUpSuccess/SignUpSuccess';
 import Terms from '../pages/Terms/Terms';

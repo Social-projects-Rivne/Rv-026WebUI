@@ -51,24 +51,17 @@ class RecipePage extends Component {
     componentWillMount() {
         const url = `/api/recipes/${this.props.params.id}`;
 
-        const isPositiveIntegerNumeric = (arg) => {
-            if (isNaN(+arg)) return false;
-            const k = Math.floor(arg);
-            return k === +arg && +arg > 0;
-        };
-
-        if (!isPositiveIntegerNumeric(this.props.params.id)) {
+        if (!this.props.params.id.match(/^[0-9]+$/)) {
             this.setState({ process: 'failedToFetch' });
         }
         // !!! wait only for demo purposes, remove for production!!!!!!!!!
         wait(2000)
             .then(() => axios.get(url))
             .then((res) => {
-                if (typeof (res.data) !== 'object' || res.data === 'Error') {
+                if (typeof (res.data) !== 'object' || res.data.length === 0) {
                     this.setState({ process: 'failedToFetch' });
                     return;
                 }
-                console.log(res.data); // adsfasdfasdfasdfS
                 this.setState({ process: 'fetched', data: res.data });
             })
             .catch((err) => {

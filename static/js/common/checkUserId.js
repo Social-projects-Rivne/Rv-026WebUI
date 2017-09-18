@@ -1,10 +1,10 @@
 import axios from 'axios';
 import config from '../../../config';
 
-const checkLogin = function checkLogin(nextState, replace, cb) {
+const checkUserId = function checkUserId(nextState, replace, cb) {
     return axios.get(`${config.serverUrl}/api/checkLogin`)
     .then((res) => {
-        if (res.data === 'alreadyLoggedIn') {
+        if (res.data !== 'alreadyLoggedIn') {
             replace('/');
             cb();
         } else {
@@ -12,6 +12,6 @@ const checkLogin = function checkLogin(nextState, replace, cb) {
         }
     })
     .catch(cb);
-};
+}
 
-module.exports = checkLogin;
+module.exports = checkUserId;

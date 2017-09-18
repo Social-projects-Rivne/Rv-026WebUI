@@ -81,7 +81,7 @@ describe('getRecipeById testing', () => {
             },
         );
         proxiedGetRecipeById(req, res);
-        expect(res.data).to.equal('Wrong id');
+        expect(res.data).to.equal('No such id in db');
     });
 
     it('should fail if db returns error', (done) => {

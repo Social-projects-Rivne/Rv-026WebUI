@@ -12,7 +12,7 @@ module.exports=function(){
   const createTags = {
     text:`CREATE TABLE IF NOT EXISTS tags(
             id                  serial         PRIMARY KEY,
-            name                varchar(30)    UNIQUE       NOT NULL,
+            name                varchar(30)    UNIQUE         NOT NULL,
             tag_description     text
           )`,
     values: [],
@@ -32,13 +32,15 @@ module.exports=function(){
               id              serial        PRIMARY KEY,
               fullname        varchar(64),
               role_id         integer       references    users_roles(id),
-              password        varchar(64),
+              password        char(64),
               email           varchar(50)   UNIQUE,
               is_premium      boolean,
               phone_number    varchar(24),
-              is_deleted      boolean DEFAULT TRUE,
               gravatar        varchar(100),
-              about_me         text
+              about_me        text,
+              is_activated    boolean DEFAULT FALSE,
+              activation_id   char(36),
+              is_deleted      date
           );`,
     values: [],
   }

@@ -1,15 +1,38 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import Recipe from './Recipe';
+import { Grid, Row, Col } from 'react-bootstrap';
+
+import config from '../../../../config';
 
 class RecipesPage extends Component {
-    render(){
-        return(
-            <div>
-                <h2>Recipes Page</h2>
-                <Link to="/recipes/new" className="btn btn-primary">
-                    Add Recipe
-                </Link>
-            </div> 
+    constructor(props) {
+        super(props);
+        this.state = { recipes: [] };
+    }
+
+    componentDidMount() {
+        this.getRecipesByTagId(this.props.params.tag_id)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.getRecipesByTagId(nextProps.params.tag_id);
+    }
+
+    getRecipesByTagId(tagId) {
+        var url = tagId ? `${config.serverUrl}/api/${tagId}/recipes` : `${config.serverUrl}/api/recipes`;
+        fetch(url)
+            .then(response => response.json())
+            .then(response => this.setState({ recipes: response }))
+    }
+
+    render() {
+        let recipes = this.state.recipes;
+        return (
+            <Grid>
+                <Row>
+                    <Recipe result={this.state.recipes} />
+                </Row>
+            </Grid>
         );
     }
 }

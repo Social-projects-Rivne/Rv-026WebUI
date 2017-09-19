@@ -37,7 +37,7 @@ class RecipeItem extends Component {
                         {tags.length > 0 ? <p>{tags}</p> : null}
                     </div>
                     <p className="card-read-more">
-                        <a href="#">Read More >></a>
+                        <Link to={`/recipes/${recipe.id}`}>Read More >></Link>
                     </p>
                 </div>
             </div>

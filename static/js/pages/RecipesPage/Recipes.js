@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 import RecipeItem from './RecipeItem';
 
-class Recipe extends Component {
+class Recipes extends Component {
     constructor(props) {
         super(props);
     }
@@ -21,8 +21,8 @@ class Recipe extends Component {
     }
 }
 
-Recipe.PropTypes = {
+Recipes.PropTypes = {
     result: PropTypes.array
 };
 
-export default Recipe;
+export default Recipes;

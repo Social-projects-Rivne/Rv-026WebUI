@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Recipe from './Recipe';
+import Recipes from './Recipes';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 import SearchComponent from '../../common/SearchComponent';
@@ -35,7 +35,7 @@ class RecipesPage extends Component {
         return (
             <Grid>
                 <SearchComponent getRecipes={this.getRecipes} />
-                <Recipe result={this.state.recipes} />
+                <Recipes result={this.state.recipes} />
             </Grid>
         );
     }

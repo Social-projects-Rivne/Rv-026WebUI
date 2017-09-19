@@ -3,6 +3,10 @@ import { Link } from 'react-router';
 import ReactLoading from 'react-loading';
 import React, { Component } from 'react';
 import wait from '../../common/wait';
+import EditableList from '../../common/EditableList';
+import EditableImage from '../../common/EditableImage';
+import EditableText from '../../common/EditableText';
+
 
 const photoStyle = {
     borderRadius: 10,
@@ -43,9 +47,16 @@ class RecipePage extends Component {
     constructor() {
         super();
         this.state = {
+            ingredientsStatus: '',
+            tagsStatus: '',
+            titleStatus: '',
+            photoStatus: '',
+            descriptionStatus: '',
             process: 'fetching',
             data: null,
         };
+        this.saveToDBList = this.saveToDBList.bind(this);
+        this.saveToDBText = this.saveToDBText.bind(this);
     }
 
     componentWillMount() {
@@ -71,12 +82,61 @@ class RecipePage extends Component {
             });
     }
 
-    createTagLinks = (tags) => {
-        if (tags.length !== 0) {
-            return tags.map((tag, index) => <span key={index}> <Link to="#">{tag.name}</Link> &ensp;</span>);
-        }
-        return 'no tags yet';
-    };
+    saveToDBList(id, addValue, deleteValue, fieldName) {
+        // wait only for demo purposes, remove for production!!!!
+
+        wait(3000)
+        .then(
+            () => {
+                const updatedValue = {
+                    id,
+                    fieldName,
+                    addValue,
+                    deleteValue,
+                };
+                axios.put(`/api/recipe/edit/${id}`, updatedValue)
+                .then((res) => {
+                    if (res.status === 200) {
+                        console.log("success", `${fieldName}Status`);
+                        this.setState({ [`${fieldName}Status`]: 'success' });
+                    } else {
+                        console.log("error");
+                        this.setState({ [`${fieldName}Status`]: 'error' });
+                    }
+                })
+                .catch(() => {
+                    console.log("catch error");
+                    this.setState({ [`${fieldName}Status`]: 'error' });
+                });
+            });
+    }
+
+    saveToDBText(id, fieldName, value) {
+        // wait only for demo purposes, remove for production!!!!
+        wait(3000)
+        .then(
+            () => {
+                const updatedValue = {
+                    id,
+                    fieldName,
+                    value,
+                };
+                axios.put(`/api/recipe/edit/${id}`, updatedValue)
+                .then((res) => {
+                    if (res.status === 200) {
+                        console.log("success", `${fieldName}Status`);
+                        this.setState({ [`${fieldName}Status`]: 'success' });
+                    } else {
+                        console.log("error");
+                        this.setState({ [`${fieldName}Status`]: 'error' });
+                    }
+                })
+                .catch(() => {
+                    console.log("catch error");
+                    this.setState({ [`${fieldName}Status`]: 'error' });
+                });
+            });
+    }
 
     render() {
         const recipe = this.state.data;
@@ -90,24 +150,49 @@ class RecipePage extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-5 text-center">
-                            <h1 style={h1NameStyle}>{recipe.title}</h1>
-                            <img src={recipe.photo} style={photoStyle} alt="" />
+                            <EditableText
+                                updateId={recipe.id}
+                                fieldName="title"
+                                status={this.state.titleStatus}
+                                style={h1NameStyle}
+                                text={recipe.title}
+                                onSave={this.saveToDBText}
+                                type={'input'}/>
+                            <EditableImage
+                                updateId={recipe.id}
+                                style={photoStyle}
+                                fieldName="photo"
+                                status={this.state.photoStatus}
+                                link={recipe.photo}
+                                onSave={this.saveToDBText}/>
                         </div>
                         <div className="col-sm-7">
                             <h3 style={h3NameStyle}>Rating:{recipe.rating}</h3>
                             <h3 style={h3NameStyle}>Ingredients:</h3>
-                            <ol style={ulIngredients}>
-                                {
-                                    recipe.ingredients.map((ingredient, index) => (
-                                        <li key={index}>{ingredient}</li>
-                                    ))
-                                }
-                            </ol>
+                                <EditableList 
+                                    updateId={recipe.id}
+                                    fieldName="ingredients"
+                                    data={recipe.ingredients}
+                                    status={this.state.ingredientsStatus}
+                                    onSave={this.saveToDBList}/>
                         </div>
                     </div>
-                    <p>{recipe.description}</p>
+                    <div>
+                        <EditableText
+                            updateId={recipe.id}
+                            fieldName="description"
+                            status={this.state.descriptionStatus}
+                            text={recipe.description}
+                            onSave={this.saveToDBText}
+                            type={'textarea'}/>
+                    </div>
                     <div> Tags:&ensp;
-                        {this.createTagLinks(this.state.data.tags)}
+                            <EditableList
+                                updateId={recipe.id}
+                                fieldName="tags"
+                                data={recipe.tags}
+                                status={this.state.tagsStatus}
+                                onSave={this.saveToDBList}/>
                     </div>
 
                 </div>

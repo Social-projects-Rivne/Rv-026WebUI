@@ -50,11 +50,13 @@ class RecipeItem extends Component {
 
         return (
             <Col sm={3}>
+                <Link to={`/recipes/${recipe.id}/`}>
                 <div style={recipeHead}>
                     <img className="img-rounded" src={recipe.photo} style={imgStyle} />
                     <span style={title}>{recipe.title}</span>
                 </div>
                 <p style={description}>{recipe.description}</p>
+                </Link>
                 {tags.length > 0 ? <p>{tags}</p> : null}
             </Col>
         );

@@ -171,7 +171,7 @@ const recipeHelper = (dbResponse) => {
     const ingredients = [];
 
     dbResponse.forEach((field) => {
-        ingredients.push(field.name);
+        ingredients.push({"id":field.ingredientid,"name":field.name});
     });
 
     const recipe = {
@@ -213,6 +213,70 @@ recipeController.getRecipeById = (req, res) => {
             });
         }
     });
+};
+
+recipeController.updateRecipe = (req, res) => {
+    const recipeData = req.body;
+    const recipeObject = new recipeModel();
+
+    if(recipeData.fieldName == "ingredients" || recipeData.fieldName == "tags"){
+        console.log(recipeData);
+        let status = true;
+        let fieldConnect = null;
+        let table = null;
+      if(recipeData.fieldName == "ingredients"){
+        fieldConnect = "ingredient";
+        table = "calc_card";
+      }
+      if(recipeData.fieldName == "tags"){
+        fieldConnect = "tag";
+        table = "recipe_tag";
+      }
+      recipeData.deleteValue.forEach((value) => {
+        db.query(recipeObject.deleteConnect(table, fieldConnect, recipeData.id, value.id), (error) => {
+          if(error){
+            status = false;
+          }
+        });
+      });
+      if(!status){
+        res.sendStatus(500)
+      }
+      recipeData.addValue.forEach((value) => {
+        db.query(recipeObject.updateRecipe(recipeData, value.name), (error, result) => {
+          if(result.rows){
+            const insertId = result.rows[0].id;
+            db.query(recipeObject.addConnect(table, fieldConnect, recipeData.id, insertId), (error) => {
+              if(error){
+                status = false;
+              }
+              else{
+                status = true;
+              }
+            });
+          }
+          else{
+            console.log(error);
+          }
+          });
+        });
+      if(status){
+        res.sendStatus(200)
+      }
+      else{
+        res.sendStatus(500);
+      }
+    }
+    else{
+        console.log(recipeData);
+        db.query(recipeObject.upsertData(recipeData), (err) => {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                res.sendStatus(200);
+            }
+        });
+    }
 };
 
 module.exports = recipeController;

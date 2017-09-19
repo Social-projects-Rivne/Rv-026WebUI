@@ -20,7 +20,7 @@ class SearchElement extends Component {
                 <img className="image" src={element.photo} />
                 <div className="text"> 
                     <p className="title">{element.title}</p>
-                    <p className="author">Автор: {element.fullname}</p>
+                    <p className="author">author: {element.fullname}</p>
                    
                 </div>
                 

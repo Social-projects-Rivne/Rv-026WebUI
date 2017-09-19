@@ -74,14 +74,23 @@
     color: gold;
     font-size: 16pt;
     width: 30%;
+    padding-top: 25px;
 
 }
 
 .search-section .search-elements .search-element .text .title{
     font-weight: bolder;
-    text-align: left;
-    padding-left: 10%;
+    float: left;
+    width: 50%;
+    padding-top: 25px;
 }
+
+.search-section .search-elements .search-element .text .author{
+    float: left;
+    width: 50%;
+    padding-top: 25px;
+}
+
 .search-section .search-elements .search-element:hover{
     background-color:#DCECF8;
     opacity: 1;

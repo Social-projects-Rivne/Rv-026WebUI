@@ -74,10 +74,8 @@ class ItemsList extends Component {
     deleteItem(index) {
         const array = this.state.items;
         const delArr = this.state.deletedItem;
-        const elem = array.splice(index, 1);
-        elem.forEach((item) => {
-            delArr.push({ 'id': item.id, 'name': item.name });
-        });
+        const elem = array.splice(index, 1)[0];
+        delArr.push({ 'id': elem.id, 'name': elem.name });
         this.setState({ deletedItem: delArr, items: array });
     }
 

@@ -28,7 +28,8 @@ class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
-    onSearchItemChange: PropTypes.func
+    onSearchItemChange: PropTypes.func,
+    onSearchItemNow: PropTypes.func,
 };
 
 export default SearchBar;

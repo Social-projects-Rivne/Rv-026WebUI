@@ -4,12 +4,8 @@ import { browserHistory } from 'react-router';
 import SearchElementRating from './SearchElementRating';
 
 class SearchElement extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     onClick(recipeId) {
-        browserHistory.push(`/recipe/${recipeId}`);
+        browserHistory.push(`/recipes/${recipeId}`);
     }
 
     render() {
@@ -17,13 +13,11 @@ class SearchElement extends Component {
 
         return (
             <div key={element.id} className="search-element" onClick={() => this.onClick(element.id)}>
-                <img className="image" src={element.photo} />
+                <img className="image" src={element.photo} alt={element.title} />
                 <div className="text">
                     <p className="title">{element.title}</p>
                     <p className="author">author: {element.fullname}</p>
-
                 </div>
-
                 <SearchElementRating stars={element.rating} />
             </div>
         );
@@ -31,7 +25,7 @@ class SearchElement extends Component {
 }
 
 SearchElement.PropTypes = {
-    element: PropTypes.object
+    element: PropTypes.object,
 };
 
 export default SearchElement;

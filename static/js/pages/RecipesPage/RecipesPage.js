@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { Grid } from 'react-bootstrap';
 import Recipes from './Recipes';
-import { Grid, Row, Col } from 'react-bootstrap';
 
 import SearchComponent from './SearchComponent';
 import Header from '../../common/Header';
@@ -13,49 +13,44 @@ class RecipesPage extends Component {
     }
 
     componentDidMount() {
-        this.changeRecipeParams(this.props.params.tag_id, this.props.params.name, this.props.params.tagtype);
+        this.changeRecipeParams(
+            this.props.params.tag_id, 
+            this.props.params.name, 
+            this.props.params.tagtype
+        );
     }
 
     componentWillReceiveProps(nextProps) {
-        this.changeRecipeParams(nextProps.params.tag_id, nextProps.params.name, nextProps.params.tagtype);
-    }
-
-    changeRecipeParams(tagId, name, tagtype) {
-        if (tagId) {
-            this.getRecipesByTagId(tagId);
-        } else if (name) {
-            this.getRecipesByName(name);
-        } else if (tagtype) {
-            this.getRecipesByTagType(tagtype);
-        }
-        else {
-            this.getAllRecipes();
-        }
+        this.changeRecipeParams(
+            nextProps.params.tag_id, 
+            nextProps.params.name, 
+            nextProps.params.tagtype
+        );
     }
 
     getAllRecipes() {
-        var url = `/api/recipes`;
+        const url = '/api/recipes';
         fetch(url)
             .then(response => response.json())
             .then(response => this.setState({ recipes: response }))
     }
 
     getRecipesByTagId(tagId) {
-        var url = `/api/${tagId}/recipes`;
+        const url = `/api/${tagId}/recipes`;
         fetch(url)
             .then(response => response.json())
             .then(response => this.setState({ recipes: response }))
     }
 
     getRecipesByName(name) {
-        var url = `/api/recipes/search/name=${name}`;
+        const url = `/api/recipes/search/name=${name}`;
         fetch(url)
             .then(response => response.json())
             .then(response => this.setState({ recipes: response }))
     }
 
     getRecipesByTagType(tagtype) {
-        var url = `/api/recipes/search/tagtype=${tagtype}`;
+        const url = `/api/recipes/search/tagtype=${tagtype}`;
         fetch(url)
             .then(response => response.json())
             .then(response => this.setState({ recipes: response }))
@@ -65,8 +60,19 @@ class RecipesPage extends Component {
         this.setState({ recipes: elements });
     }
 
+    changeRecipeParams(tagId, name, tagtype) {
+        if (tagId) {
+            this.getRecipesByTagId(tagId);
+        } else if (name) {
+            this.getRecipesByName(name);
+        } else if (tagtype) {
+            this.getRecipesByTagType(tagtype);
+        } else {
+            this.getAllRecipes();
+        }
+    }
+
     render() {
-        let recipes = this.state.recipes;
         return (
             <div>
                 <Header />

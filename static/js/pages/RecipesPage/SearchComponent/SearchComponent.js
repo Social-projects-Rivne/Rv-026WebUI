@@ -17,7 +17,7 @@ class SearchComponent extends Component {
             elements: [],
             type: 'searchByName',
             item: '',
-            itemNow: ''
+            itemNow: '',
         };
 
         this.typeChange = this.typeChange.bind(this);
@@ -31,43 +31,14 @@ class SearchComponent extends Component {
         }
     }
 
-    elementSearch(item) {
-        if (item) {
-            switch (this.state.type) {
-                case "searchByName":
-                    axios.post(`/api/recipes/search/name`, { item })
-                        .then(response => { this.setState({ elements: response.data }) })
-                        .catch(error => console.log(error));
-                    break;
-                case "searchByTagCategory":
-                    axios.post(`/api/recipes/search/tagtype`, { item })
-                        .then(response => { this.setState({ elements: response.data }) })
-                        .catch(error => console.log(error));
-                    break;
-                default:
-                    this.setState({ elements: [] });
-            }
-            this.setState({ item });
-        } else {
-            this.setState({ elements: [] });
-            this.setState({ item: '' })
-        }
-
-    }
-
-    typeChange(type) {
-        this.setState({ type });
-        this.setState({ elements: [] });
-    }
-
     onSearchItemNow(itemNow) {
         this.setState({ itemNow });
     }
 
     onSubmit(e) {
         e.preventDefault();
-        var itemNow = this.state.itemNow;
-        var type = this.state.type;
+        const itemNow = this.state.itemNow;
+        const type = this.state.type;
 
         if (!itemNow || !type) {
             return;
@@ -80,11 +51,38 @@ class SearchComponent extends Component {
         }
 
         this.setState({ elements: [] });
+    }
 
+    elementSearch(item) {
+        if (item) {
+            switch (this.state.type) {
+            case 'searchByName':
+                axios.post('/api/recipes/search/name', { item })
+                    .then(response => this.setState({ elements: response.data }))
+                    .catch(error => console.log(error));
+                break;
+            case 'searchByTagCategory':
+                axios.post('/api/recipes/search/tagtype', { item })
+                    .then(response => this.setState({ elements: response.data }))
+                    .catch(error => console.log(error));
+                break;
+            default:
+                this.setState({ elements: [] });
+            }
+            this.setState({ item });
+        } else {
+            this.setState({ elements: [] });
+            this.setState({ item: '' });
+        }
+    }
+
+    typeChange(type) {
+        this.setState({ type });
+        this.setState({ elements: [] });
     }
 
     render() {
-        const elementSearchDelay = _.debounce((item) => { this.elementSearch(item) }, 300);
+        const elementSearchDelay = _.debounce((item) => { this.elementSearch(item); }, 300);
         return (
             <section className="search-section">
                 <h1 className="search-title">Welcome! Whanna Chew?</h1>
@@ -108,7 +106,7 @@ class SearchComponent extends Component {
 }
 
 SearchComponent.propTypes = {
-    getRecipes: PropTypes.func
+    getRecipes: PropTypes.func,
 };
 
 export default SearchComponent;

@@ -6,7 +6,7 @@ class DropDown extends Component {
         super(props);
 
         this.onChange = this.onChange.bind(this);
-    };
+    }
 
     onChange(event) {
         this.props.onSearchTypeChange(event.target.value);
@@ -23,7 +23,7 @@ class DropDown extends Component {
 }
 
 DropDown.propTypes = {
-    onSearchTypeChange: PropTypes.func
+    onSearchTypeChange: PropTypes.func,
 };
 
 

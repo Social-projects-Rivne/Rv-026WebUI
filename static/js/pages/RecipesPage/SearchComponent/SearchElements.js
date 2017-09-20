@@ -4,12 +4,8 @@ import PropTypes from 'prop-types';
 import SearchElement from './SearchElement';
 
 class SearchElements extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     renderListSearchElements() {
-        return this.props.allElements.map(element => {
+        return this.props.allElements.map((element) => {
             return (
                 <SearchElement
                     key={element.id}
@@ -29,7 +25,7 @@ class SearchElements extends Component {
 }
 
 SearchElements.PropTypes = {
-    allElements: PropTypes.array
-}
+    allElements: PropTypes.array,
+};
 
 export default SearchElements;

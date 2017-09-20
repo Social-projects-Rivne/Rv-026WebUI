@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
 import RecipeItem from './RecipeItem';
 
 class Recipes extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-        var recipe = this.props.result.map(function (result, index) {
-            return <RecipeItem key={index} recipe={result} />
+        const recipe = this.props.result.map((result) => {
+            return <RecipeItem key={result.id} recipe={result} />;
         });
         return (
             <div className="grid">
@@ -22,7 +17,7 @@ class Recipes extends Component {
 }
 
 Recipes.PropTypes = {
-    result: PropTypes.array
+    result: PropTypes.array,
 };
 
 export default Recipes;

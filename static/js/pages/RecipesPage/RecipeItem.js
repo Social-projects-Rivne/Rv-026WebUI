@@ -1,24 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Grid, Row, Col } from 'react-bootstrap';
 
 class RecipeItem extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-        var recipe = this.props.recipe;
-        var ids = recipe.tags_id;
-        var tags_name = recipe.tags_name;
-        var tags = [];
+        const recipe = this.props.recipe;
+        const ids = recipe.tags_id;
+        const tagsName = recipe.tags_name;
+        const tags = [];
 
-        for (var i = 0; i < ids.length; i++) {
+        for (let i = 0; i < ids.length; i++) {
             if (ids[i]) {
                 tags.push(
                     <span key={i}>
-                        <Link to={`/${ids[i]}/recipes`} className='badge card-tag'>{tags_name[i]}</Link>{'\u00A0'}
+                        <Link to={`/${ids[i]}/recipes`} className="badge card-tag">{tagsName[i]}</Link>{'\u00A0'}
                     </span>);
             }
         }
@@ -37,17 +32,16 @@ class RecipeItem extends Component {
                         {tags.length > 0 ? <p>{tags}</p> : null}
                     </div>
                     <p className="card-read-more">
-                        <Link to={`/recipes/${recipe.id}`}>Read More >></Link>
+                        <Link to={`/recipes/${recipe.id}`}>Read More </Link>
                     </p>
                 </div>
             </div>
         );
-
     }
 }
 
 RecipeItem.PropTypes = {
-    recipe: PropTypes.object
+    recipe: PropTypes.object,
 };
 
 export default RecipeItem;

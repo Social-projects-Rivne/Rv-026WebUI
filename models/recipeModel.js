@@ -96,12 +96,12 @@ class recipeModel {
               ON CONFLICT (name) DO UPDATE SET name=EXCLUDED.name RETURNING id`;
     }
 
-    deleteConnect(table, fieldName, recipeId, insertId){
+    removeDbLink(table, fieldName, recipeId, insertId){
       return `DELETE FROM ${table}
               WHERE recipe_id =${recipeId} AND ${fieldName}_id = ${insertId}`;
     }
 
-    addConnect(table, fieldName, recipeId, insertId){
+    addDbLink(table, fieldName, recipeId, insertId){
       return `INSERT INTO ${table} (recipe_id, ${fieldName}_id)
               SELECT ${recipeId}, ${insertId}
               WHERE NOT EXISTS (SELECT id FROM ${table} WHERE recipe_id = ${recipeId} AND ${fieldName}_id = ${insertId});`;

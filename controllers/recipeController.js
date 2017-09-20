@@ -56,7 +56,7 @@ recipeController.createRecipe = (req, res, next) => {
                                             return next(err);
                                         } else {
                                             var allTagsArray = result.rows;
-                                            var allTagsNameArray = allTagsArray.map(function (tag) {
+                                            var allTagsNameArray = allTagsArray.map(function(tag) {
                                                 return tag.name;
                                             });
                                             var uniqueTagsArray = recipeArrayTags.filter((o) => {
@@ -170,12 +170,12 @@ recipeController.getAllRecepies = (req, res, next) => {
 const recipeHelper = (dbResponse, cookie_id) => {
     const ingredients = [];
     var is_ok = false;
-    if(parseInt(dbResponse[0].owner_id) === parseInt(cookie_id)){
+    if (parseInt(dbResponse[0].owner_id) === parseInt(cookie_id)) {
         is_ok = true;
     }
 
     dbResponse.forEach((field) => {
-        ingredients.push({"id":field.ingredientid,"name":field.name});
+        ingredients.push({ "id": field.ingredientid, "name": field.name });
     });
 
     const recipe = {
@@ -184,7 +184,7 @@ const recipeHelper = (dbResponse, cookie_id) => {
         description: dbResponse[0].description,
         rating: dbResponse[0].rating,
         photo: dbResponse[0].photo,
-        is_owner:is_ok,
+        is_owner: is_ok,
         ingredients,
     };
 
@@ -225,56 +225,50 @@ recipeController.updateRecipe = (req, res) => {
     const recipeData = req.body;
     const recipeObject = new recipeModel();
 
-    if(recipeData.fieldName == "ingredients" || recipeData.fieldName == "tags"){
-        console.log(recipeData);
+    if (recipeData.fieldName == "ingredients" || recipeData.fieldName == "tags") {
         let status = true;
         let fieldConnect = null;
         let table = null;
-      if(recipeData.fieldName == "ingredients"){
-        fieldConnect = "ingredient";
-        table = "calc_card";
-      }
-      if(recipeData.fieldName == "tags"){
-        fieldConnect = "tag";
-        table = "recipe_tag";
-      }
-      recipeData.deleteValue.forEach((value) => {
-        db.query(recipeObject.deleteConnect(table, fieldConnect, recipeData.id, value.id), (error) => {
-          if(error){
-            status = false;
-          }
-        });
-      });
-      if(!status){
-        res.sendStatus(500)
-      }
-      recipeData.addValue.forEach((value) => {
-        db.query(recipeObject.updateRecipe(recipeData, value.name), (error, result) => {
-          if(result.rows){
-            const insertId = result.rows[0].id;
-            db.query(recipeObject.addConnect(table, fieldConnect, recipeData.id, insertId), (error) => {
-              if(error){
-                status = false;
-              }
-              else{
-                status = true;
-              }
+        if (recipeData.fieldName == "ingredients") {
+            fieldConnect = "ingredient";
+            table = "calc_card";
+        }
+        if (recipeData.fieldName == "tags") {
+            fieldConnect = "tag";
+            table = "recipe_tag";
+        }
+        recipeData.deleteValue.forEach((value) => {
+            db.query(recipeObject.removeDbLink(table, fieldConnect, recipeData.id, value.id), (error) => {
+                if (error) {
+                    status = false;
+                }
             });
-          }
-          else{
-            console.log(error);
-          }
-          });
         });
-      if(status){
-        res.sendStatus(200)
-      }
-      else{
-        res.sendStatus(500);
-      }
-    }
-    else{
-        console.log(recipeData);
+        if (!status) {
+            res.sendStatus(500)
+        }
+        recipeData.addValue.forEach((value) => {
+            db.query(recipeObject.updateRecipe(recipeData, value.name), (error, result) => {
+                if (result.rows) {
+                    const insertId = result.rows[0].id;
+                    db.query(recipeObject.addDbLink(table, fieldConnect, recipeData.id, insertId), (error) => {
+                        if (error) {
+                            status = false;
+                        } else {
+                            status = true;
+                        }
+                    });
+                } else {
+                    console.log(error);
+                }
+            });
+        });
+        if (status) {
+            res.sendStatus(200)
+        } else {
+            res.sendStatus(500);
+        }
+    } else {
         db.query(recipeObject.upsertData(recipeData), (err) => {
             if (err) {
                 res.sendStatus(500);

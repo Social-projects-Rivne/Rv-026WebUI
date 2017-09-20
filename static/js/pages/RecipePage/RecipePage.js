@@ -40,7 +40,7 @@ const centerDiv = {
 };
 
 class RecipePage extends Component {
-    propTypes = {
+    static propTypes = {
         params: React.PropTypes.object.isRequired,
     }
 
@@ -150,49 +150,66 @@ class RecipePage extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-5 text-center">
-                            <EditableText
-                                updateId={recipe.id}
-                                fieldName="title"
-                                status={this.state.titleStatus}
-                                style={h1NameStyle}
-                                text={recipe.title}
-                                onSave={this.saveToDBText}
-                                type={'input'}/>
-                            <EditableImage
-                                updateId={recipe.id}
-                                style={photoStyle}
-                                fieldName="photo"
-                                status={this.state.photoStatus}
-                                link={recipe.photo}
-                                onSave={this.saveToDBText}/>
+                        {recipe.is_owner 
+                            ? 
+                        <EditableText
+                            updateId={recipe.id}
+                            fieldName="title"
+                            status={this.state.titleStatus}
+                            style={h1NameStyle}
+                            text={recipe.title}
+                            onSave={this.saveToDBText}
+                            type={'input'}/> 
+                            : 
+                        <h1 style={h1NameStyle}>{recipe.title}</h1>}
+
+                        {recipe.is_owner 
+                            ?
+                        <EditableImage
+                            updateId={recipe.id}
+                            style={photoStyle}
+                            fieldName="photo"
+                            status={this.state.photoStatus}
+                            link={recipe.photo}
+                            onSave={this.saveToDBText}/>
+                            :
+                        <img src={recipe.photo} style={photoStyle} alt="" />}
                         </div>
                         <div className="col-sm-7">
                             <h3 style={h3NameStyle}>Rating:{recipe.rating}</h3>
                             <h3 style={h3NameStyle}>Ingredients:</h3>
-                                <EditableList 
-                                    updateId={recipe.id}
-                                    fieldName="ingredients"
-                                    data={recipe.ingredients}
-                                    status={this.state.ingredientsStatus}
-                                    onSave={this.saveToDBList}/>
+                            <EditableList 
+                                owner = {recipe.is_owner}
+                                updateId={recipe.id}
+                                fieldName="ingredients"
+                                data={recipe.ingredients}
+                                status={this.state.ingredientsStatus}
+                                onSave={this.saveToDBList}/>
                         </div>
                     </div>
                     <div>
-                        <EditableText
-                            updateId={recipe.id}
-                            fieldName="description"
-                            status={this.state.descriptionStatus}
-                            text={recipe.description}
-                            onSave={this.saveToDBText}
-                            type={'textarea'}/>
+                    {recipe.is_owner 
+                        ?
+                    <EditableText
+                        owner = {recipe.is_owner}
+                        updateId={recipe.id}
+                        fieldName="description"
+                        status={this.state.descriptionStatus}
+                        text={recipe.description}
+                        onSave={this.saveToDBText}
+                        type={'textarea'}/>
+                        :
+                    <p>{recipe.description}</p>
+                    }
                     </div>
                     <div> Tags:&ensp;
-                            <EditableList
-                                updateId={recipe.id}
-                                fieldName="tags"
-                                data={recipe.tags}
-                                status={this.state.tagsStatus}
-                                onSave={this.saveToDBList}/>
+                        <EditableList
+                            owner = {recipe.is_owner}
+                            updateId={recipe.id}
+                            fieldName="tags"
+                            data={recipe.tags}
+                            status={this.state.tagsStatus}
+                            onSave={this.saveToDBList}/>
                     </div>
 
                 </div>

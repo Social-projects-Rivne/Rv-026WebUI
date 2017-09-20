@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
+
 
 import wait from './wait';
 
@@ -35,7 +37,7 @@ class ItemsList extends Component{
 
   constructor(props){
     super(props);
-    this.state = { 
+    this.state = {
       cancelItem: [],
       deletedItem: [], 
       items: this.props.data, 
@@ -87,7 +89,7 @@ class ItemsList extends Component{
   }
 
   cancelEdit() {
-    var arr = this.state.items;
+    var arr = this.state.cancelItem;
     this.state.deletedItem.forEach((item) => {
         arr.push({"id":item.id,"name":item.name});
     });
@@ -95,7 +97,8 @@ class ItemsList extends Component{
   }
 
   edit(){
-    this.setState({ editing: !this.state.editing});
+    var arr = this.state.items;
+    this.setState({ cancelItem: arr, editing: !this.state.editing});
   }
 
   saveEdit() {
@@ -118,9 +121,16 @@ class ItemsList extends Component{
 
 
   render() {
+    if(this.props.fieldName === "tags"){
+      var items = this.state.items.map(function(item,index){
+        return <li key={index}> <Link to={item.id ? `/${item.id}/recipes` : `#`}>{item.name}</Link> &ensp;{ this.state.editing ? <button onClick={this.deleteItem.bind(this,index)} type="button" className="btn btn-danger btn-sm">Remove</button> : null}</li>
+      }, this);
+    }
+    else{
       var items = this.state.items.map(function(item,index){
         return <li key={index}> { item.name } &nbsp; { this.state.editing ? <button onClick={this.deleteItem.bind(this,index)} type="button" className="btn btn-danger btn-sm">Remove</button> : null}</li>
-    }, this);
+      }, this);
+    }
     if(this.state.editing){
       return(
       <div>
@@ -160,7 +170,7 @@ class ItemsList extends Component{
           </div>
         <div>{this.state.message}</div>
         {this.renderSavingAnimation()}
-        <button style={buttonCommon} onClick={this.edit}>Edit</button>
+        {this.props.owner ? <button style={buttonCommon} onClick={this.edit}>Edit</button> : null}        
       </div>
     );
   }

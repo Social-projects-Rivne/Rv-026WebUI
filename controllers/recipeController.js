@@ -167,8 +167,12 @@ recipeController.getAllRecepies = (req, res, next) => {
 };
 
 
-const recipeHelper = (dbResponse) => {
+const recipeHelper = (dbResponse, cookie_id) => {
     const ingredients = [];
+    var is_ok = false;
+    if(parseInt(dbResponse[0].owner_id) === parseInt(cookie_id)){
+        is_ok = true;
+    }
 
     dbResponse.forEach((field) => {
         ingredients.push({"id":field.ingredientid,"name":field.name});
@@ -180,6 +184,7 @@ const recipeHelper = (dbResponse) => {
         description: dbResponse[0].description,
         rating: dbResponse[0].rating,
         photo: dbResponse[0].photo,
+        is_owner:is_ok,
         ingredients,
     };
 
@@ -188,6 +193,7 @@ const recipeHelper = (dbResponse) => {
 
 recipeController.getRecipeById = (req, res) => {
     const id = req.params.id;
+    let ownerId = signinController.sessions[req.cookies.access];
 
     if (!id.match(/^[0-9]+$/)) {
         res.json(new Error('Wrong id').message);
@@ -201,7 +207,7 @@ recipeController.getRecipeById = (req, res) => {
         } else if (result.rows.length === 0) {
             res.json(new Error('No such id in db').message);
         } else {
-            const recipe = recipeHelper(result.rows);
+            const recipe = recipeHelper(result.rows, ownerId);
 
             db.query(recipeObject.getTagsByRecipeId(id), (error, resultInner) => {
                 recipe.tags = [];

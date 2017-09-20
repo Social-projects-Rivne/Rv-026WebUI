@@ -1,26 +1,33 @@
 import axios from 'axios';
+import createHash from 'sha.js';
 import { browserHistory } from 'react-router';
 import React, { Component } from 'react';
 import { Button, FormControl, FormGroup } from 'react-bootstrap';
 
 const errorStyle = {
-    color: 'red',
     fontSize: '12px',
-    marginTop: '5px'
-}
+    marginTop: '5px',
+};
 
 const formStyle = {
-    width: '400px'
-}
+    width: '400px',
+};
 
 class SignInForm extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            email: '',
-            password: '',
-            error: 'Email and password required'
+            email: {
+                value: '',
+                error: true,
+            },
+            password: {
+                value: '',
+                error: true,
+            },
+            error: '*Email and password are required',
+            serverError: '',
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,54 +37,69 @@ class SignInForm extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        let credentials = {};
-        credentials.email = this.state.email;
-        credentials.password = this.state.password;
+        const credentials = {};
+
+        credentials.email = this.state.email.value;
+        const sha256 = createHash('sha256');
+        credentials.password = sha256.update(this.state.password.value, 'utf8').digest('hex');
 
         axios.post('/api/login', credentials)
-        .then(res => {
+        .then((res) => {
             if (res.data === 'ok') {
-                this.clearFieldError();
                 browserHistory.push('/');
             } else {
-                this.setFieldError(res.data);
+                this.setState({ serverError: `*${res.data}` });
             }
         })
-        .catch(err => {
+        .catch((err) => {
             console.log(err.stack);
             console.log('Failed to log in');
         });
     }
 
-    setFieldValue(name, value) {
-        this.setState(Object.assign(this.state, {
-            [name]: value
-        }));
-    }
-
-    setFieldError(error) {
-        this.setState(Object.assign(this.state, {
-            error,
-        }));
-    }
-
-    clearFieldError() {
-            this.setState(Object.assign(this.state, {
-                error: '',
-            }));
-    }
-
     handleChange(e) {
         const target = e.target;
         const name = target.name;
-        this.setFieldValue(name, target.value);
+
+        const errors = {};
+        errors.email = target.name === 'email'
+            ? target.validity.valueMissing
+            : this.state.email.error;
+        errors.password = target.name === 'password'
+            ? target.validity.valueMissing
+            : this.state.password.error;
+        const error = this.getFormError(errors.email, errors.password);
+
+        this.setState(
+            {
+                [name]: {
+                    value: target.value,
+                    error: errors[target.name],
+                },
+                error,
+                serverError: '',
+            },
+        );
     }
 
-    errorMessage = (m) => m === null ? <div style={{display:'inline-block'}}> </div> : <div style={errorStyle} className="SignupForm--errorText">{m}</div>;
+    getFormError = (emailError, passwordError) => {
+        if (emailError && passwordError) {
+            return 'Email and password are required';
+        }
+        if (emailError) {
+            return 'Email is required';
+        }
+        if (passwordError) {
+            return 'Password is required';
+        }
+        return '';
+    }
 
-    render () {
+    errorMessage = m => m === null ? <div style={{ display: 'inline-block' }}> </div> : <div style={errorStyle} className="SignupForm--errorText">{m}</div>;
+
+    render() {
         return (
-            <form style={formStyle} onSubmit={this.handleSubmit} noValidate>
+            <form style={formStyle} onSubmit={this.handleSubmit} noValidate autoComplete="off">
 
                 <FormGroup>
                     <label htmlFor="SigninForm--email">Email</label>
@@ -88,7 +110,8 @@ class SignInForm extends Component {
                         id="SigninForm--email"
                         required
                         onChange={this.handleChange}
-                        />
+                        autoComplete="off"
+                    />
                 </FormGroup>
 
                 <FormGroup>
@@ -100,13 +123,20 @@ class SignInForm extends Component {
                         id="SigninForm--password"
                         required
                         onChange={this.handleChange}
-                        />
-                        {this.errorMessage(this.state.error)}
+                        autoComplete="off"
+                    />
+                    {this.errorMessage(this.state.serverError || this.state.error)}
                 </FormGroup>
 
-                <Button bsStyle='primary' type='submit' >Sign In</Button>
+                <Button
+                    bsStyle="primary"
+                    type="submit"
+                    disabled={this.state.error !== ''}
+                >
+                Sign In
+                </Button>
 
-        </form>
+            </form>
         );
     }
 }

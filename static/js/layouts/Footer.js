@@ -19,8 +19,6 @@ const footerLinks = {
     color:'white'
 }
 
-
-
 class Footer extends Component {
     render(){
         return(

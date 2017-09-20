@@ -5,6 +5,7 @@ import AlertContainer from 'react-alert'
 import config from '../../../../config';
 
 import RecipesForm from './RecipesForm';
+import Header from '../../common/Header';
 
 class CreateRecipePage extends Component {
     constructor(props) {
@@ -56,6 +57,7 @@ class CreateRecipePage extends Component {
     render() {
         return (
             <div className="container">
+                <Header />
                 <RecipesForm handleSubmit={this.handleSubmit} />
                 <AlertContainer ref={a => this.msg = a} {...this.alertOptions} />
             </div>

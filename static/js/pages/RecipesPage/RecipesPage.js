@@ -3,6 +3,7 @@ import Recipes from './Recipes';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 import SearchComponent from './SearchComponent';
+import Header from '../../common/Header';
 
 class RecipesPage extends Component {
     constructor(props) {
@@ -67,10 +68,13 @@ class RecipesPage extends Component {
     render() {
         let recipes = this.state.recipes;
         return (
-            <Grid>
-                <SearchComponent getRecipes={this.getRecipes} />
-                <Recipes result={this.state.recipes} />
-            </Grid>
+            <div>
+                <Header />
+                <Grid>
+                    <SearchComponent getRecipes={this.getRecipes} />
+                    <Recipes result={this.state.recipes} />
+                </Grid>
+            </div>
         );
     }
 }

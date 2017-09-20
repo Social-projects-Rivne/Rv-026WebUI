@@ -244,4 +244,52 @@ recipeController.autocompleteRecepiesByName = (req, res, next) => {
 
 }
 
+const recipeHelper = (dbResponse) => {
+    const ingredients = [];
+
+    dbResponse.forEach((field) => {
+        ingredients.push(field.name);
+    });
+
+    const recipe = {
+        id: dbResponse[0].id,
+        title: dbResponse[0].title,
+        description: dbResponse[0].description,
+        rating: dbResponse[0].rating,
+        photo: dbResponse[0].photo,
+        ingredients,
+    };
+
+    return recipe;
+};
+
+recipeController.getRecipeById = (req, res) => {
+    const id = req.params.id;
+
+    if (!id.match(/^[0-9]+$/)) {
+        res.json(new Error('Wrong id').message);
+        return;
+    }
+
+    const recipeObject = new recipeModel()
+    db.query(recipeObject.getRecipeById(id), (err, result) => {
+        if (err) {
+            res.json(err.name);
+        } else if (result.rows.length === 0) {
+            res.json(new Error('No such id in db').message);
+        } else {
+            const recipe = recipeHelper(result.rows);
+
+            db.query(recipeObject.getTagsByRecipeId(id), (error, resultInner) => {
+                recipe.tags = [];
+                // we don't check for errors and return just blank array for tags
+                if (resultInner.rows.length > 0) {
+                    recipe.tags = resultInner.rows;
+                }
+                res.json(recipe);
+            });
+        }
+    });
+};
+
 module.exports = recipeController;

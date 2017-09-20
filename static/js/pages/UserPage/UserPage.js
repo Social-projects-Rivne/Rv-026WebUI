@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Result from './Result';
+import Header from '../../common/Header';
 
 class User extends React.Component {
    constructor() {
@@ -17,6 +18,7 @@ class User extends React.Component {
       let user = this.state.user
       return(
         <div>
+          <Header />
           <Result result={this.state.user}/>
         </div>
       );

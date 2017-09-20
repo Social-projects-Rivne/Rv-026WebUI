@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { browserHistory } from 'react-router';
+
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -14,11 +16,13 @@ class SearchComponent extends Component {
         this.state = {
             elements: [],
             type: 'searchByName',
-            item: ''
+            item: '',
+            itemNow: ''
         };
 
         this.typeChange = this.typeChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onSearchItemNow = this.onSearchItemNow.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -31,7 +35,7 @@ class SearchComponent extends Component {
         if (item) {
             switch (this.state.type) {
                 case "searchByName":
-                    axios.post(`/api/recipes/search`, { item })
+                    axios.post(`/api/recipes/search/name`, { item })
                         .then(response => { this.setState({ elements: response.data }) })
                         .catch(error => console.log(error));
                     break;
@@ -56,15 +60,27 @@ class SearchComponent extends Component {
         this.setState({ elements: [] });
     }
 
+    onSearchItemNow(itemNow) {
+        this.setState({ itemNow });
+    }
+
     onSubmit(e) {
         e.preventDefault();
-        var item = this.state.item;
+        var itemNow = this.state.itemNow;
         var type = this.state.type;
-        var elements = this.state.elements;
-        if (!item || !type) {
+
+        if (!itemNow || !type) {
             return;
         }
-        this.props.getRecipes(elements);
+
+        if (type === 'searchByName') {
+            browserHistory.push(`/recipes/search/name=${itemNow}`);
+        } else if (type === 'searchByTagCategory') {
+            browserHistory.push(`/recipes/search/tagtype=${itemNow}`);
+        }
+
+        this.setState({ elements: [] });
+
     }
 
     render() {
@@ -77,7 +93,7 @@ class SearchComponent extends Component {
                         <form onSubmit={this.onSubmit}>
                             <div className="input-group header-search-group">
                                 <DropDown onSearchTypeChange={this.typeChange} />
-                                <SearchBar onSearchItemChange={elementSearchDelay} />
+                                <SearchBar onSearchItemNow={this.onSearchItemNow} onSearchItemChange={elementSearchDelay} />
                                 <span className="input-group-btn">
                                     <button type="submit" className="btn btn-primary">Go!</button>
                                 </span>

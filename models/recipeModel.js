@@ -74,7 +74,7 @@ class recipeModel {
         return query;
     };
 
-    findRicipeByName(recipeName) {
+    findRicipesByName(recipeName) {
         const query = {
             text:
             `SELECT r.id,
@@ -99,7 +99,7 @@ class recipeModel {
         return query;
     };
 
-    findRicipeByTagType(tagType) {
+    findRicipesByTagType(tagType) {
         const query = {
             text:`
             SELECT r.id,
@@ -124,6 +124,59 @@ class recipeModel {
         return query;
     };
     
+    findTop5RicipesByName(recipeName) {
+        const query = {
+            text:
+            `SELECT r.id,
+	            r.title, 
+                r.description, 
+	            r.is_deleted, 
+	            r.photo, 
+                r.owner_id, 
+	            r.rating,
+	            u.fullname,
+                array_agg(t.id) as tags_id, 
+                array_agg(t.name) as tags_name
+            FROM recipes r
+            FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
+            LEFT JOIN tags t ON rt.tag_id = t.id 
+            INNER JOIN users u ON u.id = r.owner_id
+            WHERE LOWER(r.title) LIKE $1||'%'
+            GROUP BY r.id,u.id
+            ORDER BY r.rating DESC
+            LIMIT 5
+            `,
+            values:[recipeName]
+        }
+        return query;
+    };
+
+    findTop5RicipesByTagType(tagType) {
+        const query = {
+            text:`
+            SELECT r.id,
+	            r.title, 
+                r.description, 
+	            r.is_deleted, 
+	            r.photo, 
+                r.owner_id, 
+	            r.rating,
+	            u.fullname,
+                array_agg(t.id) as tags_id, 
+                array_agg(t.name) as tags_name
+            FROM recipes r 
+            FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
+            LEFT JOIN tags t ON rt.tag_id = t.id 
+            INNER JOIN users u ON u.id = r.owner_id
+            GROUP BY r.id, u.id
+            HAVING $1 = any(array_agg(t.tag_type))
+            ORDER BY r.rating DESC
+            LIMIT 5
+            `,
+            values:[tagType]
+        }
+        return query;
+    };
 
 }
 

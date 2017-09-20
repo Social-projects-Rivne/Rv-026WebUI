@@ -11,6 +11,7 @@ class SearchBar extends Component {
     onInputChange(item) {
         this.setState({ item });
         this.props.onSearchItemChange(item);
+        this.props.onSearchItemNow(item);
     }
 
     render() {

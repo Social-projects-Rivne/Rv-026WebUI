@@ -9,7 +9,10 @@ router.post('/api/checkTitleExistence', recipeController.checkTitleExistence);
 router.get('/api/:tag_id/recipes', recipeController.getRecipesByTagId);
 router.get('/api/recipes', recipeController.getAllRecepies);
 
-router.post('/api/recipes/search', recipeController.getRecepiesByName);
-router.post('/api/recipes/search/tagtype', recipeController.getRecepiesByTagType);
+router.get('/api/recipes/search/name=:name', recipeController.getRecepiesByName);
+router.get('/api/recipes/search/tagtype=:tagtype', recipeController.getRecepiesByTagType);
+router.post('/api/recipes/search/name', recipeController.autocompleteRecepiesByName);
+router.post('/api/recipes/search/tagtype', recipeController.autocompleteRecepiesByTagType);
+
 
 module.exports = router;

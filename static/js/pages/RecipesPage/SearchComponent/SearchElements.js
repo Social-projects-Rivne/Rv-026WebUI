@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import SearchElement from './SearchElement';
 
-
-
 class SearchElements extends Component {
     constructor(props) {
         super(props);
@@ -33,6 +31,5 @@ class SearchElements extends Component {
 SearchElements.PropTypes = {
     allElements: PropTypes.array
 }
-
 
 export default SearchElements;

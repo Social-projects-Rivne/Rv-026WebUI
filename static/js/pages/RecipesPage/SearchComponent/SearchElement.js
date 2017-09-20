@@ -14,17 +14,17 @@ class SearchElement extends Component {
 
     render() {
         const element = this.props.element;
-        
+
         return (
             <div key={element.id} className="search-element" onClick={() => this.onClick(element.id)}>
                 <img className="image" src={element.photo} />
-                <div className="text"> 
+                <div className="text">
                     <p className="title">{element.title}</p>
                     <p className="author">author: {element.fullname}</p>
-                   
+
                 </div>
-                
-                <SearchElementRating stars={element.rating}/>
+
+                <SearchElementRating stars={element.rating} />
             </div>
         );
     }

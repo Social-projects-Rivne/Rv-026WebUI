@@ -55,9 +55,8 @@ class InlineEditText extends Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         }, credentials: 'include' })
-          .then(response => { response.json() })
-          .then(this.setState({updateMessage: "Updated!", updateStatus: true}))
-          .then( setTimeout(() => this.setState({updateMessage: " ", updateStatus: false}), 1000))
+          .then((res) => { if(res.status == 200) {this.setState({updateMessage: "Updated!", updateStatus: true})} else {this.setState({updateMessage: "Oooops! something wrong. Please try again later.", updateStatus: false})} })
+          .then( setTimeout(() => this.setState({updateMessage: " ", updateStatus: false}), 2000))
           .catch(error => console.log(error) );
         }
       }
@@ -78,8 +77,8 @@ class InlineEditText extends Component {
       );
     return (
           <div>
-            {this.dbName == "fullname" ? ( <h2 onClick={this.handleSwitch}>{this.state.value}</h2>  ) :
-            ( <p onClick={this.handleSwitch}>{this.name}: {this.state.value}</p> )}
+            {this.dbName == "fullname" ? ( <h2  className="hoverInline" onClick={this.handleSwitch}>{this.state.value}</h2>  ) :
+            ( <p  className="hoverInline" onClick={this.handleSwitch}>{this.name}: {this.state.value}</p> )}
             {this.state.updateStatus ? ( <span className="successMessage">{this.state.updateMessage}</span>) : ( <span className="failedMessage">{this.state.updateMessage}</span> )}
           </div>
     )

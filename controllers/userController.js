@@ -37,13 +37,13 @@ userController.updateUserInfo = (req, res, next) => {
   let userObject = new userModel();
   db.query(userObject.updateUserInfo(editedField, editedValue, userId), (err,result) => {
     if (err) {
-       return next(err);
+       res.sendStatus(500);
     } else{
-       return res.json("ok");
+       res.sendStatus(200);
     }
     });
   } else {
-      return next(err);
+      res.sendStatus(500);
   }
 }
 
@@ -55,14 +55,13 @@ userController.updateUserRole = (req, res, next) => {
   var userObject = new userModel();
   db.query(userObject.updateUserRole(editedValue, userId), (err,result) => {
     if (err) {
-        return next(err);
-
+       res.sendStatus(500);
     } else{
-        res.json("ok");
+       res.sendStatus(200);
     }
     });
   } else {
-      return next(err);
+      res.sendStatus(500);
   }
 }
 
@@ -74,13 +73,13 @@ userController.updateUserAvatar = (req, res, next) => {
   var userObject = new userModel();
   db.query(userObject.updateUserAvatar(ImageSrc, userId), (err,result) => {
     if (err) {
-       return next(err);
+       res.sendStatus(500);
     } else{
-       res.json("ok");
+       res.sendStatus(200);
     }
     });
   } else {
-      return next(err);
+      res.sendStatus(500);
   }
 }
 

@@ -65,3 +65,7 @@
     display: block;
     margin: 10px 0;
 }
+
+.hoverInline{
+  cursor: pointer;
+}

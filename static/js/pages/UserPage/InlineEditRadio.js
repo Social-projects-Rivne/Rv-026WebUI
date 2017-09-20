@@ -14,7 +14,8 @@ class InlineEditRadio extends Component {
       role_id: this.props.role_id,
       editable: false,
       updateMessage: '',
-      updateStatus: ''
+      updateStatus: '',
+      message: ''
     }
 
     this.handleSwitch = this.handleSwitch.bind(this);
@@ -23,7 +24,7 @@ class InlineEditRadio extends Component {
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+      this.setState({value: event.target.value});
   }
 
   handleSwitch(event) {
@@ -36,18 +37,21 @@ class InlineEditRadio extends Component {
   }
 
   handleSubmit(event) {
-    this.setState({editable: false});
-    event.preventDefault();
-    let radioValue = {
-      value: this.state.value
-    }
+    if(this.state.value !== 1) {
+      this.setState({editable: false});
+      event.preventDefault();
+      let radioValue = {
+        value: this.state.value
+     }
+     if(!radioValue.value){
+       radioValue.value = "2";
+     }
     fetch(`/api/user/${this.id}/updateRole`, {method: 'PUT',   body: JSON.stringify(radioValue), headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     }, credentials: 'include' })
-      .then(response => { response.json() })
-      .then(this.setState({updateMessage: "Updated!", updateStatus: true}))
-      .then( setTimeout(() => this.setState({updateMessage: " ", updateStatus: false}), 1000))
+      .then((res) => { if(res.status == 200) {this.setState({updateMessage: "Updated!", updateStatus: true})} else {this.setState({updateMessage: "Oooops! something wrong. Please try again later.", updateStatus: false})} })
+      .then( setTimeout(() => this.setState({updateMessage: " ", updateStatus: false}), 2000))
         .then(() => {
           let val = '';
           switch (this.state.value) {
@@ -57,21 +61,27 @@ class InlineEditRadio extends Component {
             case '2':
               val = 'user';
               break;
+            case '3':
+              val = 'cook';
+              break;
             default:
-              val = 'undefined';
+              val = 'user';
               break;
           }
           this.setState({role: val});
         })
        .catch(error => console.log(error) );
+     } else {
+       this.setState({editable: true, message: "Wrong user role!"});
+     }
   }
 
   render() {
     if (this.state.editable) return (
             <div>{this.name}:
              <div className="formStyle">
-              <span> admin </span> <input type="radio" name="role" value="1" onChange={this.handleChange} />
-              <span> user </span> <input type="radio" name="role" value="2"  onChange={this.handleChange} />
+              <span> user </span> <input type="radio" name="role" value="2" onChange={this.handleChange} />
+              <span> cook </span> <input type="radio" name="role" value="3"  onChange={this.handleChange} />
               <input type="button" value="&#10004;" onClick={this.handleSubmit} className="updateButton" />
               <input type="button" value="&#10008;" onClick={this.handleSwitch} className="cancelButton" />
              </div>
@@ -80,7 +90,7 @@ class InlineEditRadio extends Component {
       );
     return (
           <div>
-            <p onClick={this.handleSwitch}>{this.name}: {this.state.role}</p>
+            <p  className="hoverInline" onClick={this.handleSwitch}>{this.name}: {this.state.role}</p>
             {this.state.updateStatus ? ( <span className="successMessage">{this.state.updateMessage}</span>) : ( <span  className="failedMessage">{this.state.updateMessage}</span> )}
           </div>
     )

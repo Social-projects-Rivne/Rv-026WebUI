@@ -40,7 +40,7 @@ recipeController.createRecipe = (req, res, next) => {
                             var recipeObject = new recipeModel(
                                 fields.title[0],
                                 fields.description[0],
-                                false,
+                                null,
                                 ownerId,
                                 fullPathForSave,
                                 Number(fields.rating[0])

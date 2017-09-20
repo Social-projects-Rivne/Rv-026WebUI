@@ -22,7 +22,7 @@ module.exports=function(){
     text:`CREATE TABLE IF NOT EXISTS ingredients(
             id            serial        PRIMARY KEY,
             name          varchar(30)   UNIQUE      NOT NULL,
-            is_deleted    boolean       NOT NULL,
+            is_deleted    date          DEFAULT CURRENT_DATE,
             photo         varchar(200)
           )`,
     values: [],
@@ -49,9 +49,9 @@ module.exports=function(){
   const createRecipes = {
     text: `CREATE TABLE IF NOT EXISTS recipes(
               id            serial        PRIMARY KEY,
-              title         varchar(100)  UNIQUE        NOT NULL,
-              description   text          NOT NULL,
-              is_deleted    boolean       NOT NULL,
+              title         varchar(100)  UNIQUE,
+              description   text,
+              is_deleted    date          DEFAULT CURRENT_DATE,
               owner_id      integer       references users(id),
               photo         varchar(200),
               rating        integer
@@ -62,7 +62,7 @@ module.exports=function(){
   const createCalc_card = {
     text: `CREATE TABLE IF NOT EXISTS calc_card(
           id              serial    PRIMARY KEY,
-          resipe_id       integer  references recipes(id),
+          recipe_id       integer  references recipes(id),
           ingredient_id   integer references ingredients(id)
           )`,
   values: [],
@@ -72,7 +72,7 @@ module.exports=function(){
     text: `CREATE TABLE IF NOT EXISTS ingredient_map(
           id              serial          PRIMARY KEY,
           ingredient_id   integer         references ingredients(id),
-          is_deleted      boolean         DEFAULT     FALSE,
+          is_deleted      date,
           lat             real,
           lon             real,
           price           varchar(10)
@@ -83,7 +83,7 @@ module.exports=function(){
   const createRecipe_tag = {
     text: `CREATE TABLE IF NOT EXISTS recipe_tag(
           id              serial      PRIMARY KEY,
-          resipe_id       integer     references recipes(id),
+          recipe_id       integer     references recipes(id),
           tag_id          integer     references tags(id)
           )`,
   values: [],

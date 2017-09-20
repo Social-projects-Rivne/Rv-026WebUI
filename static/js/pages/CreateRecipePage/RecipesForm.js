@@ -17,7 +17,7 @@ class RecipesForm extends Component {
         this.state = {
             title: '',
             description: '',
-            is_deleted: false,
+            is_deleted: null,
             photo: '',
             imagePreviewUrl: '',
             rating: 0,

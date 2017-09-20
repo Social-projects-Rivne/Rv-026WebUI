@@ -20,7 +20,7 @@ class recipeModel {
 
     saveRecipeTag(recipeId, tagId) {
         const query = {
-            text: `INSERT INTO recipe_tag(resipe_id, tag_id) VALUES($1, $2)`,
+            text: `INSERT INTO recipe_tag(recipe_id, tag_id) VALUES($1, $2)`,
             values: [recipeId, tagId]
         }
         return query;
@@ -43,7 +43,7 @@ class recipeModel {
                 array_agg(t.id) as tags_id,
                 array_agg(t.name) as tags_name
             FROM recipes r
-            FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
+            FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
             LEFT JOIN tags t ON rt.tag_id = t.id
             GROUP BY r.id
             HAVING $1 = ANY(array_agg(t.id))
@@ -66,7 +66,7 @@ class recipeModel {
                 array_agg(t.id) as tags_id,
                 array_agg(t.name) as tags_name
             FROM recipes r
-            FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
+            FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
             LEFT JOIN tags t ON rt.tag_id = t.id
             GROUP BY r.id
             `
@@ -88,7 +88,7 @@ class recipeModel {
                 array_agg(t.id) as tags_id, 
                 array_agg(t.name) as tags_name
             FROM recipes r
-            FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
+            FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
             LEFT JOIN tags t ON rt.tag_id = t.id 
             INNER JOIN users u ON u.id = r.owner_id
             WHERE LOWER(r.title) LIKE $1||'%'
@@ -113,7 +113,7 @@ class recipeModel {
                 array_agg(t.id) as tags_id, 
                 array_agg(t.name) as tags_name
             FROM recipes r 
-            FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
+            FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
             LEFT JOIN tags t ON rt.tag_id = t.id 
             INNER JOIN users u ON u.id = r.owner_id
             GROUP BY r.id, u.id
@@ -138,7 +138,7 @@ class recipeModel {
                 array_agg(t.id) as tags_id, 
                 array_agg(t.name) as tags_name
             FROM recipes r
-            FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
+            FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
             LEFT JOIN tags t ON rt.tag_id = t.id 
             INNER JOIN users u ON u.id = r.owner_id
             WHERE LOWER(r.title) LIKE $1||'%'
@@ -165,7 +165,7 @@ class recipeModel {
                 array_agg(t.id) as tags_id, 
                 array_agg(t.name) as tags_name
             FROM recipes r 
-            FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
+            FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
             LEFT JOIN tags t ON rt.tag_id = t.id 
             INNER JOIN users u ON u.id = r.owner_id
             GROUP BY r.id, u.id
@@ -181,16 +181,16 @@ class recipeModel {
     getRecipeById(id) {
         return `select recipes.id,recipes.photo,recipes.title,recipes.description, recipes.rating,t2.name from recipes
     FULL OUTER join
-    (select calc_card.resipe_id,calc_card.ingredient_id,ingredients.name from calc_card
+    (select calc_card.recipe_id,calc_card.ingredient_id,ingredients.name from calc_card
     FULL OUTER join ingredients
     on calc_card.ingredient_id=ingredients.id
-    where calc_card.resipe_id=${id}) as t2
-    on recipes.id=t2.resipe_id
+    where calc_card.recipe_id=${id}) as t2
+    on recipes.id=t2.recipe_id
     where recipes.id=${id}`;
     }
 
     getTagsByRecipeId(id) {
-        return `select tags.id, tags.name from tags FULL OUTER join recipe_tag on tags.id=recipe_tag.tag_id where recipe_tag.resipe_id=${id}`;
+        return `select tags.id, tags.name from tags FULL OUTER join recipe_tag on tags.id=recipe_tag.tag_id where recipe_tag.recipe_id=${id}`;
     }
     
 }

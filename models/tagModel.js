@@ -6,8 +6,8 @@ tagModel.findAllTags = () => {
 
 tagModel.saveTags = (tagValue) => {
     const query = {
-        text: `INSERT INTO tags (name, tag_description) VALUES ($1,$2) RETURNING id`,
-        values: [tagValue, null]
+        text: `INSERT INTO tags (name, tag_description, tag_type) VALUES ($1,$2,$3) RETURNING id`,
+        values: [tagValue, null, null]
     }
     return query
 };

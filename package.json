@@ -74,7 +74,7 @@
     "nodemailer": "^4.1.0",
     "nodemailer-smtp-transport": "^2.7.4",
     "pg": "^7.2.0",
-    "prop-types": "^15.5.10",
+    "prop-types": "^15.5.7",
     "react": "^15.6.1",
     "react-alert": "^2.3.0",
     "react-bootstrap": "^0.31.2",

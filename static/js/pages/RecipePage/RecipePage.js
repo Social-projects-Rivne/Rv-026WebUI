@@ -38,7 +38,7 @@ const centerDiv = {
 };
 
 class RecipePage extends Component {
-    propTypes = {
+    static propTypes = {
         params: React.PropTypes.object.isRequired,
     }
 

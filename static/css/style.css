@@ -1,5 +1,6 @@
 @import "./recipe-card.css";
 @import "./search-component.css";
+@import "./create-recipe-form.css";
 
 body {
     font-family: 'Indie Flower', cursive;

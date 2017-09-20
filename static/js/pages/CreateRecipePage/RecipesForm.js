@@ -159,8 +159,8 @@ class RecipesForm extends Component {
         }
 
         return (
-            <form onSubmit={this.onSubmit}>
-                <h1>Create New Recipe</h1>
+            <form className="create-recipe-form" onSubmit={this.onSubmit}>
+                <h1 className="title">Create New Recipe</h1>
                 <FormGroup>
                     <label htmlFor="RecipesForm--title">Title</label>
                     <FormControl
@@ -211,23 +211,19 @@ class RecipesForm extends Component {
                     />
                     {this.errorMessage(this.state.emptyTags)}
                 </FormGroup>
-                <ButtonGroup justified>
-                    <ButtonGroup>
-                        <Button
-                            type="submit"
-                            bsStyle="success"
-                            disabled={
-                                this.state.buttonDisabledTitle ||
-                                this.state.buttonDisabledDescription ||
-                                this.state.buttonDisabledPhoto}
-                        >
-                            Create
-                        </Button>
-                    </ButtonGroup>
-                    <ButtonGroup className="btn-group">
-                        <Link to="/recipes" className="btn btn-danger">Cancel</Link>
-                    </ButtonGroup>
-                </ButtonGroup>
+                <FormGroup>
+                    <Button
+                        type="submit"
+                        bsStyle="info"
+                        disabled={
+                            this.state.buttonDisabledTitle ||
+                            this.state.buttonDisabledDescription ||
+                            this.state.buttonDisabledPhoto}
+                    >
+                        Create
+                    </Button>
+                    <Link to="/recipes" className="btn btn-danger btn-cancel">Cancel</Link>
+                </FormGroup>
             </form>
         );
     }

@@ -2,13 +2,19 @@ import db from '../db';
 
 module.exports = function(){
 
-db.query(`INSERT INTO users_roles (user_role) VALUES ('user');`,
+db.query(`INSERT INTO users_roles (id, user_role) VALUES (2, 'user');`,
 (err, res) => {
   if (err) {console.log(err)}
   else {console.log(res)}
 });
 
-db.query(`INSERT INTO users_roles (user_role) VALUES ('admin');`,
+db.query(`INSERT INTO users_roles (id, user_role) VALUES (1, 'admin');`,
+(err, res) => {
+  if (err) {console.log(err)}
+  else {console.log(res)}
+});
+
+db.query(`INSERT INTO users_roles (id, user_role) VALUES (3, 'cook');`,
 (err, res) => {
   if (err) {console.log(err)}
   else {console.log(res)}

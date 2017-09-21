@@ -20,7 +20,7 @@ class recipeModel {
 
     saveRecipeTag(recipeId, tagId) {
         const query = {
-            text: `INSERT INTO recipe_tag(resipe_id, tag_id) VALUES($1, $2)`,
+            text: `INSERT INTO recipe_tag(recipe_id, tag_id) VALUES($1, $2)`,
             values: [recipeId, tagId]
         }
         return query;
@@ -43,7 +43,7 @@ class recipeModel {
                 array_agg(t.id) as tags_id,
                 array_agg(t.name) as tags_name
             FROM recipes r
-            FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
+            FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
             LEFT JOIN tags t ON rt.tag_id = t.id
             GROUP BY r.id
             HAVING $1 = ANY(array_agg(t.id))
@@ -66,7 +66,7 @@ class recipeModel {
                 array_agg(t.id) as tags_id,
                 array_agg(t.name) as tags_name
             FROM recipes r
-            FULL JOIN recipe_tag rt ON rt.resipe_id = r.id
+            FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
             LEFT JOIN tags t ON rt.tag_id = t.id
             GROUP BY r.id
             `
@@ -75,18 +75,41 @@ class recipeModel {
     };
 
     getRecipeById(id) {
-        return `select recipes.id,recipes.photo,recipes.title,recipes.description, recipes.rating,t2.name from recipes
-    FULL OUTER join
-    (select calc_card.resipe_id,calc_card.ingredient_id,ingredients.name from calc_card
-    FULL OUTER join ingredients
-    on calc_card.ingredient_id=ingredients.id
-    where calc_card.resipe_id=${id}) as t2
-    on recipes.id=t2.resipe_id
-    where recipes.id=${id}`;
-    }
+    return `select recipes.id,recipes.photo,recipes.title,recipes.description, recipes.rating, recipes.owner_id,t2.name,t2.id as ingredientid from recipes
+        FULL OUTER join
+        (select calc_card.recipe_id,calc_card.ingredient_id,ingredients.name,ingredients.id from calc_card
+        FULL OUTER join ingredients
+        on calc_card.ingredient_id=ingredients.id
+        where calc_card.recipe_id=${id}) as t2
+        on recipes.id=t2.recipe_id
+        where recipes.id=${id}`;
+   }
 
     getTagsByRecipeId(id) {
-        return `select tags.id, tags.name from tags FULL OUTER join recipe_tag on tags.id=recipe_tag.tag_id where recipe_tag.resipe_id=${id}`;
+      return `select tags.id, tags.name from tags FULL OUTER join recipe_tag on tags.id=recipe_tag.tag_id where recipe_tag.recipe_id=${id}`;
+    }
+
+    updateRecipe(data, value) {
+      return `INSERT INTO ${data.fieldName}(name)
+              SELECT DISTINCT '${value}'
+              FROM   ${data.fieldName}
+              ON CONFLICT (name) DO UPDATE SET name=EXCLUDED.name RETURNING id`;
+    }
+
+    removeDbLink(table, fieldName, recipeId, insertId){
+      return `DELETE FROM ${table}
+              WHERE recipe_id =${recipeId} AND ${fieldName}_id = ${insertId}`;
+    }
+
+    addDbLink(table, fieldName, recipeId, insertId){
+      return `INSERT INTO ${table} (recipe_id, ${fieldName}_id)
+              SELECT ${recipeId}, ${insertId}
+              WHERE NOT EXISTS (SELECT id FROM ${table} WHERE recipe_id = ${recipeId} AND ${fieldName}_id = ${insertId});`;
+    }
+
+
+    upsertData(data) {
+        return `INSERT INTO recipes (id,${data.fieldName}) VALUES (${data.id},'${data.value}') ON CONFLICT(id) DO UPDATE SET ${data.fieldName} = '${data.value}'`;
     }
 }
 

@@ -56,7 +56,7 @@ recipeController.createRecipe = (req, res, next) => {
                                             return next(err);
                                         } else {
                                             var allTagsArray = result.rows;
-                                            var allTagsNameArray = allTagsArray.map(function (tag) {
+                                            var allTagsNameArray = allTagsArray.map(function(tag) {
                                                 return tag.name;
                                             });
                                             var uniqueTagsArray = recipeArrayTags.filter((o) => {
@@ -167,11 +167,15 @@ recipeController.getAllRecepies = (req, res, next) => {
 };
 
 
-const recipeHelper = (dbResponse) => {
+const recipeHelper = (dbResponse, cookie_id) => {
     const ingredients = [];
+    var is_ok = false;
+    if (parseInt(dbResponse[0].owner_id) === parseInt(cookie_id)) {
+        is_ok = true;
+    }
 
     dbResponse.forEach((field) => {
-        ingredients.push(field.name);
+        ingredients.push({ "id": field.ingredientid, "name": field.name });
     });
 
     const recipe = {
@@ -180,6 +184,7 @@ const recipeHelper = (dbResponse) => {
         description: dbResponse[0].description,
         rating: dbResponse[0].rating,
         photo: dbResponse[0].photo,
+        is_owner: is_ok,
         ingredients,
     };
 
@@ -188,6 +193,7 @@ const recipeHelper = (dbResponse) => {
 
 recipeController.getRecipeById = (req, res) => {
     const id = req.params.id;
+    let ownerId = signinController.sessions[req.cookies.access];
 
     if (!id.match(/^[0-9]+$/)) {
         res.json(new Error('Wrong id').message);
@@ -201,7 +207,7 @@ recipeController.getRecipeById = (req, res) => {
         } else if (result.rows.length === 0) {
             res.json(new Error('No such id in db').message);
         } else {
-            const recipe = recipeHelper(result.rows);
+            const recipe = recipeHelper(result.rows, ownerId);
 
             db.query(recipeObject.getTagsByRecipeId(id), (error, resultInner) => {
                 recipe.tags = [];
@@ -213,6 +219,64 @@ recipeController.getRecipeById = (req, res) => {
             });
         }
     });
+};
+
+recipeController.updateRecipe = (req, res) => {
+    const recipeData = req.body;
+    const recipeObject = new recipeModel();
+
+    if (recipeData.fieldName == "ingredients" || recipeData.fieldName == "tags") {
+        let status = true;
+        let fieldConnect = null;
+        let table = null;
+        if (recipeData.fieldName == "ingredients") {
+            fieldConnect = "ingredient";
+            table = "calc_card";
+        }
+        if (recipeData.fieldName == "tags") {
+            fieldConnect = "tag";
+            table = "recipe_tag";
+        }
+        recipeData.deleteValue.forEach((value) => {
+            db.query(recipeObject.removeDbLink(table, fieldConnect, recipeData.id, value.id), (error) => {
+                if (error) {
+                    status = false;
+                }
+            });
+        });
+        if (!status) {
+            res.sendStatus(500)
+        }
+        recipeData.addValue.forEach((value) => {
+            db.query(recipeObject.updateRecipe(recipeData, value.name), (error, result) => {
+                if (result.rows) {
+                    const insertId = result.rows[0].id;
+                    db.query(recipeObject.addDbLink(table, fieldConnect, recipeData.id, insertId), (error) => {
+                        if (error) {
+                            status = false;
+                        } else {
+                            status = true;
+                        }
+                    });
+                } else {
+                    console.log(error);
+                }
+            });
+        });
+        if (status) {
+            res.sendStatus(200)
+        } else {
+            res.sendStatus(500);
+        }
+    } else {
+        db.query(recipeObject.upsertData(recipeData), (err) => {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                res.sendStatus(200);
+            }
+        });
+    }
 };
 
 module.exports = recipeController;

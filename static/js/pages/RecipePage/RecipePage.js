@@ -3,6 +3,12 @@ import { Link } from 'react-router';
 import ReactLoading from 'react-loading';
 import React, { Component } from 'react';
 import wait from '../../common/wait';
+import EditableList from '../../common/EditableList';
+import EditableImage from '../../common/EditableImage';
+import EditableText from '../../common/EditableText';
+
+
+import Header from '../../common/Header';
 
 const photoStyle = {
     borderRadius: 10,
@@ -36,16 +42,23 @@ const centerDiv = {
 };
 
 class RecipePage extends Component {
-    propTypes = {
+    static propTypes = {
         params: React.PropTypes.object.isRequired,
     }
 
     constructor() {
         super();
         this.state = {
+            ingredientsStatus: '',
+            tagsStatus: '',
+            titleStatus: '',
+            photoStatus: '',
+            descriptionStatus: '',
             process: 'fetching',
             data: null,
         };
+        this.saveToDBList = this.saveToDBList.bind(this);
+        this.saveToDBText = this.saveToDBText.bind(this);
     }
 
     componentWillMount() {
@@ -71,50 +84,150 @@ class RecipePage extends Component {
             });
     }
 
-    createTagLinks = (tags) => {
-        if (tags.length !== 0) {
-            return tags.map((tag, index) => <span key={index}> <Link to="#">{tag.name}</Link> &ensp;</span>);
-        }
-        return 'no tags yet';
-    };
+    saveToDBList(id, addValue, deleteValue, fieldName) {
+        // wait only for demo purposes, remove for production!!!!
+
+        wait(3000)
+        .then(
+            () => {
+                const updatedValue = {
+                    id,
+                    fieldName,
+                    addValue,
+                    deleteValue,
+                };
+                axios.put(`/api/recipe/edit/${id}`, updatedValue)
+                .then((res) => {
+                    if (res.status === 200) {
+                        console.log("success", `${fieldName}Status`);
+                        this.setState({ [`${fieldName}Status`]: 'success' });
+                    } else {
+                        console.log("error");
+                        this.setState({ [`${fieldName}Status`]: 'error' });
+                    }
+                })
+                .catch(() => {
+                    console.log("catch error");
+                    this.setState({ [`${fieldName}Status`]: 'error' });
+                });
+            });
+    }
+
+    saveToDBText(id, fieldName, value) {
+        // wait only for demo purposes, remove for production!!!!
+        wait(3000)
+        .then(
+            () => {
+                const updatedValue = {
+                    id,
+                    fieldName,
+                    value,
+                };
+                axios.put(`/api/recipe/edit/${id}`, updatedValue)
+                .then((res) => {
+                    if (res.status === 200) {
+                        console.log("success", `${fieldName}Status`);
+                        this.setState({ [`${fieldName}Status`]: 'success' });
+                    } else {
+                        console.log("error");
+                        this.setState({ [`${fieldName}Status`]: 'error' });
+                    }
+                })
+                .catch(() => {
+                    console.log("catch error");
+                    this.setState({ [`${fieldName}Status`]: 'error' });
+                });
+            });
+    }
 
     render() {
         const recipe = this.state.data;
         const phase = this.state.process;
         if (phase === 'fetching') {
             return (
-                <ReactLoading style={centerDiv} type="bars" color="#444" height="70" width="20" />
+                <div>
+                    <Header />
+                    <ReactLoading style={centerDiv} type="bars" color="#444" height="70" width="20" />
+                </div>
             );
         } else if (phase === 'fetched') {
             return (
+              <div>
+                <Header />
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-5 text-center">
-                            <h1 style={h1NameStyle}>{recipe.title}</h1>
-                            <img src={recipe.photo} style={photoStyle} alt="" />
+                        {recipe.is_owner 
+                            ? 
+                        <EditableText
+                            updateId={recipe.id}
+                            fieldName="title"
+                            status={this.state.titleStatus}
+                            style={h1NameStyle}
+                            text={recipe.title}
+                            onSave={this.saveToDBText}
+                            type={'input'}/> 
+                            : 
+                        <h1 style={h1NameStyle}>{recipe.title}</h1>}
+
+                        {recipe.is_owner 
+                            ?
+                        <EditableImage
+                            updateId={recipe.id}
+                            style={photoStyle}
+                            fieldName="photo"
+                            status={this.state.photoStatus}
+                            link={recipe.photo}
+                            onSave={this.saveToDBText}/>
+                            :
+                        <img src={recipe.photo} style={photoStyle} alt="" />}
                         </div>
                         <div className="col-sm-7">
                             <h3 style={h3NameStyle}>Rating:{recipe.rating}</h3>
                             <h3 style={h3NameStyle}>Ingredients:</h3>
-                            <ol style={ulIngredients}>
-                                {
-                                    recipe.ingredients.map((ingredient, index) => (
-                                        <li key={index}>{ingredient}</li>
-                                    ))
-                                }
-                            </ol>
+                            <EditableList 
+                                owner = {recipe.is_owner}
+                                updateId={recipe.id}
+                                fieldName="ingredients"
+                                data={recipe.ingredients}
+                                status={this.state.ingredientsStatus}
+                                onSave={this.saveToDBList}/>
                         </div>
                     </div>
+                    <div>
+                    {recipe.is_owner 
+                        ?
+                    <EditableText
+                        owner = {recipe.is_owner}
+                        updateId={recipe.id}
+                        fieldName="description"
+                        status={this.state.descriptionStatus}
+                        text={recipe.description}
+                        onSave={this.saveToDBText}
+                        type={'textarea'}/>
+                        :
                     <p>{recipe.description}</p>
+                    }
+                    </div>
                     <div> Tags:&ensp;
-                        {this.createTagLinks(this.state.data.tags)}
+                        <EditableList
+                            owner = {recipe.is_owner}
+                            updateId={recipe.id}
+                            fieldName="tags"
+                            data={recipe.tags}
+                            status={this.state.tagsStatus}
+                            onSave={this.saveToDBList}/>
                     </div>
 
+                    </div>
                 </div>
             );
         } else if (phase === 'failedToFetch') {
             return (
-                <div>Failed to fetch data from server</div>
+                <div>
+                    <Header />
+                    <div>Failed to fetch data from server</div>
+                </div>
             );
         }
         return true;

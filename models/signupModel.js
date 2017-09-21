@@ -1,19 +1,12 @@
-let signupModel = {};
+const signupModel = {};
 
-signupModel.findEmail = (email) => {
-    return `SELECT email,is_deleted FROM users WHERE email = '${email}' LIMIT 1`
-};
+signupModel.findEmail = email =>
+    `SELECT email,is_deleted FROM users WHERE email = '${email}' LIMIT 1`;
 
-signupModel.upsertIntoUsers = (email, phone, password) => {
-    return `INSERT INTO users (email, phone_number, password) VALUES ('${email}', '${phone}', '${password}') ON CONFLICT (email) DO UPDATE SET phone_number = '${phone}', password = '${password}'`;
-}
+signupModel.upsertIntoUsers = (email, phone, password, activationId) =>
+    `INSERT INTO users (role_id, email, phone_number, password, is_activated, activation_id) VALUES ('2','${email}', '${phone}', '${password}', FALSE, '${activationId}') ON CONFLICT (email) DO UPDATE SET phone_number = '${phone}', password = '${password}', activation_id='${activationId}'`;
 
-signupModel.getId = (email) => {
-    return `SELECT id from users where email='${email}'`
-}
-
-signupModel.updateIsDeleted = (id) => {
-    return `UPDATE users SET is_deleted='false' where id='${id}'`
-}
+signupModel.updateIsActivated = activationId =>
+    `UPDATE users SET is_activated='true' where activation_id='${activationId}'`;
 
 module.exports = signupModel;

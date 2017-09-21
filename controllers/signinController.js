@@ -34,7 +34,7 @@ signinController.login = (req, res) => {
 signinController.logout = (req, res) => {
     delete signinController.sessions[req.cookies.access];
     res.clearCookie('access');
-    res.send('cookie access cleared');
+    res.redirect('/');
 };
 
 signinController.checkLogin = (req, res) => {

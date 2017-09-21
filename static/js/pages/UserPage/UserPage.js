@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Result from './Result';
+import Header from '../../common/Header';
 
 
 class User extends Component {
@@ -20,7 +21,12 @@ class User extends Component {
       let user = this.state.user
       return(
         <div>
+<<<<<<< HEAD
           <Result result={this.state.user} />
+=======
+          <Header />
+          <Result result={this.state.user}/>
+>>>>>>> develop
         </div>
       );
     }

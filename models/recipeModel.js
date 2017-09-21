@@ -193,10 +193,6 @@ class recipeModel {
       return `select tags.id, tags.name from tags FULL OUTER join recipe_tag on tags.id=recipe_tag.tag_id where recipe_tag.recipe_id=${id}`;
     }
 
-    getTagsByRecipeId(id) {
-      return `select tags.id, tags.name from tags FULL OUTER join recipe_tag on tags.id=recipe_tag.tag_id where recipe_tag.recipe_id=${id}`;
-    }
-
     updateRecipe(data, value) {
       return `INSERT INTO ${data.fieldName}(name)
               SELECT DISTINCT '${value}'

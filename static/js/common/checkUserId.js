@@ -5,7 +5,7 @@ const checkUserId = function checkUserId(nextState, replace, cb) {
     return axios.get(`${config.serverUrl}/api/checkLogin`)
     .then((res) => {
         if (res.data !== 'alreadyLoggedIn') {
-            replace('/');
+            replace('/signin');
             cb();
         } else {
             cb();

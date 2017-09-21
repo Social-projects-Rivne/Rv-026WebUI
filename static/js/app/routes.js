@@ -13,7 +13,6 @@ import RecipePage from '../pages/RecipePage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import SignUpSuccess from '../pages/SignUpSuccess/SignUpSuccess';
 import Terms from '../pages/Terms/Terms';
-
 import User from '../pages/UserPage/UserPage';
 
 const routes = (
@@ -27,7 +26,7 @@ const routes = (
         <Route path="/signupsuccess" component={SignUpSuccess} />
         <Route path="/terms" component={Terms} />
         <Route path="/signin" onEnter={checkLogin} component={SignInPage} />
-        <Route path="/profile" component={User} />
+        <Route path="/profile" onEnter={checkUserId}  component={User} />
         <Route path="*" component={NotFound} />
     </Route>
 );

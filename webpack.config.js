@@ -38,6 +38,11 @@ module.exports = {
           loader: "url-loader?limit=26000&mimetype=image/svg+xml"
       },
       {
+          test: /\.jsx$/,
+          loader: "react-hot!babel?presets=es2015&retainLines=true",
+          exclude: [/node_modules/, /public/]
+      },
+      {
           test: /\.json$/,
           loader: "json-loader"
       }

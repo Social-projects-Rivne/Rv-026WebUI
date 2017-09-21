@@ -32,7 +32,7 @@ module.exports = {
                 use: [{
                     loader: 'style-loader'
                 },
-                { 
+                {
                     loader: 'css-loader'
                 },
                 {
@@ -45,15 +45,15 @@ module.exports = {
                     use:{
                              loader: 'url-loader?limit=20480&name=assets/[name]-[hash].[ext]',
                          },
-                         
+
                 },
                 {
                          test:/\.jsx$/,
                          exclude: [/node_modules/, /public/],
                          use:{
                              loader:'react-hot!babel?presets=es2015&retainLines=true',
-                         },            
+                         },
         }],
-        
+
     }
 };

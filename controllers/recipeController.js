@@ -32,7 +32,7 @@ recipeController.createRecipe = (req, res, next) => {
                 let copyToPath = "/public/images/recipes/" + originalFilename;
                 let imageName = uuidv4();
                 let fullPath = `public/images/recipes/${imageName}.${fileExtension}`;
-                let fullPathForSave = `../${fullPath}`;
+                let fullPathForSave = `/../${fullPath}`;
                 let ownerId = signinController.sessions[req.cookies.access];
                 fs.readFile(tempPath, (err, data) => {
                     fs.writeFile(fullPath, data, (err) => {
@@ -40,7 +40,7 @@ recipeController.createRecipe = (req, res, next) => {
                             var recipeObject = new recipeModel(
                                 fields.title[0],
                                 fields.description[0],
-                                false,
+                                null,
                                 ownerId,
                                 fullPathForSave,
                                 Number(fields.rating[0])
@@ -166,6 +166,83 @@ recipeController.getAllRecepies = (req, res, next) => {
     });
 };
 
+recipeController.getRecepiesByName = (req, res, next) => {
+    var recipeObject = new recipeModel();
+    var recipeName = req.params.name;
+    db.query(recipeObject.findRicipesByName(recipeName), (err, result) => {
+        if (err) {
+            console.log('error!');
+            return next(err);
+        } else {
+            var recipes = result.rows;
+            var recipesNotDeleted = recipes.filter((o) => {
+                if (!o.is_deleted) {
+                    return recipes.indexOf(o) !== -1;
+                }
+            });
+            res.send(recipesNotDeleted);
+        }
+    });
+
+}
+
+recipeController.getRecepiesByTagType = (req, res, next) => {
+    var recipeObject = new recipeModel();
+    var tagType = req.params.tagtype;
+    db.query(recipeObject.findRicipesByTagType(tagType), (err, result) => {
+        if (err) {
+            console.log('error!');
+            return next(err);
+        } else {
+            var recipes = result.rows;
+            var recipesNotDeleted = recipes.filter((o) => {
+                if (!o.is_deleted) {
+                    return recipes.indexOf(o) !== -1;
+                }
+            });
+            res.send(recipesNotDeleted);
+        }
+    });
+}
+
+recipeController.autocompleteRecepiesByTagType = (req, res, next) => {
+    var recipeObject = new recipeModel();
+    var tagType = req.body.item;
+    db.query(recipeObject.findTop5RicipesByTagType(tagType), (err, result) => {
+        if (err) {
+            console.log('error!');
+            return next(err);
+        } else {
+            var recipes = result.rows;
+            var recipesNotDeleted = recipes.filter((o) => {
+                if (!o.is_deleted) {
+                    return recipes.indexOf(o) !== -1;
+                }
+            });
+            res.send(recipesNotDeleted);
+        }
+    });
+}
+
+recipeController.autocompleteRecepiesByName = (req, res, next) => {
+    var recipeObject = new recipeModel();
+    var recipeName = req.body.item;
+    db.query(recipeObject.findTop5RicipesByName(recipeName), (err, result) => {
+        if (err) {
+            console.log('error!');
+            return next(err);
+        } else {
+            var recipes = result.rows;
+            var recipesNotDeleted = recipes.filter((o) => {
+                if (!o.is_deleted) {
+                    return recipes.indexOf(o) !== -1;
+                }
+            });
+            res.send(recipesNotDeleted);
+        }
+    });
+
+}
 
 const recipeHelper = (dbResponse, cookie_id) => {
     const ingredients = [];

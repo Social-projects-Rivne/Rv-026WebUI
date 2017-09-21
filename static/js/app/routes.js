@@ -19,6 +19,8 @@ const routes = (
     <Route path="/" component={MainLayout}>
         <IndexRoute component={MainPage} />
         <Route path="/recipes" component={RecipesPage} />
+        <Route path="/recipes/search/name=:name" component={RecipesPage} />
+        <Route path="/recipes/search/tagtype=:tagtype" component={RecipesPage} />
         <Route path="/:tag_id/recipes" component={RecipesPage} />
         <Route path="/recipes/new" onEnter={checkUserId} component={CreateRecipePage} />
         <Route path="/recipes/:id" component={RecipePage} />

@@ -1,67 +1,47 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Grid, Row, Col } from 'react-bootstrap';
-
-
-const imgStyle = {
-    width: '100%',
-    maxHeight: '150px',
-    marginBottom: '15px'
-}
-
-const recipeHead = {
-    display: 'inline-block',
-    position: 'relative'
-}
-
-const title = {
-    display: 'inline-block',
-    position: 'absolute',
-    bottom: '10px',
-    left: '15px',
-    color: 'white',
-    fontSize: '26px'
-}
-
-const description = {
-    textAlign: 'justify',
-    fontSize: '16px'
-}
 
 class RecipeItem extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-        var recipe = this.props.recipe;
-        var ids = recipe.tags_id;
-        var tags_name = recipe.tags_name;
-        var tags = [];
+        const recipe = this.props.recipe;
+        const ids = recipe.tags_id;
+        const tagsName = recipe.tags_name;
+        const tags = [];
 
-        for (var i = 0; i < ids.length; i++) {
+        for (let i = 0; i < ids.length; i++) {
             if (ids[i]) {
                 tags.push(
                     <span key={i}>
-                        <Link to={`/${ids[i]}/recipes`} className='badge'>{tags_name[i]}</Link>{'\u00A0'}
+                        <Link to={`/${ids[i]}/recipes`} className="badge card-tag">{tagsName[i]}</Link>{'\u00A0'}
                     </span>);
             }
         }
 
         return (
-            <Col sm={3}>
-                <Link to={`/recipes/${recipe.id}/`}>
-                <div style={recipeHead}>
-                    <img className="img-rounded" src={recipe.photo} style={imgStyle} />
-                    <span style={title}>{recipe.title}</span>
+            <div className="card">
+                <img className="card-image" src={recipe.photo} alt={recipe.title} />
+                <div className="card-text">
+                    <h1 className="card-title">
+                        {recipe.title}
+                    </h1>
+                    <p className="card-description">
+                        {recipe.description}
+                    </p>
+                    <div>
+                        {tags.length > 0 ? <p>{tags}</p> : null}
+                    </div>
+                    <p className="card-read-more">
+                        <Link to={`/recipes/${recipe.id}`}>Read More </Link>
+                    </p>
                 </div>
-                <p style={description}>{recipe.description}</p>
-                </Link>
-                {tags.length > 0 ? <p>{tags}</p> : null}
-            </Col>
+            </div>
         );
-
     }
 }
+
+RecipeItem.PropTypes = {
+    recipe: PropTypes.object,
+};
 
 export default RecipeItem;

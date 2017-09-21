@@ -1,8 +1,8 @@
-var userName = "yourUserName";
-var password = "yourPassword";
+var userName = "userName";
+var password = "password";
 var dbServerLocation = "localhost";
 var serverPort = "5432";
-var dbName = "yourDbName";
+var dbName = "dbName";
 
 module.exports = {
     userName,

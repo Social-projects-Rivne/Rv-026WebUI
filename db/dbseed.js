@@ -20,6 +20,12 @@ db.query(`INSERT INTO users_roles (id, user_role) VALUES (3, 'cook');`,
   else {console.log(res)}
 });
 
+db.query(`INSERT INTO users_roles (id, user_role) VALUES (3, 'cook');`,
+(err, res) => {
+  if (err) {console.log(err)}
+  else {console.log(res)}
+});
+
   db.query(`INSERT INTO users
   (id, fullname, role_id, password, email, is_premium, phone_number, gravatar, about_me, is_activated)
   VALUES
@@ -167,7 +173,12 @@ db.query(`INSERT INTO recipes (id, title, description, is_deleted, owner_id, pho
   if (err) {console.log(err)}
   else {console.log(res)}
 });
-
+db.query(`INSERT INTO recipes (id, title, description, is_deleted, owner_id, photo, rating) VALUES
+(50, 'Котлети по домашньому', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.', NULL, 4, 'http://поради.pp.ua/uploads/posts/2016-12/kotleti-z-ndichogo-farshu-recepti-prigotuvannya_603.jpeg', 4);`,
+(err, res) => {
+  if (err) {console.log(err)}
+  else {console.log(res)}
+});
 
 db.query(`INSERT INTO calc_card (recipe_id, ingredient_id) VALUES
 (10, 1), (10, 2), (10, 3), (10, 4), (10, 5), (10, 6), (10, 7), (10, 8), (10, 10), (10, 11), (10, 14), (20, 14), (20, 15), (30, 13);`,

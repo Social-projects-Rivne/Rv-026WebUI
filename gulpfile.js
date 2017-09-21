@@ -18,8 +18,8 @@ gulp.task('bs:init', (done) =>{
 gulp.task('copy', () => {
     return gulp.src([
         './public/**/*.*',
-        './static/css/*.*',
-        './static/fonts/*.*',
+        './static/css/**/*.*',
+        './static/fonts/**/*.*',
         './index.html'],{base:'.', since: gulp.lastRun('copy')})
         .pipe(gulp.dest('dist/'));
 
@@ -87,8 +87,8 @@ gulp.task('watch', (done) => {
 
     gulp.watch([
             './public/**/*.*',
-            './static/css/*.*',
-            './static/fonts/*.*',
+            './static/css/**/*.*',
+            './static/fonts/**/*.*',
             './index.html'],gulp.series('copy'));
     done();
 })

@@ -19,8 +19,8 @@ const title = {
     position: 'absolute',
     bottom: '10px',
     left: '15px',
-    color: 'white',
-    fontSize: '26px'
+    color: 'black',
+    fontSize: '20px'
 }
 
 const description = {

@@ -32,7 +32,7 @@ recipeController.createRecipe = (req, res, next) => {
                 let copyToPath = "/public/images/recipes/" + originalFilename;
                 let imageName = uuidv4();
                 let fullPath = `public/images/recipes/${imageName}.${fileExtension}`;
-                let fullPathForSave = `../${fullPath}`;
+                let fullPathForSave = `/../${fullPath}`;
                 let ownerId = signinController.sessions[req.cookies.access];
                 fs.readFile(tempPath, (err, data) => {
                     fs.writeFile(fullPath, data, (err) => {

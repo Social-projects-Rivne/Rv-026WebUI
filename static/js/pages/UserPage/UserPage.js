@@ -21,12 +21,8 @@ class User extends Component {
       let user = this.state.user
       return(
         <div>
-<<<<<<< HEAD
-          <Result result={this.state.user} />
-=======
           <Header />
           <Result result={this.state.user}/>
->>>>>>> develop
         </div>
       );
     }

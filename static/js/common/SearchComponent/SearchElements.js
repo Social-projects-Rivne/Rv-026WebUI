@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+/*import React, {Component} from 'react';
 import SearchElement from './SearchElement';
 
 
 const se = {
     position: 'absolute',
-    widht: '100%'
+    width: '100%',
 }
 
 class SearchElements extends Component{
@@ -35,3 +35,4 @@ class SearchElements extends Component{
 }
 
 export default SearchElements;
+*/

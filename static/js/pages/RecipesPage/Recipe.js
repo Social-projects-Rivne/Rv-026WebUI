@@ -15,7 +15,7 @@ class Recipe extends Component {
         });
         return (
             <div>
-                <div className="col-sm-12">
+                <div  id="myUL" className="col-sm-12">
                     {recipe}
                 </div>
             </div>

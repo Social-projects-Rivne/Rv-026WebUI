@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Recipe from './Recipe';
 import { Grid, Row, Col } from 'react-bootstrap';
 
+
+
+
 import config from '../../../../config';
 import SearchComponent from '../../common/SearchComponent';
 
@@ -44,4 +47,6 @@ class RecipesPage extends Component {
     }
 }
 
+
 export default RecipesPage;
+

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+/*import React, {Component} from 'react';
 
 const searchel = {
     marginTop: '-3px',
@@ -40,4 +40,4 @@ class SearchElement extends Component{
     }
 }
 
-export default SearchElement;
+export default SearchElement;*/

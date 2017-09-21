@@ -8,6 +8,8 @@ import EditableImage from '../../common/EditableImage';
 import EditableText from '../../common/EditableText';
 
 
+import Header from '../../common/Header';
+
 const photoStyle = {
     borderRadius: 10,
     width: '100%',
@@ -143,10 +145,15 @@ class RecipePage extends Component {
         const phase = this.state.process;
         if (phase === 'fetching') {
             return (
-                <ReactLoading style={centerDiv} type="bars" color="#444" height="70" width="20" />
+                <div>
+                    <Header />
+                    <ReactLoading style={centerDiv} type="bars" color="#444" height="70" width="20" />
+                </div>
             );
         } else if (phase === 'fetched') {
             return (
+              <div>
+                <Header />
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-5 text-center">
@@ -212,11 +219,15 @@ class RecipePage extends Component {
                             onSave={this.saveToDBList}/>
                     </div>
 
+                    </div>
                 </div>
             );
         } else if (phase === 'failedToFetch') {
             return (
-                <div>Failed to fetch data from server</div>
+                <div>
+                    <Header />
+                    <div>Failed to fetch data from server</div>
+                </div>
             );
         }
         return true;

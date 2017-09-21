@@ -42,6 +42,7 @@ class SignUpForm extends Component {
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handlePaste = this.handlePaste.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.checkEmailExists = this.checkEmailExists.bind(this);
         this.errorsExist = this.errorsExist.bind(this);
@@ -104,6 +105,20 @@ class SignUpForm extends Component {
                 this.clearFieldError(name);
             }
         }
+    }
+
+    handlePaste(e) {
+        const obj = {
+            target: {
+                name: e.target.name,
+                value: e.clipboardData.getData('Text'),
+                validity: {
+                    valueMissing: false,
+                    valid: true,
+                },
+            },
+        };
+        this.handleChange(obj);
     }
 
     emailCheckTimeout = null;
@@ -191,6 +206,7 @@ class SignUpForm extends Component {
                         id="SignupForm--email"
                         required
                         onChange={this.handleChange}
+                        onPaste={this.handlePaste}
                         autoComplete="off"
                     />
                     {this.errorMessage(this.state.email.error)}
@@ -204,6 +220,7 @@ class SignUpForm extends Component {
                         id="SignupForm--phone"
                         required
                         onChange={this.handleChange}
+                        onPaste={this.handlePaste}
                         autoComplete="off"
                     />
                     {this.errorMessage(this.state.phone.error)}
@@ -217,6 +234,7 @@ class SignUpForm extends Component {
                         id="SignupForm--password"
                         required
                         onChange={this.handleChange}
+                        onPaste={this.handlePaste}
                         autoComplete="off"
                     />
                     {this.errorMessage(this.state.password.error)}
@@ -229,6 +247,7 @@ class SignUpForm extends Component {
                         name="passwordConfirm"
                         id="SignupForm--password-confirmation"
                         onChange={this.handleChange}
+                        onPaste={this.handlePaste}
                         autoComplete="off"
                     />
                     {this.errorMessage(this.state.passwordConfirm.error)}

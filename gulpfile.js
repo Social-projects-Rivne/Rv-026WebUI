@@ -10,7 +10,7 @@ var reload = browserSync.reload;
 
 gulp.task('bs:init', (done) =>{
     browserSync.init({
-        proxy:"http://localhost:3090" 
+        proxy:"http://localhost:3090"
     })
    done();
 })
@@ -18,9 +18,11 @@ gulp.task('bs:init', (done) =>{
 gulp.task('copy', () => {
     return gulp.src([
         './public/**/*.*',
+        './static/css/**/*.*',
+        './static/fonts/**/*.*',
         './index.html'],{base:'.', since: gulp.lastRun('copy')})
         .pipe(gulp.dest('dist/'));
-    
+
 })
 
 gulp.task('translate', () => {
@@ -50,7 +52,7 @@ gulp.task('startWebpack', (done) => {
 gulp.task('start', (done) =>{
 
     var started = false;
-    
+
 	return nodemon({
         script: 'dist/app.js'
     })
@@ -59,7 +61,7 @@ gulp.task('start', (done) =>{
 		// thanks @matthisk
 		if (!started) {
 			done();
-			started = true; 
+			started = true;
         }
     })
     .on('restart', () => {
@@ -73,7 +75,7 @@ gulp.task('start', (done) =>{
 
 gulp.task('watch', (done) => {
     browserSync.watch("dist/**/*.*").on("change", reload);
-    
+
     gulp.watch([
         './controllers/**/*.*',
         './db/**/*.*',
@@ -82,9 +84,11 @@ gulp.task('watch', (done) => {
         './routes/**/*.*',
         './app.js',
         './config.js'],gulp.series('translate'));
-    
+
     gulp.watch([
             './public/**/*.*',
+            './static/css/**/*.*',
+            './static/fonts/**/*.*',
             './index.html'],gulp.series('copy'));
     done();
 })
@@ -97,5 +101,3 @@ gulp.task('nodemon:start', gulp.series('start', 'bs:init','watch') , (done) =>
 gulp.task('default',
     gulp.parallel('translate', 'copy', 'startWebpack')
 );
-
-

@@ -1,0 +1,97 @@
+.search-section{
+	text-align: center;
+	margin: 25px 0 25px 0;
+}
+
+.search-section .search-title{
+    margin: 10px 0px 25px 0px;
+}
+
+.search-section .header-search-group{
+	width: 80%;
+    margin: 0 auto;
+}
+
+.search-section .header-search-group .input-search{
+	width:70%;
+    background-image: url(../../public/images/icons/searchIcon.svg);
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    padding-left: 40px;
+}
+
+.search-section .header-search-group .select-search{
+    background-color: #337ab7;
+    color: white;
+    width:30%;
+    border-color: #2e6da4;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    border-radius: 4px 0px 0px 4px;
+}
+
+.search-section .select-search option{
+	background-color: white;
+    color: black;
+}
+
+.search-section .search-elements{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 2px;
+    
+}
+
+.search-section .search-elements .search-element{
+    border-radius: 2px;
+    margin-top: 2px;
+    position: relative;
+    display: block;
+    float: left;
+    width: 100%;
+    height: 82px;
+    background-color: white;
+    border: #ccc 1px solid;
+    z-index: 1;
+    opacity: 0.8;  
+}
+
+.search-section .search-elements .search-element .image {
+    width: 100px;
+    height: 80px;
+    display: block;
+    float: left;
+}
+.search-section .search-elements .search-element .text{
+    display: block;
+    float: left; 
+    width: calc(70% - 100px);
+}
+.search-section .search-elements .search-element .element-rating{
+    display: block;
+    float: left; 
+    font-weight: bolder;
+    color: gold;
+    font-size: 16pt;
+    width: 30%;
+    padding-top: 25px;
+
+}
+
+.search-section .search-elements .search-element .text .title{
+    font-weight: bolder;
+    float: left;
+    width: 50%;
+    padding-top: 25px;
+}
+
+.search-section .search-elements .search-element .text .author{
+    float: left;
+    width: 50%;
+    padding-top: 25px;
+}
+
+.search-section .search-elements .search-element:hover{
+    background-color:#DCECF8;
+    opacity: 1;
+}

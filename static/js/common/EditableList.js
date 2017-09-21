@@ -122,61 +122,60 @@ class ItemsList extends Component {
 
 
     render() {
-        if (this.props.fieldName === "tags") {
-            const items = this.state.items.map(function(item, index) {
-                        return <li key = { index } > < Link to = { item.id ? `/${item.id}/recipes` : `#` } > { item.name } < /Link> &ensp;{ this.state.editing ? <button onClick={this.deleteItem.bind(this,index)} type="button" className="btn btn-danger btn-sm">Remove</button >: null
-                    } < /li>
-                },
-                this);
-    }
-    else {
         const items = this.state.items.map(function(item, index) {
-                return <li key = { index } > { item.name } & nbsp; {
+                return <li key = { index } > { item.name } &nbsp; {
                     this.state.editing ? < button onClick = { this.deleteItem.bind(this, index) }
                     type = "button"
                     className = "btn btn-danger btn-sm" > Remove < /button> : null}</li >
                 }, this);
-        }
         if (this.state.editing) {
-            return ( <
-                div > { < AddItemForm addItem = { this.addItem.bind(this) }
-                    />} <
-                    div >
-                    <
-                    ul className = "list-group" > { items } <
-                    /ul> <
-                    /div> <
-                    div > { this.state.message } < /div> <
-                    div >
-                    <
-                    button
-                    style = { buttonCommon }
-                    onClick = { this.saveEdit }
-                    disabled = { this.state.saving } >
-                    Save <
-                    /button> <
-                    button
-                    style = { buttonCommon }
-                    onClick = { this.cancelEdit }
-                    disabled = { this.state.saving } >
-                    Cancel <
-                    /button> { this.renderSavingAnimation() } <
-                    /div> <
-                    /div>
+            return ( 
+                <div> { <AddItemForm addItem = { this.addItem.bind(this) }/>}
+                    <div>
+                        <ul className = "list-group" > 
+                            { items } 
+                        </ul> 
+                    </div> 
+                    <div> 
+                        { this.state.message } 
+                    </div> 
+                    <div>
+                        <button
+                            style = { buttonCommon }
+                            onClick = { this.saveEdit }
+                            disabled = { this.state.saving } >
+                        Save 
+                        </button> 
+                        <button
+                            style = { buttonCommon }
+                            onClick = { this.cancelEdit }
+                            disabled = { this.state.saving } >
+                        Cancel 
+                        </button> 
+                        { this.renderSavingAnimation() } 
+                    </div>
+                </div>
                 );
             }
-            return ( <
-                div >
-                <
-                div >
-                <
-                ul className = "list-group" > { items } <
-                /ul> <
-                /div> <
-                div > { this.state.message } < /div> { this.renderSavingAnimation() } {
-                    this.props.owner ? < button style = { buttonCommon }
-                    onClick = { this.edit } > Edit < /button> : null}         <
-                        /div>
+            return ( 
+                <div>
+                <div>
+                <ul className = "list-group" > 
+                { items } 
+                </ul>
+                </div>
+                <div > { this.state.message } </div> 
+                { this.renderSavingAnimation() }
+                    { this.props.owner ? 
+                    <button 
+                        style = { buttonCommon }
+                        onClick = { this.edit }>
+                        Edit
+                        </button>
+                        : 
+                        null
+                    }         
+                    </div>
                 );
             }
         };
@@ -193,25 +192,22 @@ class ItemsList extends Component {
             }
 
             render() {
-                return ( <
-                    form className = "form-inline"
-                    ref = "itemForm"
-                    onSubmit = { this.createItem.bind(this) } >
-                    <
-                    div className = "form-group" >
-                    <
-                    label htmlFor = "itemItem" >
-                    Item Name <
-                    input type = "text"
-                    id = "itemItem"
-                    ref = "itemName"
-                    className = "form-control" / >
-                    <
-                    /label> <
-                    /div> <
-                    button type = "submit"
-                    className = "btn btn-primary" > Add item < /button> <
-                    /form>
+                return ( 
+                    <form className = "form-inline" ref = "itemForm" onSubmit = { this.createItem.bind(this) } >
+                    <div className = "form-group">
+                    <label htmlFor = "itemItem" >
+                    Item Name 
+                    <input type = "text"
+                        id = "itemItem"
+                        ref = "itemName"
+                        className = "form-control" / >
+                    </label> 
+                    </div> 
+                    <button type = "submit"
+                        className = "btn btn-primary"> 
+                        Add item 
+                        </button>
+                    </form>
                 )
             }
         };

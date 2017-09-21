@@ -189,8 +189,36 @@ class recipeModel {
     where recipes.id=${id}`;
     }
 
-    getTagsByRecipeId(id) {
+   getTagsByRecipeId(id) {
         return `select tags.id, tags.name from tags FULL OUTER join recipe_tag on tags.id=recipe_tag.tag_id where recipe_tag.recipe_id=${id}`;
+
+   }
+
+    getTagsByRecipeId(id) {
+      return `select tags.id, tags.name from tags FULL OUTER join recipe_tag on tags.id=recipe_tag.tag_id where recipe_tag.recipe_id=${id}`;
+    }
+
+    updateRecipe(data, value) {
+      return `INSERT INTO ${data.fieldName}(name)
+              SELECT DISTINCT '${value}'
+              FROM   ${data.fieldName}
+              ON CONFLICT (name) DO UPDATE SET name=EXCLUDED.name RETURNING id`;
+    }
+
+    removeDbLink(table, fieldName, recipeId, insertId){
+      return `DELETE FROM ${table}
+              WHERE recipe_id =${recipeId} AND ${fieldName}_id = ${insertId}`;
+    }
+
+    addDbLink(table, fieldName, recipeId, insertId){
+      return `INSERT INTO ${table} (recipe_id, ${fieldName}_id)
+              SELECT ${recipeId}, ${insertId}
+              WHERE NOT EXISTS (SELECT id FROM ${table} WHERE recipe_id = ${recipeId} AND ${fieldName}_id = ${insertId});`;
+    }
+
+
+    upsertData(data) {
+        return `INSERT INTO recipes (id,${data.fieldName}) VALUES (${data.id},'${data.value}') ON CONFLICT(id) DO UPDATE SET ${data.fieldName} = '${data.value}'`;
     }
     
 }

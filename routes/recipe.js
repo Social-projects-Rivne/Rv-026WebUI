@@ -13,5 +13,6 @@ router.get('/api/recipes/search/tagtype=:tagtype', recipeController.getRecepiesB
 router.post('/api/recipes/search/name', recipeController.autocompleteRecepiesByName);
 router.post('/api/recipes/search/tagtype', recipeController.autocompleteRecepiesByTagType);
 router.get('/api/recipes/:id', recipeController.getRecipeById);
+router.put('/api/recipe/edit/:id', recipeController.updateRecipe);
 
 module.exports = router;

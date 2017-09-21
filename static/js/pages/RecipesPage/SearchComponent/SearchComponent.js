@@ -2,12 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 
-import _ from 'lodash';
 import axios from 'axios';
+import ReactLoading from 'react-loading';
 
 import SearchBar from './SearchBar';
 import DropDown from './DropDown';
 import SearchElements from './SearchElements';
+
+import wait from '../../../common/wait';
+
+const centerDiv = {
+    margin: 'auto',
+    width: '10%',
+};
 
 class SearchComponent extends Component {
     constructor(props) {
@@ -18,15 +25,22 @@ class SearchComponent extends Component {
             type: 'searchByName',
             item: '',
             itemNow: '',
+            process: '',
         };
 
         this.typeChange = this.typeChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onSearchItemNow = this.onSearchItemNow.bind(this);
+        this.elementSearch = this.elementSearch.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState) {
+        if(prevState.item !== this.state.item && this.state.item) {
+            this.setState({ process: 'fetching' });
+        }
+        
         if (prevState.type !== this.state.type) {
+            this.setState({ process: 'fetching' });
             this.elementSearch(this.state.item);
         }
     }
@@ -54,25 +68,40 @@ class SearchComponent extends Component {
     }
 
     elementSearch(item) {
+        this.setState({ item });
         if (item) {
             switch (this.state.type) {
             case 'searchByName':
-                axios.post('/api/recipes/search/name', { item })
-                    .then(response => this.setState({ elements: response.data }))
-                    .catch(error => console.log(error));
+                wait(1000)
+                .then(() => {
+                    axios.post('/api/recipes/search/name', { item })
+                        .then(response => this.setState({ process: 'fetched', elements: response.data }))
+                        .catch(error => console.log(error));
+                })
+                .catch((err) => {
+                    this.setState({ process: 'failedToFetch' });
+                    console.log(err, 'Failed to get recipes data');
+                });
                 break;
             case 'searchByTagCategory':
-                axios.post('/api/recipes/search/tagtype', { item })
-                    .then(response => this.setState({ elements: response.data }))
-                    .catch(error => console.log(error));
+                wait(1000)
+                .then(() => {
+                    axios.post('/api/recipes/search/tagtype', { item })
+                        .then(response => this.setState({ process: 'fetched', elements: response.data }))
+                        .catch(error => console.log(error));
+                })
+                .catch((err) => {
+                    this.setState({ process: 'failedToFetch' });
+                    console.log(err, 'Failed to get recipes data');
+                });
                 break;
             default:
                 this.setState({ elements: [] });
             }
-            this.setState({ item });
         } else {
-            this.setState({ elements: [] });
             this.setState({ item: '' });
+            this.setState({ elements: [] });
+            this.setState({ process: '' });
         }
     }
 
@@ -82,7 +111,14 @@ class SearchComponent extends Component {
     }
 
     render() {
-        const elementSearchDelay = _.debounce((item) => { this.elementSearch(item); }, 300);
+        const phase = this.state.process;
+        let searchElement = null;
+        if (phase === 'fetching') {
+            searchElement = <ReactLoading style={centerDiv} type="bars" color="#444" height="70" width="20" />;
+        } else if (phase === 'fetched') {
+            searchElement = <SearchElements allElements={this.state.elements} />;
+        }
+
         return (
             <section className="search-section">
                 <h1 className="search-title">Welcome! Whanna Chew?</h1>
@@ -91,13 +127,13 @@ class SearchComponent extends Component {
                         <form onSubmit={this.onSubmit}>
                             <div className="input-group header-search-group">
                                 <DropDown onSearchTypeChange={this.typeChange} />
-                                <SearchBar onSearchItemNow={this.onSearchItemNow} onSearchItemChange={elementSearchDelay} />
+                                <SearchBar onSearchItemNow={this.onSearchItemNow} onSearchItemChange={this.elementSearch} />
                                 <span className="input-group-btn">
                                     <button type="submit" className="btn btn-primary">Go!</button>
                                 </span>
                             </div>
                         </form>
-                        <SearchElements allElements={this.state.elements} />
+                        {searchElement}
                     </div>
                 </div>
             </section>

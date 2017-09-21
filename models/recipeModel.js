@@ -179,20 +179,19 @@ class recipeModel {
     };
 
     getRecipeById(id) {
-        return `select recipes.id,recipes.photo,recipes.title,recipes.description, recipes.rating,t2.name from recipes
-    FULL OUTER join
-    (select calc_card.recipe_id,calc_card.ingredient_id,ingredients.name from calc_card
-    FULL OUTER join ingredients
-    on calc_card.ingredient_id=ingredients.id
-    where calc_card.recipe_id=${id}) as t2
-    on recipes.id=t2.recipe_id
-    where recipes.id=${id}`;
-    }
-
-   getTagsByRecipeId(id) {
-        return `select tags.id, tags.name from tags FULL OUTER join recipe_tag on tags.id=recipe_tag.tag_id where recipe_tag.recipe_id=${id}`;
-
+    return `select recipes.id,recipes.photo,recipes.title,recipes.description, recipes.rating, recipes.owner_id,t2.name,t2.id as ingredientid from recipes
+        FULL OUTER join
+        (select calc_card.recipe_id,calc_card.ingredient_id,ingredients.name,ingredients.id from calc_card
+        FULL OUTER join ingredients
+        on calc_card.ingredient_id=ingredients.id
+        where calc_card.recipe_id=${id}) as t2
+        on recipes.id=t2.recipe_id
+        where recipes.id=${id}`;
    }
+
+    getTagsByRecipeId(id) {
+      return `select tags.id, tags.name from tags FULL OUTER join recipe_tag on tags.id=recipe_tag.tag_id where recipe_tag.recipe_id=${id}`;
+    }
 
     getTagsByRecipeId(id) {
       return `select tags.id, tags.name from tags FULL OUTER join recipe_tag on tags.id=recipe_tag.tag_id where recipe_tag.recipe_id=${id}`;

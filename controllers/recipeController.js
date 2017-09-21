@@ -250,6 +250,9 @@ const recipeHelper = (dbResponse, cookie_id) => {
     if (parseInt(dbResponse[0].owner_id) === parseInt(cookie_id)) {
         is_ok = true;
     }
+    console.log(dbResponse[0].owner_id);
+    console.log(cookie_id);
+    console.log(is_ok);
 
     dbResponse.forEach((field) => {
         ingredients.push({ "id": field.ingredientid, "name": field.name });

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import AlertContainer from 'react-alert';
 
 import Header from '../../common/Header';
@@ -14,7 +15,7 @@ class CreateRecipePage extends Component {
         offset: 14,
         position: 'top right',
         theme: 'light',
-        time: 4000,
+        time: 1000,
         transition: 'fade',
         type: 'success',
     }
@@ -44,6 +45,7 @@ class CreateRecipePage extends Component {
     handleSubmit(recipe) {
         this.addRecipe(recipe)
             .then(res => this.msg.show(res, { type: 'success' }))
+            .then(setTimeout(() => browserHistory.push('/recipes'), 2000))
             .catch(err => console.log(err));
     }
 

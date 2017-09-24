@@ -162,7 +162,7 @@ class RecipesForm extends Component {
             <form className="create-recipe-form" onSubmit={this.onSubmit}>
                 <h1 className="title">Create New Recipe</h1>
                 <FormGroup>
-                    <label htmlFor="RecipesForm--title">Title</label>
+                    <label htmlFor="RecipesForm--title">Title *</label>
                     <FormControl
                         type="text"
                         name="title"
@@ -175,7 +175,7 @@ class RecipesForm extends Component {
                     {this.errorMessage(this.state.titleExists)}
                 </FormGroup>
                 <FormGroup>
-                    <label htmlFor="RecipesForm--description">Description</label>
+                    <label htmlFor="RecipesForm--description">Description *</label>
                     <FormControl
                         componentClass="textarea"
                         name="description"
@@ -187,7 +187,7 @@ class RecipesForm extends Component {
                     {this.errorMessage(this.state.emptyDescription)}
                 </FormGroup>
                 <FormGroup>
-                    <label htmlFor="RecipesForm--photo">Photo</label>
+                    <label htmlFor="RecipesForm--photo">Photo *</label>
                     <FormControl
                         type="file"
                         name="photo"

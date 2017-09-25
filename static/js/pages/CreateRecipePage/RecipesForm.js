@@ -5,11 +5,12 @@ import {
     Button,
     FormControl,
     FormGroup,
-    ButtonGroup,
     Thumbnail,
 } from 'react-bootstrap';
-import _ from 'underscore';
+import _ from 'lodash';
 import axios from 'axios';
+
+import ListCreator from '../../common/ListCreator';
 
 class RecipesForm extends Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class RecipesForm extends Component {
             imagePreviewUrl: '',
             rating: 0,
             tags: '',
+            ingredients: [],
 
             emptyTitle: '',
             emptyDescription: '',
@@ -40,9 +42,8 @@ class RecipesForm extends Component {
         this.onTagsChange = this.onTagsChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.checkTitleExists = this.checkTitleExists.bind(this);
+        this.onListCreator = this.onListCreator.bind(this);
     }
-
-
 
     onTitleChange(e) {
         this.setState({ title: e.target.value });
@@ -94,8 +95,11 @@ class RecipesForm extends Component {
         const isDeleted = this.state.is_deleted;
         const photo = this.state.photo;
         const tags = this.state.tags;
+        const ingredients = this.state.ingredients;
         const rating = this.state.rating;
-
+        
+        console.log('ingredients', ingredients);
+        
         if (!title || !description || !photo) {
             return;
         }
@@ -105,6 +109,7 @@ class RecipesForm extends Component {
             isDeleted,
             photo,
             tags,
+            ingredients,
             rating,
         });
         this.setState({
@@ -147,6 +152,11 @@ class RecipesForm extends Component {
                     console.log('Failed to check email');
                 });
         }, 0);
+    }
+
+    onListCreator(items) {
+        const ingredients = _.compact(_.map(items, 'value'));
+        this.setState({ ingredients });
     }
 
     errorMessage = (m) => m === null ? '' : <div className="text-danger">{m}</div>;
@@ -210,6 +220,12 @@ class RecipesForm extends Component {
                         onChange={this.onTagsChange}
                     />
                     {this.errorMessage(this.state.emptyTags)}
+                </FormGroup>
+                <FormGroup>
+                    <ListCreator
+                        nameLable="ingredient"
+                        onListCreator={this.onListCreator}
+                    />
                 </FormGroup>
                 <FormGroup>
                     <Button

@@ -28,6 +28,7 @@ class CreateRecipePage extends Component {
             data.append('is_deleted', recipe.is_deleted);
             data.append('photo', recipe.photo);
             data.append('tags', recipe.tags);
+            data.append('ingredients', recipe.ingredients);
             data.append('rating', recipe.rating);
             const xhr = new XMLHttpRequest();
             xhr.open('post', '/api/recipe', true);

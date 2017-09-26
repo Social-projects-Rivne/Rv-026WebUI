@@ -1,59 +1,62 @@
 const WebpackShellPlugin = require('webpack-shell-plugin');
-var path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var plugins = [];
-
-plugins.push(new WebpackShellPlugin({
-    onBuildStart: ['echo "Starting"'],
-    onBuildEnd: ['npm run gulp nodemon:start']
-  }));
+const plugins = [
+    new ExtractTextPlugin('styles.css'),
+    new WebpackShellPlugin({
+        onBuildStart: ['echo "Starting"'],
+        onBuildEnd: ['npm run gulp nodemon:start'],
+    }),
+];
 
 module.exports = {
     entry: './static/js/index.js',
     output: {
         path: __dirname,
-        publicPath:'/',
-        filename: 'bundle.js'
+        publicPath: '/',
+        filename: 'bundle.js',
     },
     watch: true,
     plugins: plugins,
     module: {
-        rules:[
+        rules: [
             {
-                 test: /\.(js|jsx)$/,
-                 exclude: /node_modules/,
-                 loader:'babel-loader',
-                 options:{
-                     presets: ['react', 'es2015', 'stage-1']
-                    },
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                options: {
+                    presets: ['react', 'es2015', 'stage-1'],
+                },
             },
             {
-                test: /\.(css|less)$/,
+                test: /\.(css)$/,
                 use: [{
-                    loader: 'style-loader'
+                    loader: 'style-loader',
                 },
                 {
-                    loader: 'css-loader'
+                    loader: 'css-loader',
                 },
-                {
-                    loader: 'less-loader'
-                }
-                ]},
+                ] },
 
-                {
-                    test: /\.(png|gif|jpg|svg)$/,
-                    use:{
-                             loader: 'url-loader?limit=20480&name=assets/[name]-[hash].[ext]',
-                         },
+            {
+                test: /\.(sass|scss)$/,
+                loader: 'style-loader!css-loader!sass-loader',
+            },
 
+            {
+                test: /\.(png|gif|jpg|svg)$/,
+                use: {
+                    loader: 'url-loader?limit=20480&name=assets/[name]-[hash].[ext]',
                 },
-                {
-                         test:/\.jsx$/,
-                         exclude: [/node_modules/, /public/],
-                         use:{
-                             loader:'react-hot!babel?presets=es2015&retainLines=true',
-                         },
-        }],
 
-    }
+            },
+            {
+                test: /\.jsx$/,
+                exclude: [/node_modules/, /public/],
+                use: {
+                    loader: 'react-hot!babel?presets=es2015&retainLines=true',
+                },
+            }],
+
+    },
 };

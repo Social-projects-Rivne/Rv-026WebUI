@@ -44,7 +44,7 @@ class ListCreator extends Component {
 
         const fieldArray = fields.map((item, index) => (
             <div key={item.id} className="list-creator-item">
-                <label htmlFor={`${nameLable}--${+item.id + 1}`}>
+                <label htmlFor={`${nameLable}--${index + 1}`}>
                     {`${nameLable} #${index + 1}`}
                 </label>
                 <FormControl

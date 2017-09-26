@@ -22,7 +22,7 @@
 }
 
 .list-creator .list-creator-item + .list-creator-add{    
-    margin-top: 5%;
+    margin-top: 25px;
     width: 10%;
     float: left;
     content: '+'

@@ -26,6 +26,14 @@ class recipeModel {
         return query;
     };
 
+    saveRecipeIngredient(recipeId, ingredientId) {
+        const query = {
+            text: `INSERT INTO calc_card(recipe_id, ingredient_id) VALUES($1, $2)`,
+            values: [recipeId, ingredientId],
+        };
+        return query;
+    }
+
     findTitle(title) {
         return `SELECT title,is_deleted FROM recipes WHERE title = '${title}' LIMIT 1`
     };

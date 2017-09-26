@@ -5,6 +5,7 @@ import uuidv4 from 'uuid/v4';
 import db from '../db';
 import recipeModel from '../models/recipeModel';
 import tagModel from '../models/tagModel';
+import ingredientModel from '../models/ingredientModel';
 
 import signinController from '../controllers/signinController';
 
@@ -72,6 +73,60 @@ const saveRecipeTags = (idReicpe, recipeArrayTags) => {
     });
 };
 
+const saveIngredientsInCalcCard = (idReicpe, idIngredient) => {
+    const recipeObject = new recipeModel();
+    db.query(recipeObject.saveRecipeIngredient(idReicpe, idIngredient), (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+    });
+};
+
+const saveUniqueIngredients = (idReicpe, uniqueIngredientsArray) => {
+    if (uniqueIngredientsArray.length > 0) {
+        for (let i = 0; i < uniqueIngredientsArray.length; i++) {
+            db.query(ingredientModel.saveIngredients(uniqueIngredientsArray[i]), (err, resultat) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    const idIngredient = resultat.rows[0].id;
+                    saveIngredientsInCalcCard(idReicpe, idIngredient);
+                }
+            });
+        }
+    }
+};
+
+const saveRepetitiveIngredients = (idReicpe, repetitiveIngredientsArray) => {
+    if (repetitiveIngredientsArray.length > 0) {
+        for (let i = 0; i < repetitiveIngredientsArray.length; i++) {
+            db.query(ingredientModel.findIngredientByName(repetitiveIngredientsArray[i]), (err, resultat) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    const idIngredient = resultat.rows[0].id;
+                    saveIngredientsInCalcCard(idReicpe, idIngredient);
+                }
+            });
+        }
+    }
+};
+
+const saveRecipeIngredients = (idReicpe, recipeArrayIngredients) => {
+    db.query(ingredientModel.findAllIngredients(), (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            const allIngredientsArray = result.rows;
+            const allIngredientsNameArray = allIngredientsArray.map(i => i.name);
+            const uniqueIngredientsArray = recipeArrayIngredients.filter(o => allIngredientsNameArray.indexOf(o) === -1);
+            const repetitiveIngredientsArray = recipeArrayIngredients.filter(o => allIngredientsNameArray.indexOf(o) !== -1);
+            saveRepetitiveIngredients(idReicpe, repetitiveIngredientsArray);
+            saveUniqueIngredients(idReicpe, uniqueIngredientsArray);
+        }
+    });
+};
+
 const uploadImageToServer = (tempPath, fullPath) => {
     fs.readFile(tempPath, (errorData, data) => {
         if (errorData) {
@@ -121,7 +176,9 @@ recipeController.createRecipe = (req, res) => {
                 } else {
                     const idReicpe = result.rows[0].id;
                     const recipeArrayTags = parseStringElements(fields.tags[0]);
+                    const recipeArrayIngredients = parseStringElements(fields.ingredients[0]);
                     saveRecipeTags(idReicpe, recipeArrayTags);
+                    saveRecipeIngredients(idReicpe, recipeArrayIngredients);
                     res.send('Recipe created!');
                 }
             });

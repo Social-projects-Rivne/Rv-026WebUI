@@ -1,0 +1,32 @@
+.list-creator {
+    position: relative;
+}
+
+.list-creator .list-creator-input{
+    width: 90%;
+    float: left;
+}
+
+.list-creator .list-creator-delete{
+    width: 10%;
+    float: left;
+}
+
+.list-creator .list-creator-item:last-of-type {
+    width: 90%;
+    float: left;
+}
+
+[class="btn btn-primary btn-block list-creator-add"]::after {    
+    content: 'add ingredients'
+}
+
+.list-creator .list-creator-item + .list-creator-add{    
+    margin-top: 5%;
+    width: 10%;
+    float: left;
+    content: '+'
+}
+.list-creator .list-creator-item + .list-creator-add::after{    
+    content: '+'
+}

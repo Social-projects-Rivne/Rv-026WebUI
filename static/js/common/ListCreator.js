@@ -43,13 +43,14 @@ class ListCreator extends Component {
         const fields = this.state.items;
 
         const fieldArray = fields.map((item, index) => (
-            <div key={item.id}>
+            <div key={item.id} className="list-creator-item">
                 <label htmlFor={`${nameLable}--${+item.id + 1}`}>
                     {`${nameLable} #${index + 1}`}
                 </label>
                 <FormControl
                     type="text"
                     name={nameLable}
+                    className="list-creator-input"
                     id={`${nameLable}--${index + 1}`}
                     placeholder={`${nameLable} ${index + 1}`}
                     value={this.state.items.value}
@@ -57,19 +58,17 @@ class ListCreator extends Component {
                 />
                 <button
                     type="button"
-                    className="btn btn-danger btn-block"
+                    className="btn btn-danger btn-block list-creator-delete"
                     onClick={() => this.removeField(item.id)}
-                >Remove {nameLable}
+                >-
                 </button>
             </div>
         ));
 
         return (
-            <div>
+            <div className="list-creator">
                 {fieldArray}
-                <button type="button" className="btn btn-primary btn-block" onClick={() => this.addField()}>
-                    Add {nameLable}
-                </button>
+                <button type="button" className="btn btn-primary btn-block list-creator-add" onClick={() => this.addField()} />
             </div>
         );
     }

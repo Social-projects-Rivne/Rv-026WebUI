@@ -22,7 +22,7 @@ const routes = (
         <Route path="/recipes/search/name=:name" component={RecipesPage} />
         <Route path="/recipes/search/tagtype=:tagtype" component={RecipesPage} />
         <Route path="/:tag_id/recipes" component={RecipesPage} />
-        <Route path="/recipes/new" onEnter={checkUserId} component={CreateRecipePage} />
+        <Route path="/recipes/new" component={CreateRecipePage} />
         <Route path="/recipes/:id" component={RecipePage} />
         <Route path="/signup" component={SignUpPage} />
         <Route path="/signupsuccess" component={SignUpSuccess} />
@@ -31,6 +31,6 @@ const routes = (
         <Route path="/profile" onEnter={checkUserId}  component={User} />
         <Route path="*" component={NotFound} />
     </Route>
-);
+);// onEnter={checkUserId}
 
 export default routes;

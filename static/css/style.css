@@ -3,6 +3,7 @@
 @import "./recipe-card.css";
 @import "./search-component.css";
 @import "./create-recipe-form.css";
+@import "./list-creator.css";
 
 body {
     font-family: 'Indie Flower', cursive;

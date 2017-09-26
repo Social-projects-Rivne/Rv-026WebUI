@@ -23,13 +23,11 @@ class CreateRecipePage extends Component {
     addRecipe(recipe) {
         return new Promise((resolve, reject) => {
             const data = new FormData();
-            data.append('title', recipe.title);
-            data.append('description', recipe.description);
-            data.append('is_deleted', recipe.is_deleted);
-            data.append('photo', recipe.photo);
-            data.append('tags', recipe.tags);
-            data.append('ingredients', recipe.ingredients);
-            data.append('rating', recipe.rating);
+            for (const key in recipe) {
+                if (hasOwnProperty.call(recipe, key)) {
+                    data.append(key, recipe[key]);
+                }
+            }
             const xhr = new XMLHttpRequest();
             xhr.open('post', '/api/recipe', true);
             xhr.onload = function add() {

@@ -31,7 +31,7 @@ const saveTagsInRecipeTag = (idReicpe, idTag) => {
 };
 
 const saveUniqueTags = (idReicpe, uniqueTagsArray) => {
-    if (uniqueTagsArray.length > 0) {
+    if (!_.isEmpty(uniqueTagsArray)) {
         for (let i = 0; i < uniqueTagsArray.length; i++) {
             db.query(tagModel.saveTags(uniqueTagsArray[i]), (err, resultat) => {
                 if (err) {
@@ -46,7 +46,7 @@ const saveUniqueTags = (idReicpe, uniqueTagsArray) => {
 };
 
 const saveRepetitiveTags = (idReicpe, repetitiveTagsArray) => {
-    if (repetitiveTagsArray.length > 0) {
+    if (!_.isEmpty(repetitiveTagsArray)) {
         for (let i = 0; i < repetitiveTagsArray.length; i++) {
             db.query(tagModel.findTagByName(repetitiveTagsArray[i]), (err, resultat) => {
                 if (err) {
@@ -85,7 +85,7 @@ const saveIngredientsInCalcCard = (idReicpe, idIngredient) => {
 };
 
 const saveUniqueIngredients = (idReicpe, uniqueIngredientsArray) => {
-    if (uniqueIngredientsArray.length > 0) {
+    if (!_.isEmpty(uniqueIngredientsArray)) {
         for (let i = 0; i < uniqueIngredientsArray.length; i++) {
             db.query(ingredientModel.saveIngredients(uniqueIngredientsArray[i]), (err, resultat) => {
                 if (err) {
@@ -100,7 +100,7 @@ const saveUniqueIngredients = (idReicpe, uniqueIngredientsArray) => {
 };
 
 const saveRepetitiveIngredients = (idReicpe, repetitiveIngredientsArray) => {
-    if (repetitiveIngredientsArray.length > 0) {
+    if (!_.isEmpty(repetitiveIngredientsArray)) {
         for (let i = 0; i < repetitiveIngredientsArray.length; i++) {
             db.query(ingredientModel.findIngredientByName(repetitiveIngredientsArray[i]), (err, resultat) => {
                 if (err) {

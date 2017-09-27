@@ -220,6 +220,7 @@ class RecipesForm extends Component {
                 <FormGroup className="button-block">
                     <Button
                         type="submit"
+                        className="btn-create"
                         bsStyle="info"
                         disabled={
                             this.state.buttonDisabledTitle ||

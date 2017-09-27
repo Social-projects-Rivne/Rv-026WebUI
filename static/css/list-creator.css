@@ -1,7 +1,7 @@
 .list-creator {
     width: 50%;
     float: left;
-    margin: 15px 0px 15px 0px;
+    margin: 15px 0px 25px 0px;
     padding: 0px 3px 0px 3px;
 }
 
@@ -30,8 +30,11 @@
 .list-creator [class="list-creator-add item-child tag"]:first-child:active,
 .list-creator [class="list-creator-add item-child ingredient"]:first-child:active {
     border-radius: 3px;
-    width: 100%;
+    width: 77%;
     border: 1px solid black;
+    margin: 0 auto;
+    display: block;
+    padding: 3px;
 }
 
 [class="list-creator-add item-child tag"]::after {    

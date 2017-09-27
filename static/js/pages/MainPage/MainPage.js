@@ -18,7 +18,7 @@ const comment = {
 }
 
 const background = {
-    background: "url('public/New Project.png')",
+    background: "url('/public/images/common/main-page.png')",
     height:'884px',
     textAlign: 'center'
 }

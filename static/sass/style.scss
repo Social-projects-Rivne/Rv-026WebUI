@@ -1,7 +1,11 @@
-$font-stack:    Helvetica, sans-serif;
-$primary-color: #C50000;
+@import "./userPage.css";
+
+@import "./recipe-card.css";
+
+@import "./search-component.css";
+
+@import "./create-recipe-form.css";
 
 body {
-  font: 100% $font-stack;
-  background-color: $primary-color;
+  font-family: 'Indie Flower', cursive;
 }

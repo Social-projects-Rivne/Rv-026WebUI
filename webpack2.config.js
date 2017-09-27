@@ -1,8 +1,6 @@
 const WebpackShellPlugin = require('webpack-shell-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const plugins = [
-    new ExtractTextPlugin('styles.css'),
     new WebpackShellPlugin({
         onBuildStart: ['echo "Starting"'],
         onBuildEnd: ['npm run gulp nodemon:start'],
@@ -29,21 +27,6 @@ module.exports = {
                 },
             },
             {
-                test: /\.(css)$/,
-                use: [{
-                    loader: 'style-loader',
-                },
-                {
-                    loader: 'css-loader',
-                },
-                ] },
-
-            {
-                test: /\.(sass|scss)$/,
-                loader: 'style-loader!css-loader!sass-loader',
-            },
-
-            {
                 test: /\.(png|gif|jpg|svg)$/,
                 use: {
                     loader: 'url-loader?limit=20480&name=assets/[name]-[hash].[ext]',
@@ -57,6 +40,5 @@ module.exports = {
                     loader: 'react-hot!babel?presets=es2015&retainLines=true',
                 },
             }],
-
     },
 };

@@ -1,6 +1,7 @@
 import multiparty from 'multiparty';
 import fs from 'fs';
 import uuidv4 from 'uuid/v4';
+import _ from 'lodash';
 
 import db from '../db';
 import recipeModel from '../models/recipeModel';
@@ -12,10 +13,11 @@ import signinController from '../controllers/signinController';
 const recipeController = {};
 
 const parseStringElements = (stringElements) => {
-    const arrayElements = stringElements.split(',');
+    let arrayElements = stringElements.split(',');
     for (let i = 0; i < arrayElements.length; i++) {
-        arrayElements[i] = arrayElements[i].replace(/[-+().!@#$%^&' "*<>\s]/g, '');
+        arrayElements[i] = arrayElements[i].replace(/[^a-zA-Z0-9а-яА-Я]/g, '');
     }
+    arrayElements = _.uniqBy(arrayElements, e => e);
     return arrayElements;
 };
 
@@ -161,7 +163,6 @@ recipeController.createRecipe = (req, res) => {
             if (availableHeaderTypes.includes(headers['content-type'])) {
                 uploadImageToServer(tempPath, fullPath);
             }
-            console.log(fields);
             const recipeObject = new recipeModel(
                 fields.title[0],
                 fields.description[0],

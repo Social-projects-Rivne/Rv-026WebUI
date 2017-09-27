@@ -21,20 +21,20 @@ class ListCreator extends Component {
             return false;
         });
         this.setState({ items });
-        this.props.onListCreator(this.state.items);
+        this.props.onListCreator(this.state.items, this.props.nameLable);
     }
 
     removeField(index) {
         const newItems = this.state.items.filter(obj => obj.id !== index);
         this.setState({ items: newItems });
-        this.props.onListCreator(this.state.items);
+        this.props.onListCreator(this.state.items, this.props.nameLable);
     }
 
     addField() {
         const itemsArray = this.state.items;
         itemsArray.push({ id: uuidv4(), value: '' });
         this.setState({ items: itemsArray });
-        this.props.onListCreator(this.state.items);
+        this.props.onListCreator(this.state.items, this.props.nameLable);
     }
 
     render() {
@@ -43,7 +43,7 @@ class ListCreator extends Component {
         const fields = this.state.items;
 
         const fieldArray = fields.map((item, index) => (
-            <div key={item.id} className="list-creator-item">
+            <div key={item.id} className="list-creator-item item-child">
                 <label htmlFor={`${nameLable}--${index + 1}`}>
                     {`${nameLable} #${index + 1}`}
                 </label>
@@ -58,9 +58,9 @@ class ListCreator extends Component {
                 />
                 <button
                     type="button"
-                    className="btn btn-danger btn-block list-creator-delete"
+                    className="list-creator-delete"
                     onClick={() => this.removeField(item.id)}
-                >-
+                >&#10008;
                 </button>
             </div>
         ));
@@ -68,7 +68,7 @@ class ListCreator extends Component {
         return (
             <div className="list-creator">
                 {fieldArray}
-                <button type="button" className="btn btn-primary btn-block list-creator-add" onClick={() => this.addField()} />
+                <button type="button" className={`list-creator-add item-child ${nameLable}`} onClick={() => this.addField()} />
             </div>
         );
     }

@@ -22,7 +22,7 @@ class RecipesForm extends Component {
             photo: '',
             imagePreviewUrl: '',
             rating: 0,
-            tags: '',
+            tags: [],
             ingredients: [],
 
             emptyTitle: '',
@@ -39,7 +39,6 @@ class RecipesForm extends Component {
         this.onDescriptionChange = this.onDescriptionChange.bind(this);
         this.onPhotoChange = this.onPhotoChange.bind(this);
         this.onPhotoClick = this.onPhotoClick.bind(this);
-        this.onTagsChange = this.onTagsChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.checkTitleExists = this.checkTitleExists.bind(this);
         this.onListCreator = this.onListCreator.bind(this);
@@ -78,10 +77,6 @@ class RecipesForm extends Component {
         }
     }
 
-    onTagsChange(e) {
-        this.setState({ tags: e.target.value });
-    }
-
     onPhotoClick(e) {
         e.target.value = null;
         this.emptyValidate(e.target.value, 'emptyPhoto', 'Photo is Required');
@@ -98,8 +93,6 @@ class RecipesForm extends Component {
         const ingredients = this.state.ingredients;
         const rating = this.state.rating;
         
-        console.log('ingredients', ingredients);
-        
         if (!title || !description || !photo) {
             return;
         }
@@ -115,7 +108,6 @@ class RecipesForm extends Component {
         this.setState({
             title: '',
             description: '',
-            tags: '',
 
             buttonDisabledTitle: true,
             buttonDisabledDescription: true,
@@ -154,9 +146,15 @@ class RecipesForm extends Component {
         }, 0);
     }
 
-    onListCreator(items) {
-        const ingredients = _.compact(_.map(items, 'value'));
-        this.setState({ ingredients });
+    onListCreator(items, nameLable) {
+        if (nameLable === 'ingredient') {
+            const ingredients = _.compact(_.map(items, 'value'));
+            this.setState({ ingredients });
+        }
+        if (nameLable === 'tag') {
+            const tags = _.compact(_.map(items, 'value'));
+            this.setState({ tags });
+        }
     }
 
     errorMessage = (m) => m === null ? '' : <div className="text-danger">{m}</div>;
@@ -210,24 +208,16 @@ class RecipesForm extends Component {
                 </FormGroup>
                 {imagePreview}
                 <FormGroup>
-                    <label htmlFor="RecipesForm--tags">Tags</label>
-                    <FormControl
-                        componentClass="textarea"
-                        name="tags"
-                        id="RecipesForm--tags"
-                        placeholder="Write tags using commas"
-                        value={this.state.tags}
-                        onChange={this.onTagsChange}
+                    <ListCreator
+                        nameLable="tag"
+                        onListCreator={this.onListCreator}
                     />
-                    {this.errorMessage(this.state.emptyTags)}
-                </FormGroup>
-                <FormGroup>
                     <ListCreator
                         nameLable="ingredient"
                         onListCreator={this.onListCreator}
                     />
                 </FormGroup>
-                <FormGroup>
+                <FormGroup className="button-block">
                     <Button
                         type="submit"
                         bsStyle="info"

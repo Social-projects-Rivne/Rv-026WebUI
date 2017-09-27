@@ -1,32 +1,74 @@
 .list-creator {
-    position: relative;
+    width: 50%;
+    float: left;
+    margin: 15px 0px 15px 0px;
+    padding: 0px 3px 0px 3px;
 }
 
-.list-creator .list-creator-input{
-    width: 90%;
+.list-creator .list-creator-input {
+    width: 88%;
     float: left;
 }
 
-.list-creator .list-creator-delete{
-    width: 10%;
+.list-creator .list-creator-delete {
+    width: 12%;
     float: left;
+    color: #B7340D;
+    font-size: 21px;
+    padding: 0px;
 }
 
 .list-creator .list-creator-item:last-of-type {
-    width: 90%;
+    width: 88%;
     float: left;
 }
 
-[class="btn btn-primary btn-block list-creator-add"]::after {    
-    content: 'add ingredients'
+.list-creator [class="list-creator-add item-child tag"]:first-child,
+.list-creator [class="list-creator-add item-child ingredient"]:first-child,
+.list-creator [class="list-creator-add item-child tag"]:first-child:focus, 
+.list-creator [class="list-creator-add item-child ingredient"]:first-child:focus, 
+.list-creator [class="list-creator-add item-child tag"]:first-child:active,
+.list-creator [class="list-creator-add item-child ingredient"]:first-child:active {
+    border-radius: 3px;
+    width: 100%;
+    border: 1px solid black;
 }
 
-.list-creator .list-creator-item + .list-creator-add{    
+[class="list-creator-add item-child tag"]::after {    
+    content: 'add tags';
+}
+
+[class="list-creator-add item-child ingredient"]::after {    
+    content: 'add ingredients';
+}
+
+.list-creator button[type="button"], 
+.list-creator button[type="button"]:focus, 
+.list-creator button[type="button"]:active {
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.list-creator button[type="button"]:hover {
+    opacity: 0.8;
+}
+
+.list-creator .list-creator-item + .list-creator-add {    
     margin-top: 25px;
-    width: 10%;
+    width: 12%;
     float: left;
-    content: '+'
+    content: '\270E';
+    padding: 0px;
 }
-.list-creator .list-creator-item + .list-creator-add::after{    
-    content: '+'
+.list-creator .list-creator-item + .list-creator-add::after {    
+    content: '\270E';
+    color: #274B2F;
+    font-size: 21px;
 }
+
+.list-creator .list-creator-item label {
+    width: 88%;
+    float: left;
+}
+

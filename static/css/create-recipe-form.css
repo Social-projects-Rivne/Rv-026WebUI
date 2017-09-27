@@ -23,3 +23,8 @@
 		width: 100%;
 	}
 }
+
+.create-recipe-form .button-block {
+    display: inline-block;
+    width: 100%;
+}

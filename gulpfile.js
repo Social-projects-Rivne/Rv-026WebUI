@@ -4,9 +4,9 @@ const sass = require('gulp-sass');
 const webpack = require('webpack-stream');
 const nodemon = require('gulp-nodemon');
 const webpackconfig = require('./webpack2.config.js');
-const browserSync = require('browser-sync').create();
 
-const reload = browserSync.reload;
+var browserSync = require('browser-sync').create();
+var reload = browserSync.reload;
 
 gulp.task('bs:init', (done) => {
     browserSync.init({
@@ -25,9 +25,9 @@ gulp.task('copy', (done) => {
 });
 
 gulp.task('sass', (done) => {
-    gulp.src('./static/sass/**/*.scss')
+    gulp.src(['./static/sass/**/*.scss'], { base: '.', since: gulp.lastRun('sass') })
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./dist/static/css'));
+    .pipe(gulp.dest('dist/'));
     done();
 });
 
@@ -43,7 +43,7 @@ gulp.task('translate', (done) => {
        .pipe(babel({
            presets: ['react', 'es2015', 'stage-1'],
        }))
-       .pipe(gulp.dest('dist'));
+       .pipe(gulp.dest('dist/'));
     done();
 });
 
@@ -77,7 +77,9 @@ gulp.task('start', (done) => {
 
 gulp.task('watch', (done) => {
     browserSync.watch('dist/**/*.*').on('change', reload);
-
+    browserSync.watch('dist/static/css/*.*').on('change', reload);
+    gulp.watch([
+        './static/sass/**/*.*'], gulp.series('sass'));
     gulp.watch([
         './controllers/**/*.*',
         './db/**/*.*',
@@ -89,7 +91,6 @@ gulp.task('watch', (done) => {
 
     gulp.watch([
         './public/**/*.*',
-        './static/css/**/*.*',
         './static/fonts/**/*.*',
         './index.html'], gulp.series('copy'));
     done();

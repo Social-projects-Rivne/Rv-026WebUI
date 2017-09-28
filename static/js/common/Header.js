@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import { browserHistory, Link } from 'react-router';
-import {Button, Form, FormGroup, FormControl, ButtonGroup, ButtonToolbar, Navbar, NavbarBrand, Collapse, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
+import { browserHistory } from 'react-router';
+import { Navbar } from 'react-bootstrap';
 
 class Header extends Component {
     constructor(props) {

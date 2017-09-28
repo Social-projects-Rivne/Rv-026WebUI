@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import uuidv4 from 'uuid/v4';
 import { FormControl } from 'react-bootstrap';
 
@@ -73,5 +74,10 @@ class ListCreator extends Component {
         );
     }
 }
+
+ListCreator.PropTypes = {
+    nameLable: PropTypes.string,
+    onListCreator: PropTypes.func,
+};
 
 export default ListCreator;

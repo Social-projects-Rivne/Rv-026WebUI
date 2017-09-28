@@ -22,8 +22,7 @@ const parseStringElements = (stringElements) => {
 };
 
 const saveTagsInRecipeTag = (idReicpe, idTag) => {
-    const recipeObject = new recipeModel();
-    db.query(recipeObject.saveRecipeTag(idReicpe, idTag), (err, result) => {
+    db.query(recipeModel.saveRecipeTag(idReicpe, idTag), (err, result) => {
         if (err) {
             console.log(err);
         }
@@ -76,8 +75,7 @@ const saveRecipeTags = (idReicpe, recipeArrayTags) => {
 };
 
 const saveIngredientsInCalcCard = (idReicpe, idIngredient) => {
-    const recipeObject = new recipeModel();
-    db.query(recipeObject.saveRecipeIngredient(idReicpe, idIngredient), (err, result) => {
+    db.query(recipeModel.saveRecipeIngredient(idReicpe, idIngredient), (err, result) => {
         if (err) {
             console.log(err);
         }
@@ -163,15 +161,15 @@ recipeController.createRecipe = (req, res) => {
             if (availableHeaderTypes.includes(headers['content-type'])) {
                 uploadImageToServer(tempPath, fullPath);
             }
-            const recipeObject = new recipeModel(
-                fields.title[0],
-                fields.description[0],
-                null,
-                ownerId,
-                fullPathForSave,
-                fields.rating[0],
-            );
-            db.query(recipeObject.saveRecipe(recipeObject), (error, result) => {
+            const recipe = {
+                title: fields.title[0],
+                description: fields.description[0],
+                is_deleted: null,
+                owner_id: ownerId,
+                photo: fullPathForSave,
+                rating: fields.rating[0],
+            };
+            db.query(recipeModel.saveRecipe(recipe), (error, result) => {
                 if (error) {
                     console.log(error);
                 } else {
@@ -190,8 +188,7 @@ recipeController.createRecipe = (req, res) => {
 recipeController.checkTitleExistence = (req, res) => {
     const titleForCheck = req.body.title;
 
-    var recipeObject = new recipeModel();
-    db.query(recipeObject.findTitle(titleForCheck), (err, result) => {
+    db.query(recipeModel.findTitle(titleForCheck), (err, result) => {
         if (err) {
             console.log(err.stack);
             res.send(err.stack);
@@ -207,9 +204,8 @@ recipeController.checkTitleExistence = (req, res) => {
 
 recipeController.getRecipesByTagId = (req, res, next) => {
     var tagId = req.params.tag_id;
-    var recipeObject = new recipeModel();
 
-    db.query(recipeObject.findRecipesByTagId(tagId), (err, result) => {
+    db.query(recipeModel.findRecipesByTagId(tagId), (err, result) => {
         if (err) {
             return next(err);
         } else {
@@ -226,8 +222,7 @@ recipeController.getRecipesByTagId = (req, res, next) => {
 };
 
 recipeController.getAllRecepies = (req, res, next) => {
-    var recipeObject = new recipeModel();
-    db.query(recipeObject.getAllRecipes(), (err, result) => {
+    db.query(recipeModel.getAllRecipes(), (err, result) => {
         if (err) {
             return next(err);
         } else {
@@ -244,9 +239,8 @@ recipeController.getAllRecepies = (req, res, next) => {
 };
 
 recipeController.getRecepiesByName = (req, res, next) => {
-    var recipeObject = new recipeModel();
     var recipeName = req.params.name;
-    db.query(recipeObject.findRicipesByName(recipeName), (err, result) => {
+    db.query(recipeModel.findRicipesByName(recipeName), (err, result) => {
         if (err) {
             console.log('error!');
             return next(err);
@@ -264,9 +258,8 @@ recipeController.getRecepiesByName = (req, res, next) => {
 }
 
 recipeController.getRecepiesByTagType = (req, res, next) => {
-    var recipeObject = new recipeModel();
     var tagType = req.params.tagtype;
-    db.query(recipeObject.findRicipesByTagType(tagType), (err, result) => {
+    db.query(recipeModel.findRicipesByTagType(tagType), (err, result) => {
         if (err) {
             console.log('error!');
             return next(err);
@@ -283,9 +276,8 @@ recipeController.getRecepiesByTagType = (req, res, next) => {
 }
 
 recipeController.autocompleteRecepiesByTagType = (req, res, next) => {
-    var recipeObject = new recipeModel();
     var tagType = req.body.item;
-    db.query(recipeObject.findTop5RicipesByTagType(tagType), (err, result) => {
+    db.query(recipeModel.findTop5RicipesByTagType(tagType), (err, result) => {
         if (err) {
             console.log('error!');
             return next(err);
@@ -302,9 +294,8 @@ recipeController.autocompleteRecepiesByTagType = (req, res, next) => {
 }
 
 recipeController.autocompleteRecepiesByName = (req, res, next) => {
-    var recipeObject = new recipeModel();
     var recipeName = req.body.item;
-    db.query(recipeObject.findTop5RicipesByName(recipeName), (err, result) => {
+    db.query(recipeModel.findTop5RicipesByName(recipeName), (err, result) => {
         if (err) {
             console.log('error!');
             return next(err);
@@ -354,8 +345,7 @@ recipeController.getRecipeById = (req, res) => {
         return;
     }
 
-    const recipeObject = new recipeModel()
-    db.query(recipeObject.getRecipeById(id), (err, result) => {
+    db.query(recipeModel.getRecipeById(id), (err, result) => {
         if (err) {
             res.json(err.name);
         } else if (result.rows.length === 0) {
@@ -363,7 +353,7 @@ recipeController.getRecipeById = (req, res) => {
         } else {
             const recipe = recipeHelper(result.rows, ownerId);
 
-            db.query(recipeObject.getTagsByRecipeId(id), (error, resultInner) => {
+            db.query(recipeModel.getTagsByRecipeId(id), (error, resultInner) => {
                 recipe.tags = [];
                 // we don't check for errors and return just blank array for tags
                 if (resultInner.rows.length > 0) {
@@ -377,7 +367,6 @@ recipeController.getRecipeById = (req, res) => {
 
 recipeController.updateRecipe = (req, res) => {
     const recipeData = req.body;
-    const recipeObject = new recipeModel();
 
     if (recipeData.fieldName == "ingredients" || recipeData.fieldName == "tags") {
         let status = true;
@@ -392,7 +381,7 @@ recipeController.updateRecipe = (req, res) => {
             table = "recipe_tag";
         }
         recipeData.deleteValue.forEach((value) => {
-            db.query(recipeObject.removeDbLink(table, fieldConnect, recipeData.id, value.id), (error) => {
+            db.query(recipeModel.removeDbLink(table, fieldConnect, recipeData.id, value.id), (error) => {
                 if (error) {
                     status = false;
                 }
@@ -402,10 +391,10 @@ recipeController.updateRecipe = (req, res) => {
             res.sendStatus(500)
         }
         recipeData.addValue.forEach((value) => {
-            db.query(recipeObject.updateRecipe(recipeData, value.name), (error, result) => {
+            db.query(recipeModel.updateRecipe(recipeData, value.name), (error, result) => {
                 if (result.rows) {
                     const insertId = result.rows[0].id;
-                    db.query(recipeObject.addDbLink(table, fieldConnect, recipeData.id, insertId), (error) => {
+                    db.query(recipeModel.addDbLink(table, fieldConnect, recipeData.id, insertId), (error) => {
                         if (error) {
                             status = false;
                         } else {
@@ -423,7 +412,7 @@ recipeController.updateRecipe = (req, res) => {
             res.sendStatus(500);
         }
     } else {
-        db.query(recipeObject.upsertData(recipeData), (err) => {
+        db.query(recipeModel.upsertData(recipeData), (err) => {
             if (err) {
                 res.sendStatus(500);
             } else {

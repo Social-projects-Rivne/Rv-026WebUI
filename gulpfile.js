@@ -25,9 +25,9 @@ gulp.task('copy', (done) => {
 });
 
 gulp.task('sass', (done) => {
-    gulp.src(['./static/sass/**/*.scss'], { base: '.', since: gulp.lastRun('sass') })
+    gulp.src(['./static/sass/**/*.scss'], { since: gulp.lastRun('sass') })
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('dist/'));
+    .pipe(gulp.dest('dist/static/css'));
     done();
 });
 
@@ -76,8 +76,8 @@ gulp.task('start', (done) => {
 });
 
 gulp.task('watch', (done) => {
-    browserSync.watch('dist/**/*.*').on('change', reload);
-    browserSync.watch('dist/static/css/*.*').on('change', reload);
+    gulp.watch('dist/**/*.*').on('change', browserSync.reload);
+    gulp.watch('dist/static/css/*.*').on('change', reload);
     gulp.watch([
         './static/sass/**/*.*'], gulp.series('sass'));
     gulp.watch([

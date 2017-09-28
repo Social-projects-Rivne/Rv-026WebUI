@@ -1,0 +1,25 @@
+.create-recipe-form {
+    width: 45%;
+    margin: 20px auto 50px auto;
+    .title {
+      text-align: center;
+    }
+    .btn-cancel {
+      margin-left: 1%;
+    }
+    img {
+      max-height: 200px;
+    }
+  }
+  
+  @media (max-width: 1000px) {
+    .create-recipe-form {
+      width: 70%;
+    }
+  }
+  
+  @media (max-width: 500px) {
+    .create-recipe-form {
+      width: 100%;
+    }
+  }

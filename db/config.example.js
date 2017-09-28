@@ -1,13 +1,13 @@
-var userName = "userName";
-var password = "password";
-var dbServerLocation = "localhost";
-var serverPort = "5432";
-var dbName = "dbName";
+const userName = 'username';
+const password = 'password';
+const dbServerLocation = 'localhost';
+const serverPort = '5432';
+const dbName = 'dbname';
 
 module.exports = {
     userName,
     password,
     dbServerLocation,
     serverPort,
-    dbName
-  };
+    dbName,
+};

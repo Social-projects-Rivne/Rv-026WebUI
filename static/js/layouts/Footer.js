@@ -10,7 +10,7 @@ const footerWhole = {
     color: 'white',
     padding: '10px 0px 0px',
     position: 'absolute',
-    bottom: 0,
+    bottom: '0px',
     width: '100%',
 
 }

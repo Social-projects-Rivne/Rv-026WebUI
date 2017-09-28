@@ -3,28 +3,28 @@ import React, { Component } from 'react';
 import Header from '../../common/Header';
 
 const bannerBlock = {
-    fontSize:'80px',
-    color:'white',
+    fontSize: '80px',
+    color: '#ffffff',
     textAlign: 'center',
-}
+};
 
 const comment = {
-    color:'white',
+    color: '#ffffff',
     textAlign: 'center',
-    fontSize:'30px'
-}
+    fontSize: '30px',
+};
 
 const background = {
     background: "url('public/images/New Project.png')",
-    height:'100vh',
+    height: 'calc(100vh - 60px)',
     textAlign: 'center',
-    backgroundSize: 'cover'
-}
+    backgroundSize: 'cover',
+};
 
 
 class MainPage extends Component {
-    render(){
-        return(
+    render() {
+        return (
             <div style={background}>
                 <Header />
                 <p style={bannerBlock}>FOOD MAKE & DELIEVERY</p>

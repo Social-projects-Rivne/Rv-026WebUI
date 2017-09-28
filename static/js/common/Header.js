@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { browserHistory, Link } from 'react-router';
-import {Button, Form, FormGroup, FormControl, ButtonGroup, ButtonToolbar, Navbar, NavbarBrand, Collapse, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
+import {Button, Form, FormGroup, FormControl, ButtonGroup, ButtonToolbar, Navbar, NavbarBrand, Collapse, Nav, NavItem, NavDropdown, MenuItem, LinkContainer } from 'react-bootstrap';
 
 class Header extends Component {
     constructor(props) {
@@ -35,6 +35,7 @@ class Header extends Component {
         if (this.state.loggedIn) {
             return (
                 <ul className="nav navbar-nav navbar-right">
+                    <li><a href="/profile"><span className="glyphicon glyphicon-user" aria-hidden="true"> Profile</span></a></li>
                     <li><a href="/api/logout">Log Out</a></li>
                 </ul>
             );

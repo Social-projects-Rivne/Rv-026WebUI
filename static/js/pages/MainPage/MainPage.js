@@ -5,22 +5,20 @@ import Header from '../../common/Header';
 const bannerBlock = {
     fontSize:'80px',
     color:'white',
-    marginLeft:'150px',
-    paddingRight:'20px'
+    textAlign: 'center',
 }
 
 const comment = {
     color:'white',
     textAlign: 'center',
-    fontSize:'30px',
-    marginTop:'-30px',
-    paddingRight:'20px'
+    fontSize:'30px'
 }
 
 const background = {
-    background: "url('public/New Project.png')",
-    height:'884px',
-    textAlign: 'center'
+    background: "url('public/images/New Project.png')",
+    height:'100vh',
+    textAlign: 'center',
+    backgroundSize: 'cover'
 }
 
 
@@ -38,5 +36,3 @@ class MainPage extends Component {
 }
 
 export default MainPage;
-
-

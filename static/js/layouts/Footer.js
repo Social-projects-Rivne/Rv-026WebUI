@@ -5,14 +5,14 @@ const footer = {
 }
 
 const footerWhole = {
-    position: 'relative',
-    left: '0',
-    bottom: '0',
-    width: '100%',
-    padding:'10px',
     textAlign: 'center',
     backgroundColor: '#333',
-    color: 'white'
+    color: 'white',
+    padding: '10px 0px 0px',
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+
 }
 
 const footerLinks = {

@@ -24,20 +24,16 @@ class Footer extends Component {
         return(
             <footer style={footerWhole}>
                 <ul style = {footer}>
-                    <li><a style={footerLinks} href="#">About us</a></li>
-                    <li><a style={footerLinks} href="#">Order now!</a></li>
+                    <li><a style={footerLinks} href="/about">About us</a></li>
+                    <li><a style={footerLinks} href="/order">Order now!</a></li>
                 </ul>
                 <ul style = {footer}>
-                    <li><a style={footerLinks} href="#">Recipes</a></li>
-                    <li><a style={footerLinks} href="#">How it works</a></li>
+                    <li><a style={footerLinks} href="/recipes">Recipes</a></li>
+                    <li><a style={footerLinks} href="/services">Our services</a></li>
                 </ul>
                 <ul style = {footer}>
-                    <li><a style={footerLinks} href="#">Our services</a></li>
-                    <li><a style={footerLinks} href="#">Prices</a></li>
-                </ul>
-                <ul style = {footer}>
-                    <li><a style={footerLinks} href="#">Contact Us</a></li>
-                    <li><a style={footerLinks} href="#">Pricy Police</a></li>
+                    <li><a style={footerLinks} href="/contact">Contact Us</a></li>
+                    <li><a style={footerLinks} href="/pricy_police">Pricy Police</a></li>
                 </ul>
             </footer>
         );

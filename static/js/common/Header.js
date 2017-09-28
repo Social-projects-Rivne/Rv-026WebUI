@@ -44,7 +44,7 @@ class Header extends Component {
         if (this.state.loggedIn) {
             return (
                 <ul className="nav navbar-nav navbar-right">
-                    <li><a href="/profile"><span className="glyphicon glyphicon-user" aria-hidden="true"> Profile</span></a></li>
+                    <li><a href="/profile"><span className="glyphicon glyphicon-user" aria-hidden="true"> </span> Profile</a></li>
                     <li><a href="/api/logout">Log Out</a></li>
                 </ul>
             );

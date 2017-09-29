@@ -3,14 +3,22 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { Navbar } from 'react-bootstrap';
 
+
 class Header extends Component {
     constructor(props) {
         super(props);
-
-        this.state = { loggedIn: false};
-
+        this.state = { loggedIn: false };
         this.renderLoginLogout = this.renderLoginLogout.bind(this);
     }
+
+    componentWillMount() {
+        if (document.cookie) {
+            this.setState({ loggedIn: true });
+        } else {
+            this.setState({ loggedIn: false });
+        }
+    }
+
 
     handleClick(e) {
         e.preventDefault();
@@ -22,14 +30,6 @@ class Header extends Component {
                 console.log(err.stack);
                 console.log('Failed to log out');
             });
-    }
-
-    componentWillMount() {
-        if (document.cookie) {
-            this.setState({ loggedIn: true });
-        } else {
-            this.setState({ loggedIn: false });
-        }
     }
 
     renderCreateRecipe() {
@@ -45,6 +45,7 @@ class Header extends Component {
         if (this.state.loggedIn) {
             return (
                 <ul className="nav navbar-nav navbar-right">
+                    <li><a href="/profile"><span className="glyphicon glyphicon-user" aria-hidden="true"> </span> Profile</a></li>
                     <li><a href="/api/logout">Log Out</a></li>
                 </ul>
             );
@@ -75,10 +76,8 @@ class Header extends Component {
                             <li><a href="/about">About Us</a></li>
                         </ul>
                         {this.renderLoginLogout()};
-                    </Navbar.Collapse>
+                      </Navbar.Collapse>
                 </Navbar>
-
-
             </header>
         );
     }

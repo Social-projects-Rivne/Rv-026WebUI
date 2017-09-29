@@ -1,15 +1,8 @@
-@font-face {
-      font-family: handwritten;
-      src: url(../fonts/handwritten.ttf);
-}
-    
 .UserComponent {
-    font-family: handwritten;
     font-size: 20px;
     font-weight: 900;
     word-wrap: break-word;
     input, textarea {
-        font-family: handwritten;
         font-size: 20px;
         font-weight: 900;
         word-wrap: break-word;
@@ -52,24 +45,24 @@
     }
 }
 
-.warningMessage {
+  .warningMessage {
     color: #8a6d3b;
     display: block;
     margin: 10px 0;
-}
+  }
 
-.successMessage {
+  .successMessage {
     color: #3c763d;
     display: block;
     margin: 10px 0;
-}
+  }
 
-.failedMessage {
+  .failedMessage {
     color: #C42128;
     display: block;
     margin: 10px 0;
-}
+  }
 
-.hoverInline {
+  .hoverInline {
     cursor: pointer;
-}
+  }

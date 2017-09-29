@@ -74,12 +74,17 @@ gulp.task('start', (done) => {
     });
     done();
 });
-
+gulp.task('reload', (done)=>{
+    reload({
+                stream: false,
+            });
+    done();
+});
 gulp.task('watch', (done) => {
-    gulp.watch('dist/**/*.*').on('change', browserSync.reload);
-    gulp.watch('dist/static/css/*.*').on('change', reload);
+    //gulp.watch('dist/**/*.*').on('change', browserSync.reload);
     gulp.watch([
         './static/sass/**/*.*'], gulp.series('sass'));
+    gulp.watch('./dist/static/css/*.*', gulp.series('reload'));
     gulp.watch([
         './controllers/**/*.*',
         './db/**/*.*',

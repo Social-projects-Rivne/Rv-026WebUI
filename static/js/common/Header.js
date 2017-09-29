@@ -33,7 +33,7 @@ class Header extends Component {
     }
 
     renderCreateRecipe() {
-        if (this.state.loggedIn) {
+        if (document.cookie) {
             return (
                 <li><a href="/recipes/new">Create Recipe</a></li>
             );
@@ -42,7 +42,7 @@ class Header extends Component {
     }
 
     renderLoginLogout() {
-        if (this.state.loggedIn) {
+        if (document.cookie) {
             return (
                 <ul className="nav navbar-nav navbar-right">
                     <li><a href="/profile"><span className="glyphicon glyphicon-user" aria-hidden="true"> </span> Profile</a></li>

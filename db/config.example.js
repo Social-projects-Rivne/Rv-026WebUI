@@ -2,7 +2,7 @@ const userName = 'username';
 const password = 'password';
 const dbServerLocation = 'localhost';
 const serverPort = '5432';
-const dbName = 'dbName';
+const dbName = 'dbname';
 
 module.exports = {
     userName,

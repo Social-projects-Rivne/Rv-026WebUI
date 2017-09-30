@@ -1,0 +1,32 @@
+@import "./userPage.css";
+@import "./recipe-card.css";
+@import "./search-component.css";
+@import "./create-recipe-form.css";
+@import "./list-creator.css";
+
+@import url('https://fonts.googleapis.com/css?family=Play:400,700&subset=cyrillic,cyrillic-ext');
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
+  font-family: 'Play', sans-serif;
+  min-height: 100%;
+}
+
+footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+}

@@ -1,0 +1,68 @@
+.UserComponent {
+    font-size: 20px;
+    font-weight: 900;
+    word-wrap: break-word;
+    input, textarea {
+        font-size: 20px;
+        font-weight: 900;
+        word-wrap: break-word;
+    }
+    input[type="button"] {
+        background: none;
+        border: none;
+        outline: none;
+        &:focus, &:active {
+            background: none;
+            border: none;
+            outline: none;
+        }
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+    .formStyle {
+        width: 80%;
+        padding: 10px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .cancelButton {
+        color: #B7340D;
+        width: 8%;
+    }
+    .updateButton {
+        color: #274B2F;
+        width: 8%;
+    }
+    input[type="text"], textarea {
+        display: inline-block;
+        width: 80%;
+        resize: vertical;
+        vertical-align: middle;
+    }
+    h1, h2, h3 {
+        font-weight: 900;
+    }
+}
+
+  .warningMessage {
+    color: #8a6d3b;
+    display: block;
+    margin: 10px 0;
+  }
+
+  .successMessage {
+    color: #3c763d;
+    display: block;
+    margin: 10px 0;
+  }
+
+  .failedMessage {
+    color: #C42128;
+    display: block;
+    margin: 10px 0;
+  }
+
+  .hoverInline {
+    cursor: pointer;
+  }

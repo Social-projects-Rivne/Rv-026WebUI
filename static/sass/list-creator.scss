@@ -1,0 +1,80 @@
+.list-creator {
+    width: 50%;
+    float: left;
+    margin: 15px 0px 25px 0px;
+    padding: 0px 3px 0px 3px;
+
+    .list-creator-input {
+        width: 88%;
+        float: left;
+    }
+    
+    .list-creator-delete {
+        width: 12%;
+        float: left;
+        color: #B7340D;
+        font-size: 21px;
+        padding: 0px;
+    }
+    
+    .list-creator-item:last-of-type {
+        width: 88%;
+        float: left;
+    }
+    
+    [class="list-creator-add item-child tag"]:first-child,
+    [class="list-creator-add item-child ingredient"]:first-child,
+    [class="list-creator-add item-child tag"]:first-child:focus, 
+    [class="list-creator-add item-child ingredient"]:first-child:focus, 
+    [class="list-creator-add item-child tag"]:first-child:active,
+    [class="list-creator-add item-child ingredient"]:first-child:active {
+        border-radius: 3px;
+        width: 77%;
+        border: 1px solid black;
+        margin: 0 auto;
+        display: block;
+        padding: 3px;
+    }
+
+    button[type="button"], 
+    button[type="button"]:focus, 
+    button[type="button"]:active {
+        background: none;
+        border: none;
+        outline: none;
+    }
+    
+    button[type="button"]:hover {
+        opacity: 0.8;
+    }
+    
+    .list-creator-item + .list-creator-add {    
+        margin-top: 25px;
+        width: 12%;
+        float: left;
+        content: '\270E';
+        padding: 0px;
+    }
+    .list-creator-item + .list-creator-add::after {    
+        content: '\270E';
+        color: #274B2F;
+        font-size: 21px;
+    }
+    
+    .list-creator-item label {
+        width: 88%;
+        float: left;
+    }
+}
+
+
+
+[class="list-creator-add item-child tag"]::after {    
+    content: 'add tags';
+}
+
+[class="list-creator-add item-child ingredient"]::after {    
+    content: 'add ingredients';
+}
+
+

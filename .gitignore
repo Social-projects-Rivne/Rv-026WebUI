@@ -64,5 +64,3 @@ bundle.js
 bundle.js.map
 db/config.js
 
-#phpStorm ignore
-.idea/

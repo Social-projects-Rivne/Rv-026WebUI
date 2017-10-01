@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
@@ -65,13 +66,7 @@ class ImageEdit extends Component {
         };
         wait(2000)
         .then(() => {
-            fetch(`/api/user/${this.id}/updateGravatar`, { method: 'PUT',
-                body: JSON.stringify(ImageSrc),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include' })
+            axios.put(`/api/user/${this.id}/updateGravatar`, ImageSrc)
             .then((res) => { if (res.status === 200) { this.setState({ updateMessage: 'Updated!', updateStatus: true, process: 'fetched' }); } else { this.setState({ process: 'fetched', updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false }); } })
             .then(setTimeout(() => this.setState({ updateMessage: '', updateStatus: false }), 2000));
         })

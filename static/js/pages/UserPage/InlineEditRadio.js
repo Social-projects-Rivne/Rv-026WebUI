@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
@@ -54,13 +55,7 @@ class InlineEditRadio extends Component {
             }
             wait(2000)
             .then(() => {
-                fetch(`/api/user/${this.id}/updateRole`, { method: 'PUT',
-                    body: JSON.stringify(radioValue),
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include' })
+                axios.put(`/api/user/${this.id}/updateRole`, radioValue)
                    .then((res) => { if (res.status === 200) { this.setState({ updateMessage: 'Updated!', updateStatus: true, process: 'fetched' }); } else { this.setState({ updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false, process: 'fetched' }); } })
                    .then(setTimeout(() => this.setState({ updateMessage: '', updateStatus: false }), 2000))
                    .then(() => {

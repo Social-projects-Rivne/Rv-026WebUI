@@ -72,7 +72,7 @@ class Header extends Component {
                         <ul className="nav navbar-nav">
                             <li><a href="/recipes">Recipes</a></li>
                             {this.renderCreateRecipe()};
-                            <li><a href="/order">Order now</a></li>
+                            <li><a href="/orders">List of jobs</a></li>
                             <li><a href="/about">About Us</a></li>
                         </ul>
                         {this.renderLoginLogout()};

@@ -26,20 +26,20 @@ userController.checkUserId = (req, res) => {
 
 userController.updateUserInfo = (req, res) => {
     const userId = signinController.sessions[req.cookies.access];
-    const id = req.params.id;
+    const id = r;
     if (userId == id) {
         const editedField = req.body.dbName;
         const editedValue = req.body.temVal;
         console.log(editedValue);
         db.query(UserModel.updateUserInfo(editedField, editedValue, userId), (err, result) => {
             if (err) {
-                res.status(500).sendStatus(500);
+                res.sendStatus(500);
             } else {
                 res.sendStatus(200);
             }
         });
     } else {
-        res.status(500).sendStatus(500);
+        res.sendStatus(500);
     }
 };
 

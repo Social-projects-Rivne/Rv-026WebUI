@@ -60,12 +60,16 @@ class InlineEditText extends Component {
             console.log(textField);
             wait(2000)
             .then(() => {
-                axios.put(`/api/user/${this.id}/updateProfile`, textField)
-                   .then((res) => { if (res.status === 200) { this.setState({ updateMessage: 'Updated!', updateStatus: true, process: 'fetched', value: textField.temVal }); } else { this.setState({ process: 'fetched', updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false }); } })
+                fetch(`/api/user/${this.id}/updateProfile`, {method: 'PUT',   body: JSON.stringify(textField), headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }, credentials: 'include' })
+                   .then((res) => { if (res.status === 200) { this.setState({ updateMessage: 'Updated!', updateStatus: true, process: 'fetched', value: textField.temVal }); console.log(res); }
+                   else if(axios.validateStatus(500)) { this.setState({ process: 'fetched', updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false }); console.log(res); } })
                    .then(setTimeout(() => this.setState({ updateMessage: '', updateStatus: false }), 2000));
             })
             .catch((err) => {
-                this.setState({ process: 'failedToFetch' });
+                this.setState({ process: 'fetched' });
                 console.log(err, 'Failed to get image data');
             });
         }

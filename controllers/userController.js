@@ -8,7 +8,7 @@ userController.getUserInfo = (req, res, next) => {
     const userId = signinController.sessions[req.cookies.access];
     db.query(UserModel.getUserInfo(userId), (err, result) => {
         if (err) {
-            res.status(500).sendStatus(500);
+            res.sendStatus(500);
         } else {
             res.json(result);
         }

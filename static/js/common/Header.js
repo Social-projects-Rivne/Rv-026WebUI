@@ -54,6 +54,7 @@ class Header extends Component {
             <ul className="nav navbar-nav navbar-right">
                 <li><a href="/signin">Log In</a></li>
                 <li><a href="/signup">Sign Up</a></li>
+                <li><a href=""><img className="cartIcon" src="../../../public/images/icons/cart.png" alt="cart" /></a></li>
             </ul>
         );
     }

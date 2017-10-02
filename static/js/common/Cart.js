@@ -5,10 +5,11 @@ class Cart extends Component {
         super(props);
     }
 
+    
     render() {
         return (
             <div className="Cart">
-            
+             
             </div>
         );
     }

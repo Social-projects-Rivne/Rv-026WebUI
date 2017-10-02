@@ -1,28 +1,30 @@
 .search-section {
     text-align: center;
     margin: 25px 0 25px 0;
-
+    form {
+        width: 85%;
+        float: left;
+    }
     .search-title {
         margin: 10px 0px 25px 0px;
     }
     .header-search-group {
         width: 80%;
         margin: 0 auto;
+        .btn-search-go {
+            width: 47px;
+            float: left;
+            border-bottom-left-radius: 0px;
+            border-top-left-radius: 0px;
+        }
         .input-search {
-            width: 85%;
+            width: calc(100% - 47px);
             background-repeat: no-repeat;
             background-position: 5px center;
+            border-bottom-left-radius: 0px;
+            border-top-left-radius: 0px;
         }
-        @media (max-width: 900px) {
-            .input-search {
-                width: 75%;
-            }
-        }
-        @media (max-width: 500px) {
-            .input-search {
-                width: 65%;
-            }
-        }
+        
         .select-search {
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -37,20 +39,33 @@
             border-radius: 4px;
             border-radius: 4px 0px 0px 4px;
         }
+        .input-group-btn{
+            float: left;
+            width: 0;
+        }
         @media (max-width: 900px) {
             .select-search {
                 width: 25%;
+            }
+            form {
+                width: 75%;
+                float: left;
             }
         }
         @media (max-width: 500px) {
             .select-search {
                 width: 35%;
             }
+            form {
+                width: 65%;
+                float: left;
+            }
         }
     }
     @media (max-width: 767px) {
         .header-search-group {
             width: 100%;
+            margin: 0 auto;
         }
     }
     
@@ -60,7 +75,7 @@
         color: black;
     }
     .search-elements {
-        width: 80%;
+        width: 100%;
         margin: 0 auto;
         margin-top: 2px;
         .search-element {

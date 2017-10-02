@@ -114,10 +114,15 @@ class SearchComponent extends Component {
         }
 
         if (type === 'searchByName' || type === 'searchByTagCategory') {
-            inputSearch = (<SearchBar
-                onSearchItemNow={this.onSearchItemNow}
-                onSearchItemChange={this.elementSearch}
-            />);
+            inputSearch = (
+                <form onSubmit={this.onSubmit}>
+                    <SearchBar
+                        onSearchItemNow={this.onSearchItemNow}
+                        onSearchItemChange={this.elementSearch}
+                    />
+                    <button type="submit" className="btn btn-primary btn-search-go">Go!</button>
+                </form>
+            );
         } else if (type === 'searchByIngredients') {
             inputSearch = <div>multy search ingredients</div>;
         } else if (type === 'searchByTags') {
@@ -128,16 +133,11 @@ class SearchComponent extends Component {
                 <h1 className="search-title">Welcome! Whanna Chew?</h1>
                 <div className="row">
                     <div className="col-lg-12">
-                        <form onSubmit={this.onSubmit}>
-                            <div className="input-group header-search-group">
-                                <DropDown onSearchTypeChange={this.typeChange} />
-                                {inputSearch}
-                                <span className="input-group-btn">
-                                    <button type="submit" className="btn btn-primary">Go!</button>
-                                </span>
-                            </div>
-                        </form>
-                        {searchElement}
+                        <div className="input-group header-search-group">
+                            <DropDown onSearchTypeChange={this.typeChange} />
+                            {inputSearch}
+                            {searchElement}
+                        </div>
                     </div>
                 </div>
             </section>

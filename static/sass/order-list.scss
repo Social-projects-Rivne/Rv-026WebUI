@@ -1,0 +1,12 @@
+.orders-table {
+    .order-item {
+
+        .recipes-in-order {
+            width: 50%;
+            float: left;
+        }
+    }
+    tbody > tr > td {
+        vertical-align: middle;
+    }
+}

@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import Header from '../../common/Header';
 
 class SignUpSuccess extends Component {
-    render(){
-        return(
+    render() {
+        return (
             <div>
                 <Header />
                 <h1> Registration successful! </h1>

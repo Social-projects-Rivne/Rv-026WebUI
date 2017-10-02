@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { Component } from 'react';
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types';
@@ -57,15 +56,16 @@ class InlineEditText extends Component {
                 temVal: this.state.temVal,
                 dbName: this.props.dbName,
             };
-            console.log(textField);
             wait(2000)
             .then(() => {
-                fetch(`/api/user/${this.id}/updateProfile`, {method: 'PUT',   body: JSON.stringify(textField), headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }, credentials: 'include' })
-                   .then((res) => { if (res.status === 200) { this.setState({ updateMessage: 'Updated!', updateStatus: true, process: 'fetched', value: textField.temVal }); console.log(res); }
-                   else if(axios.validateStatus(500)) { this.setState({ process: 'fetched', updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false }); console.log(res); } })
+                fetch(`/api/user/${this.id}/updateProfile`, { method: 'PUT',
+                    body: JSON.stringify(textField),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include' })
+                   .then((res) => { if (res.status === 200) { this.setState({ updateMessage: 'Updated!', updateStatus: true, process: 'fetched', value: textField.temVal }); } else { this.setState({ process: 'fetched', updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false }); } })
                    .then(setTimeout(() => this.setState({ updateMessage: '', updateStatus: false }), 2000));
             })
             .catch((err) => {

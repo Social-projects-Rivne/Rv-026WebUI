@@ -26,7 +26,7 @@ userController.checkUserId = (req, res) => {
 
 userController.updateUserInfo = (req, res) => {
     const userId = signinController.sessions[req.cookies.access];
-    const id = r;
+    const id = req.params.id;
     if (userId == id) {
         const editedField = req.body.dbName;
         const editedValue = req.body.temVal;

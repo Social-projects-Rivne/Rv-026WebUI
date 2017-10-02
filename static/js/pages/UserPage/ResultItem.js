@@ -17,7 +17,7 @@ class ResultItem extends Component {
             <div className="row UserComponent">
                 <div className="col-sm-5 text-center">
                     <ImageEdit src={user.gravatar ? (user.gravatar) : ('/public/images/avatars/default-avatar.jpg')} value={user.gravatar ? (user.gravatar) : ('/public/images/avatars/default-avatar.jpg')} userId={user.id} />
-                    <InlineEditText value={user.fullname ? (user.fullname) : ('Enter your name')} userId={user.id} dbName="fullname" />
+                    <InlineEditText value={user.fullname ? (user.fullname) : (user.email.split('@')[0])} userId={user.id} dbName="fullname" />
                 </div>
                 <div className="col-sm-7">
                     <h1 style={hfStyle}>Contact information:</h1>

@@ -7,9 +7,12 @@ class AddToCartButton extends Component {
         super(props);
         this.onClick = this.onClick.bind(this);
     }
-
     onClick() {
-        console.log(this.props);
+        let orderList = [];
+        orderList[0] = localStorage.getItem('cart');
+        orderList.push(JSON.stringify(this.props.recipe.recipe.id));
+        localStorage.setItem('cart', orderList);
+        console.log(localStorage.getItem('cart')); 
     }
     render() {
         return (

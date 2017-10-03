@@ -8,6 +8,13 @@ module.exports = function () {
         );`,
         values: [],
     };
+    const createOrdersStatus = {
+        text: `CREATE TABLE IF NOT EXISTS orders_status(
+              id        serial      PRIMARY KEY,
+              status    varchar(30) UNIQUE
+        );`,
+        values: [],
+    };
     const createTags = {
         text: `CREATE TABLE IF NOT EXISTS tags(
               id                  serial         PRIMARY KEY,
@@ -93,7 +100,7 @@ module.exports = function () {
           id              serial      PRIMARY KEY,
           user_id         integer     references users(id),
           cooker_id       integer,    
-          status          integer
+          status_id       integer     references orders_status(id)
           )`,
         values: [],
     };

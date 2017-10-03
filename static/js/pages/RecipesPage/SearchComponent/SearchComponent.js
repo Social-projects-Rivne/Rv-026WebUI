@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router';
 import axios from 'axios';
 import ReactLoading from 'react-loading';
 
+import MultiSelect from './MultiSelect/MultiSelect';
 import SearchBar from './SearchBar';
 import DropDown from './DropDown';
 import SearchElements from './SearchElements';
@@ -16,6 +17,18 @@ const centerDiv = {
     width: '10%',
 };
 
+const data = [
+    { value: 'movie', label: 'movie' },
+    { value: 'dish', label: 'dish' },
+    { value: 'sports', label: 'sports' },
+    { value: 'dollar', label: 'dollar' },
+    { value: 'euro', label: 'euro' },
+    { value: 'carrot', label: 'carrot' },
+    { value: 'dinosaur', label: 'dinosaur' },
+    { value: 'skiing', label: 'skiing' },
+    { value: 'motel', label: 'motel' },
+];
+
 class SearchComponent extends Component {
     constructor(props) {
         super(props);
@@ -26,23 +39,29 @@ class SearchComponent extends Component {
             item: '',
             itemNow: '',
             process: '',
+            selectedOptions: [], // selected options from MultiSelect form
         };
 
         this.typeChange = this.typeChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onSearchItemNow = this.onSearchItemNow.bind(this);
         this.elementSearch = this.elementSearch.bind(this);
+        this.onMultiSelectChange = this.onMultiSelectChange.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.item !== this.state.item && this.state.item) {
             this.setState({ process: 'fetching' });
         }
-        
+
         if (prevState.type !== this.state.type) {
             this.setState({ process: 'fetching' });
             this.elementSearch(this.state.item);
         }
+    }
+
+    onMultiSelectChange(arr) {
+        this.setState({ selectedOptions: arr });
     }
 
     onSearchItemNow(itemNow) {
@@ -124,7 +143,12 @@ class SearchComponent extends Component {
                 </form>
             );
         } else if (type === 'searchByIngredients') {
-            inputSearch = <div>multy search ingredients</div>;
+            inputSearch = (
+                <div style={{ display: 'flex' }}>
+                    <MultiSelect onOptionsChange={this.onMultiSelectChange} options={data} />
+                    <button type="submit" className="btn btn-primary btn-search-go">Go!</button>
+                </div>
+            );
         } else if (type === 'searchByTags') {
             inputSearch = <div>multy search tags</div>;
         }

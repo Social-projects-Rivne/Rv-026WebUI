@@ -1,0 +1,175 @@
+.Arrow-zone {
+    cursor: pointer;
+    text-align: center;
+    width: 25px;
+    padding-top: 4px;
+}
+
+/* overflow:hidden - скрывать все что выходит за границу. */
+
+.Select {
+    width:90%;
+    position: relative;
+
+}
+.Select-control {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #333;
+    cursor: default;
+    border-spacing: 0;
+    border-collapse: separate;
+    height: 34px;
+    outline: none;
+    padding: 0 5px;
+}
+
+
+
+
+/* to set how much of space the item should take */
+/* flex-grow flex-shrink flex-basis */
+/* initial flex: 0 1 auto */
+/* flex: positive number makes flex basis to zero */
+/* flex:1 => flex: 1 1 0 */
+/* Makes the flex item flexible and sets the flex basis to zero,
+ resulting in an item that receives
+ the specified proportion of the free space in the flex container. */
+
+/* it can stretch */
+.Select-multi-value-wrapper {
+    flex: 1;
+    height: 36px;
+    /* why? */
+    overflow: hidden;
+    /* why? */
+    position: relative;
+}
+
+.Select-multi-value-wrapper-scrollable {
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 10000px;
+}
+
+.Select-multi-value-wrapper-container {
+    float: left;
+}
+
+.Select-menu-outer {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top-color: mix(#fff, #ccc, 50%);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+    margin-top: -1px;
+    max-height: 200px;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    right: 0;
+    overflow: auto;
+    z-index: 1;
+}
+
+.Select-menu {
+    max-height: 198px;
+    overflow-y: auto;
+}
+
+.Select-option {
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    padding: 8px 10px;
+    text-align:left;
+}
+
+.Select-option:hover {
+    background-color: #f2f9fc;
+    color: #333;
+}
+
+.Select-value {
+    background-color: #f2f9fc;
+    border-radius: 2px;
+    border: 1px solid #f2f9fc;
+    color: #08c;
+    display: inline-block;
+    font-size: .9em;
+    margin-left: 5px;
+    margin-top: 5px;
+    vertical-align: top;
+}
+
+.Select-value-icon {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    border-right: 1px solid #f2f9fc;
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+
+    /* // move the baseline up by 1px */
+    padding: 3px 5px;
+}
+
+.Select-value-icon:hover {
+    background-color: #f2f0fe;
+    color: #DD1108;
+}
+
+.Select-value-icon:focus {
+    background-color: #f2f9fc;
+    color: #08c;
+}
+
+.Select-value-label {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: default;
+    padding: 2px 5px;
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+
+
+.Select-input {
+    display: inline-block;
+    height: 34px;
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+
+
+.Select-input > input {
+    background: none transparent;
+    border: 0 none;
+    box-shadow: none;
+    cursor: default;
+    display: inline-block;
+    font-family: inherit;
+    font-size: inherit;
+    height: 34px;
+    margin: 0;
+    outline: none;
+    padding: 0;
+    width: 100px;
+}
+
+.Select-clear-zone {
+    color: #999;
+    cursor: pointer;
+    text-align: center;
+    width: 17px;
+    position: relative;
+    padding-top: 4px;
+}
+
+.Select-clear-zone:hover {
+    color: #D0021B;
+}

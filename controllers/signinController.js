@@ -45,4 +45,27 @@ signinController.checkLogin = (req, res) => {
     res.send(response);
 };
 
+signinController.checkLoginCook = (req, res) => {
+    let response = 'ok';
+    const cookId = signinController.sessions[req.cookies.access];
+    if (cookId) {
+        db.query(signinModel.findRoleById(cookId), (err, result) => {
+            if (err) {
+                console.log(err);
+                res.send(response);
+            } else {
+                const roleName = result.rows[0].user_role;
+                if (roleName === 'cook' && req.cookies.access in signinController.sessions) {
+                    response = 'alreadyLoggedInCook';
+                    res.send(response);
+                } else {
+                    res.send(response);
+                }
+            }
+        });
+    } else {
+        res.send(response);
+    }
+};
+
 module.exports = signinController;

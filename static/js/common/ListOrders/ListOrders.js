@@ -8,7 +8,7 @@ class ListOrders extends Component {
     }
 
     render() {
-        const orders = this.props.orders;
+        const { orders } = this.props;
         const orderList = orders.map((order) => {
             return <OrderItem key={order.id} order={order} />;
         });

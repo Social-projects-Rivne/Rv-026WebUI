@@ -45,7 +45,7 @@ class User extends Component {
                     <Result result={user} />
                 </div>
             );
-        } else {
+        } else if (phase === 'failedToFetch') {
             return (
                 <div>
                     <Header />

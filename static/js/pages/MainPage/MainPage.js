@@ -27,7 +27,7 @@ class MainPage extends Component {
         return (
             <div style={background}>
                 <Header />
-                <p style={bannerBlock}>FOOD MAKE & DELIEVERY</p>
+                <p style={bannerBlock}>FOOD MAKE & DELIVERY</p>
                 <p style={comment}>forget about hunger forever with FM&D!</p>
             </div>
 

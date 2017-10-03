@@ -1,0 +1,51 @@
+.cartButton{
+    padding-top: 15px;
+    background: none;
+    border: none;
+    outline: none;
+    color: #9d9d9d;
+    font-size: 14px;
+    font-family: 'Play', sans-serif;
+    &:focus, &:active {
+        background: none;
+        border: none;
+        outline: none;
+    }
+    &:hover {
+        color: #fff;
+    }
+}
+.cartIcon{
+    margin-bottom: 5px;
+    margin-left: 5px;
+    width: auto;
+    height: 20px;
+}
+.Cart{
+    position: absolute;
+    margin-left: -100px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+    background-color: #fff;
+    z-index: 1;
+    width: 300px;
+    height: auto;
+}
+.cartItem{
+    display: block;
+    float: left;
+    z-index: 2;
+}
+.cartItemImg{
+    display: block;
+    float: left;
+  width: 60px;
+  height: auto;
+}
+.cartItemTitle{
+    font-family: 'Play', sans-serif;
+    display: block;
+    float: left;
+}
+

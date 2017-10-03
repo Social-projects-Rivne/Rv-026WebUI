@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { Navbar } from 'react-bootstrap';
 
+import CartButton from './Cart/CartButton';
+
 
 class Header extends Component {
     constructor(props) {
@@ -54,8 +56,8 @@ class Header extends Component {
             <ul className="nav navbar-nav navbar-right">
                 <li><a href="/signin">Log In</a></li>
                 <li><a href="/signup">Sign Up</a></li>
-                <li><a href=""><img className="cartIcon" src="../../../public/images/icons/cart.png" alt="cart" /></a></li>
-            </ul>
+                <li><CartButton /></li>
+            </ul>    
         );
     }
 

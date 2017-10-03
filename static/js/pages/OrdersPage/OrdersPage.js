@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import ReactLoading from 'react-loading';
 
-import Header from '../../common/Header';
-import ListOrders from './ListOrders';
+import HeaderCook from '../../common/HeaderCook';
+import ListOrders from '../../common/ListOrders';
 
 import wait from '../../common/wait';
 
@@ -48,14 +48,14 @@ class OrdersPage extends Component {
         if (phase === 'fetching') {
             return (
                 <div>
-                    <Header />
+                    <HeaderCook />
                     <ReactLoading style={centerDiv} type="bars" color="#444" height="70" width="20" />
                 </div>
             );
         } else if (phase === 'fetched') {
             return (
                 <div>
-                    <Header />
+                    <HeaderCook />
                     <div className="container">
                         <ListOrders orders={orders} />
                     </div>
@@ -64,7 +64,7 @@ class OrdersPage extends Component {
         } else if (phase === 'failedToFetch') {
             return (
                 <div>
-                    <Header />
+                    <HeaderCook />
                     <div>Failed to fetch data from server</div>
                 </div>
             );

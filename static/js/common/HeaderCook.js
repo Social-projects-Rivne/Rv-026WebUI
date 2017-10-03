@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import { Navbar } from 'react-bootstrap';
 
 
-class Header extends Component {
+class HeaderCook extends Component {
     constructor(props) {
         super(props);
         this.state = { loggedIn: document.cookie };
@@ -41,6 +41,15 @@ class Header extends Component {
         return (null);
     }
 
+    renderListOfJobs() {
+        if (document.cookie) {
+            return (
+                <li><a href="/orders">List of jobs</a></li>
+            );
+        }
+        return (null);
+    }
+
     renderLoginLogout() {
         if (document.cookie) {
             return (
@@ -72,6 +81,7 @@ class Header extends Component {
                         <ul className="nav navbar-nav">
                             <li><a href="/recipes">Recipes</a></li>
                             {this.renderCreateRecipe()};
+                            {this.renderListOfJobs()};
                             <li><a href="/about">About Us</a></li>
                         </ul>
                         {this.renderLoginLogout()};
@@ -82,4 +92,4 @@ class Header extends Component {
     }
 }
 
-export default Header;
+export default HeaderCook;

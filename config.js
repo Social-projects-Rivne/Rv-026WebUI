@@ -13,5 +13,9 @@ export default {
     host: env.HOST || 'localhost',
     get serverUrl() {
         return `http://${this.host}:${this.port}`;
-    }
+    },
 };
+
+export const ROLE_USER = 'user';
+export const ROLE_COOK = 'cook';
+export const ROLE_ADMIN = 'admin';

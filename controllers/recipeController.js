@@ -436,7 +436,7 @@ recipeController.getAllIngredients = (req, res) => {
 recipeController.getRecepiesByIngredients = (req, res) => {
     const ingredients = req.params.ingredients;
     if (!ingredients) {
-        res.sendStatus(500);
+        res.sendStatus(404);
     }
     db.query(recipeModel.findRecipesByIngredients(ingredients), (err, result) => {
         if (err) {

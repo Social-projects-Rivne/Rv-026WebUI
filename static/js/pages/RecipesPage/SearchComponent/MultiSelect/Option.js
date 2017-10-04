@@ -2,16 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Option extends Component {
-    static propTypes = {
-        value: PropTypes.string.isRequired,
-        onSelect: PropTypes.func.isRequired,
-    }
-
-    static defaultProps = {
-        options: [],
-        onOptionsChange: () => {},
-    }
-
     constructor(props) {
         super(props);
         this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -32,5 +22,15 @@ class Option extends Component {
         );
     }
 }
+
+Option.propTypes = {
+    value: PropTypes.string.isRequired,
+    onSelect: PropTypes.func.isRequired,
+};
+
+Option.defaultProps = {
+    options: [],
+    onOptionsChange: () => {},
+};
 
 export default Option;

@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Value extends Component {
-    static propTypes = {
-        onRemove: PropTypes.func.isRequired,
-        value: PropTypes.string.isRequired,
-    }
-
     constructor(props) {
         super(props);
 
@@ -50,5 +45,10 @@ class Value extends Component {
         );
     }
 }
+
+Value.propTypes = {
+    onRemove: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired,
+};
 
 export default Value;

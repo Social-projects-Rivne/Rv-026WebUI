@@ -5,16 +5,6 @@ import Option from './Option';
 import Value from './Value';
 
 class MultiSelect extends Component {
-    static propTypes = {
-        options: PropTypes.array,
-        onOptionsChange: PropTypes.func,
-    }
-
-    static defaultProps = {
-        options: [],
-        onOptionsChange: () => {},
-    }
-
     constructor(props) {
         super(props);
 
@@ -41,11 +31,9 @@ class MultiSelect extends Component {
 
     componentDidUpdate() {
         const diff = this.wrapperContainer.offsetWidth - this.wrapper.offsetWidth;
-        if (diff > 0) {
-            this.wrapperScrollable.style.left = `-${diff}px`;
-        } else {
+        (diff > 0) ?
+            this.wrapperScrollable.style.left = `-${diff}px` :
             this.wrapperScrollable.style.left = '0px';
-        }
     }
 
     clearValues(event) {
@@ -269,6 +257,16 @@ class MultiSelect extends Component {
         );
     }
 }
+
+MultiSelect.propTypes = {
+    options: PropTypes.array,
+    onOptionsChange: PropTypes.func,
+};
+
+MultiSelect.defaultProps = {
+    options: [],
+    onOptionsChange: () => {},
+};
 
 export default MultiSelect;
 

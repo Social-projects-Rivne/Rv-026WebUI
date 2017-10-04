@@ -5,8 +5,6 @@
     padding-top: 4px;
 }
 
-/* overflow:hidden - скрывать все что выходит за границу. */
-
 .Select {
     width:90%;
     position: relative;
@@ -26,25 +24,11 @@
     padding: 0 5px;
 }
 
-
-
-
-/* to set how much of space the item should take */
-/* flex-grow flex-shrink flex-basis */
-/* initial flex: 0 1 auto */
-/* flex: positive number makes flex basis to zero */
-/* flex:1 => flex: 1 1 0 */
-/* Makes the flex item flexible and sets the flex basis to zero,
- resulting in an item that receives
- the specified proportion of the free space in the flex container. */
-
 /* it can stretch */
 .Select-multi-value-wrapper {
     flex: 1;
     height: 36px;
-    /* why? */
     overflow: hidden;
-    /* why? */
     position: relative;
 }
 
@@ -111,8 +95,6 @@
     border-right: 1px solid #f2f9fc;
     border-bottom-left-radius: 2px;
     border-top-left-radius: 2px;
-
-    /* // move the baseline up by 1px */
     padding: 3px 5px;
 }
 
@@ -135,8 +117,6 @@
     border-top-right-radius: 2px;
 }
 
-
-
 .Select-input {
     display: inline-block;
     height: 34px;
@@ -144,7 +124,6 @@
     padding-right: 10px;
     vertical-align: middle;
 }
-
 
 .Select-input > input {
     background: none transparent;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import OrderItem from './OrderItem';
 import { ROLE_COOK, ROLE_USER } from '../../../../config';
@@ -6,9 +7,8 @@ import { ROLE_COOK, ROLE_USER } from '../../../../config';
 class ListOrders extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            role: 'user',
+            role: 'cook',
         };
     }
 
@@ -74,5 +74,9 @@ class ListOrders extends Component {
         );
     }
 }
+
+ListOrders.PropTypes = {
+    order: PropTypes.array,
+};
 
 export default ListOrders;

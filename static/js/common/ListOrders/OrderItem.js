@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import { ROLE_COOK, ROLE_USER } from '../../../../config';
 import RecipesInOrder from './RecipesInOrder';
+import ChangeStatus from './ChangeStatus';
 
 class OrderItem extends Component {
     createArrayObjectsFromArrays(order_id, recipes_id, order_price, recipes_title) {
@@ -69,9 +70,7 @@ class OrderItem extends Component {
                     <RecipesInOrder recipesInOrder={recipesInOrder} />
                 </td>
                 <td>
-                    <button className="btn btn-success">
-                        change status
-                    </button>
+                    <ChangeStatus role={role} orderId={order.id} status={order.status} />
                 </td>
             </tr>
         );
@@ -80,6 +79,7 @@ class OrderItem extends Component {
 
 OrderItem.PropTypes = {
     order: PropTypes.object,
+    role: PropTypes.string,
 };
 
 export default OrderItem;

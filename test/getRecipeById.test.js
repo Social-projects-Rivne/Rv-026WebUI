@@ -12,6 +12,7 @@ const dbDataRecipes = {
             title: 'Хліб з майонезом',
             description: 'Порізати хліб, намазати на хліб майонез.',
             rating: 5,
+            is_owner: false,
             name: 'Хліб',
         },
         {
@@ -20,6 +21,7 @@ const dbDataRecipes = {
             title: 'Хліб з майонезом',
             description: 'Порізати хліб, намазати на хліб майонез.',
             rating: 5,
+            is_owner: false,
             name: 'Майонез',
         },
     ],
@@ -41,35 +43,70 @@ const res = { json, data: null };
 
 describe('getRecipeById testing', () => {
     it('should fail if no id in request', () => {
-        const req = { params: { id: '' } };
+        const { getRecipeById: proxiedgetRecipeById } = proxyquire(
+            '../controllers/userController', {
+                './signinController': {
+                    sessions: { 'coo coo': null },
+                },
+            },
+        );
+        const req = { params: { id: '' } , cookies: { access: 'coo coo' } };
 
         getRecipeById(req, res);
         expect(res.data).to.equal('Wrong id');
     });
 
     it('should fail if id is not numeric string', () => {
-        const req = { params: { id: 'q' } };
+        const { getRecipeById: proxiedgetRecipeById } = proxyquire(
+            '../controllers/userController', {
+                './signinController': {
+                    sessions: { 'coo coo': null },
+                },
+            },
+        );
+        const req = { params: { id: 'q' } , cookies: { access: 'coo coo' } };
 
         getRecipeById(req, res);
         expect(res.data).to.equal('Wrong id');
     });
 
     it('should fail if id is =0', () => {
-        const req = { params: { id: '0' } };
+        const { getRecipeById: proxiedgetRecipeById } = proxyquire(
+            '../controllers/userController', {
+                './signinController': {
+                    sessions: { 'coo coo': null },
+                },
+            },
+        );
+        const req = { params: { id: '0' } , cookies: { access: 'coo coo' } };
 
         getRecipeById(req, res);
         expect(res.data).to.equal('Wrong id');
     });
 
     it('should fail if id is <0', () => {
-        const req = { params: { id: '-20' } };
+        const { getRecipeById: proxiedgetRecipeById } = proxyquire(
+            '../controllers/userController', {
+                './signinController': {
+                    sessions: { 'coo coo': null },
+                },
+            },
+        );
+        const req = { params: { id: '-20' } , cookies: { access: 'coo coo' } };
 
         getRecipeById(req, res);
         expect(res.data).to.equal('Wrong id');
     });
 
     it('should fail if response is blank array []', () => {
-        const req = { params: { id: '99' } };
+        const { getRecipeById: proxiedgetRecipeById } = proxyquire(
+            '../controllers/userController', {
+                './signinController': {
+                    sessions: { 'coo coo': null },
+                },
+            },
+        );
+        const req = { params: { id: '99' } , cookies: { access: 'coo coo' } };
 
         const { getRecipeById: proxiedGetRecipeById } = proxyquire(
             '../controllers/recipeController', {
@@ -85,7 +122,14 @@ describe('getRecipeById testing', () => {
     });
 
     it('should fail if db returns error', (done) => {
-        const req = { params: { id: '20' } };
+        const { getRecipeById: proxiedgetRecipeById } = proxyquire(
+            '../controllers/userController', {
+                './signinController': {
+                    sessions: { 'coo coo': 2 },
+                },
+            },
+        );
+        const req = { params: { id: '20' } , cookies: { access: 'coo coo' } };
 
         const { getRecipeById: proxiedGetRecipeById } = proxyquire(
             '../controllers/recipeController', {
@@ -104,7 +148,14 @@ describe('getRecipeById testing', () => {
     });
 
     it('should pass if id and response are valid', (done) => {
-        const req = { params: { id: '20' } };
+        const { getRecipeById: proxiedgetRecipeById } = proxyquire(
+            '../controllers/userController', {
+                './signinController': {
+                    sessions: { 'coo coo': null },
+                },
+            },
+        );
+        const req = { params: { id: '20' } , cookies: { access: 'coo coo' } };
         const query = getQuery([
             dbDataRecipes.positiveResponse,
             dbDataTags.positiveResponse,
@@ -118,7 +169,7 @@ describe('getRecipeById testing', () => {
 
         proxiedGetRecipeById(req, res);
         setTimeout(() => {
-            expect(res.data).to.have.all.keys(['id', 'title', 'description', 'rating', 'photo', 'ingredients', 'tags']);
+            expect(res.data).to.have.all.keys(['id', 'title', 'description', 'rating', 'photo', 'ingredients', 'tags', 'is_owner']);
             done();
         }, 100);
     });

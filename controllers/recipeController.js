@@ -346,13 +346,19 @@ recipeController.updateRecipe = (req, res) => {
             res.sendStatus(500);
         }
     } else {
-        db.query(recipeObject.upsertData(recipeData), (err) => {
-            if (err) {
-                res.sendStatus(500);
-            } else {
-                res.sendStatus(200);
-            }
-        });
+        if(!recipeData.fieldName || !recipeData.value){
+            res.sendStatus(500);
+        }
+        else{
+            db.query(recipeObject.upsertData(recipeData), (err) => {
+                if (err) {
+                    res.sendStatus(500);
+                } else {
+                    res.sendStatus(200);
+                }
+            });
+        }
+        
     }
 };
 

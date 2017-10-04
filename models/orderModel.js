@@ -2,10 +2,11 @@ const orderModel = {};
 
 orderModel.findAllOrders = () => {
     const query = {
-        text: `SELECT o.id, 
-            o.cooker_id, 
+        text: `SELECT o.id,
+            o.cooker_id,
             o.status,
             u.id as owner_id,
+            u.role_id,
             u.fullname,
             array_agg(oc.id) as order_id,
             array_agg(oc.price) as order_price,

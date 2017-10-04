@@ -2,7 +2,30 @@ const UserModel = {};
 
 UserModel.getUserInfo = (userId) => {
     const query = {
-        text: `SELECT users.*, users_roles.user_role FROM users JOIN users_roles ON users_roles.id=users.role_id WHERE users.id='${userId}'`,
+        text: `SELECT o.id,
+            o.cooker_id,
+            o.status,
+            u.id as owner_id,
+            u.fullname,
+            u.email,
+            u.gravatar,
+            u.about_me,
+            u.phone_number,
+            u.role_id,
+            u.is_premium,
+            ur.user_role,
+            ur.id,
+            array_agg(oc.id) as order_id,
+            array_agg(oc.price) as order_price,
+            array_agg(r.id) as recipes_id,
+            array_agg(r.title) as recipes_title
+        FROM orders o
+        RIGHT JOIN order_context oc ON oc.order_id = o.id
+        RIGHT OUTER JOIN recipes r ON oc.recipe_id = r.id
+        RIGHT OUTER JOIN users u ON u.id = o.user_id
+        RIGHT OUTER JOIN users_roles ur ON ur.id = u.role_id
+        where u.id = '${userId}'
+        group by o.id,u.id,ur.id`,
     };
     return query;
 };

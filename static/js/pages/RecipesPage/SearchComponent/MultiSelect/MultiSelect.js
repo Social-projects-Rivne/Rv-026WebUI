@@ -34,7 +34,7 @@ class MultiSelect extends Component {
 
         this.state = {
             isOpen: false,
-            selectedValues: ['willy', ' billy'],
+            selectedValues: [],
             filteredOptions: [],
         };
     }
@@ -47,7 +47,6 @@ class MultiSelect extends Component {
             this.wrapperScrollable.style.left = '0px';
         }
     }
-
 
     clearValues(event) {
         event.stopPropagation();
@@ -63,14 +62,31 @@ class MultiSelect extends Component {
 
     selectValue(value) {
         const arr = this.state.selectedValues;
-        arr.push(value.value);
+        arr.push(value.name);
         this.setState({
             selectedValues: arr,
             isOpen: true,
             filteredOptions: [], // not selected options which remain in dropdown
         });
-        this.props.onOptionsChange(arr);
+        this.props.onOptionsChange(this.convertNamesToIds(arr));
         this.input.value = '';
+    }
+
+    convertNamesToIds = (arrNames) => {
+        const idArray = arrNames.map(
+            (name) => {
+                let foundId = null;
+                this.props.options.forEach(
+                    (opt) => {
+                        if (opt.name === name) {
+                            foundId = opt.id;
+                        }
+                    },
+                );
+                return foundId;
+            },
+        );
+        return idArray;
     }
 
     handleMouseDownOnArrow(event) {
@@ -89,7 +105,7 @@ class MultiSelect extends Component {
         const index = arr.indexOf(value);
         arr.splice(index, 1);
         this.setState({ selectedValues: arr });
-        this.props.onOptionsChange(arr);
+        this.props.onOptionsChange(this.convertNamesToIds(arr));
         this.input.value = '';
         if (!this.state.isOpen) {
             this.setState({ isOpen: true });
@@ -110,10 +126,10 @@ class MultiSelect extends Component {
         }
         const options = this.props.options
             .filter(
-                option => this.state.selectedValues.indexOf(option.value) === -1,
+                option => this.state.selectedValues.indexOf(option.name) === -1,
             )
             .filter(
-                op => op.value.indexOf(event.target.value) === 0,
+                op => op.name.toLowerCase().indexOf(event.target.value.toLowerCase()) === 0,
             );
         this.setState({ filteredOptions: options });
     }
@@ -125,7 +141,6 @@ class MultiSelect extends Component {
     }
 
     renderOuter(options) {
-        console.log(options);
         const menu = this.renderMenu(options);
         if (!menu) {
             return null;
@@ -190,8 +205,8 @@ class MultiSelect extends Component {
         }
         return options.map(option => (
             <Option
-                value={option.value}
-                key={option.value}
+                value={option.name}
+                key={option.name}
                 onSelect={() => this.selectValue(option)}
             />
         ));
@@ -218,7 +233,7 @@ class MultiSelect extends Component {
 
     render() {
         let options = this.props.options.filter(
-            option => this.state.selectedValues.indexOf(option.value) === -1,
+            option => this.state.selectedValues.indexOf(option.name) === -1,
         );
         if (this.state.filteredOptions.length > 0) {
             options = this.state.filteredOptions;

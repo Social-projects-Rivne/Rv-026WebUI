@@ -17,18 +17,6 @@ const centerDiv = {
     width: '10%',
 };
 
-const data = [
-    { value: 'movie', label: 'movie' },
-    { value: 'dish', label: 'dish' },
-    { value: 'sports', label: 'sports' },
-    { value: 'dollar', label: 'dollar' },
-    { value: 'euro', label: 'euro' },
-    { value: 'carrot', label: 'carrot' },
-    { value: 'dinosaur', label: 'dinosaur' },
-    { value: 'skiing', label: 'skiing' },
-    { value: 'motel', label: 'motel' },
-];
-
 class SearchComponent extends Component {
     constructor(props) {
         super(props);
@@ -39,7 +27,8 @@ class SearchComponent extends Component {
             item: '',
             itemNow: '',
             process: '',
-            selectedOptions: [], // selected options from MultiSelect form
+            selectedOptions: [], // selected options' ids from MultiSelect form
+            fetchedIngredients: [], // ingredient list after fetching from server
         };
 
         this.typeChange = this.typeChange.bind(this);
@@ -47,11 +36,30 @@ class SearchComponent extends Component {
         this.onSearchItemNow = this.onSearchItemNow.bind(this);
         this.elementSearch = this.elementSearch.bind(this);
         this.onMultiSelectChange = this.onMultiSelectChange.bind(this);
+        this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.item !== this.state.item && this.state.item) {
             this.setState({ process: 'fetching' });
+        }
+
+        if (prevState.type !== this.state.type && this.state.type === 'searchByIngredients') {
+            axios.get('/api/recipes/getAllIngredients')
+            .then((response) => {
+                const sortedData = response.data.sort((a, b) => {
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    return 0;
+                });
+                this.setState({ fetchedIngredients: sortedData });
+            })
+            .catch(error => console.log(error));
+            return;
         }
 
         if (prevState.type !== this.state.type) {
@@ -121,6 +129,10 @@ class SearchComponent extends Component {
         this.setState({ type, elements: [] });
     }
 
+    handleSearchButtonClick() {
+        browserHistory.push(`/recipes/search/ingredients=${this.state.selectedOptions.join(',')}`);
+    }
+
     render() {
         const phase = this.state.process;
         const type = this.state.type;
@@ -145,8 +157,18 @@ class SearchComponent extends Component {
         } else if (type === 'searchByIngredients') {
             inputSearch = (
                 <div style={{ display: 'flex' }}>
-                    <MultiSelect onOptionsChange={this.onMultiSelectChange} options={data} />
-                    <button type="submit" className="btn btn-primary btn-search-go">Go!</button>
+                    <MultiSelect
+                        onOptionsChange={this.onMultiSelectChange}
+                        options={this.state.fetchedIngredients}
+                    />
+                    <button
+                        type="submit"
+                        className="btn btn-primary btn-search-go"
+                        disabled={!this.state.selectedOptions.length}
+                        onClick={this.handleSearchButtonClick}
+                    >
+                    Go!
+                    </button>
                 </div>
             );
         } else if (type === 'searchByTags') {

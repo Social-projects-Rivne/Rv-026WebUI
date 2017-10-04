@@ -12,7 +12,7 @@ class Value extends Component {
 
         this.onRemove = this.onRemove.bind(this);
         this.renderRemoveIcon = this.renderRemoveIcon.bind(this);
-        this.renderLabel = this.renderLabel.bind(this);
+        this.renderName = this.renderName.bind(this);
     }
 
     onRemove(event) {
@@ -33,7 +33,7 @@ class Value extends Component {
         );
     }
 
-    renderLabel() {
+    renderName() {
         return (
             <span className="Select-value-label">
                 {this.props.value}
@@ -45,7 +45,7 @@ class Value extends Component {
         return (
             <div className="Select-value">
                 {this.renderRemoveIcon()}
-                {this.renderLabel()}
+                {this.renderName()}
             </div>
         );
     }

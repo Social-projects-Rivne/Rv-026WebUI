@@ -20,4 +20,7 @@ ingredientModel.findIngredientByName = (ingredientName) => {
     return query;
 };
 
+ingredientModel.getAllIngredients = () =>
+    'SELECT id, name FROM ingredients WHERE is_deleted is null';
+
 module.exports = ingredientModel;

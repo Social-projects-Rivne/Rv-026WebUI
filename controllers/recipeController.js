@@ -422,4 +422,35 @@ recipeController.updateRecipe = (req, res) => {
     }
 };
 
+recipeController.getAllIngredients = (req, res) => {
+    db.query(ingredientModel.getAllIngredients(), (err, result) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        } else {
+            res.json(result.rows);
+        }
+    });
+};
+
+recipeController.getRecepiesByIngredients = (req, res) => {
+    const ingredients = req.params.ingredients;
+    if (!ingredients) {
+        res.sendStatus(500);
+    }
+    db.query(recipeModel.findRecipesByIngredients(ingredients), (err, result) => {
+        if (err) {
+            res.sendStatus(500);
+            console.log(err);
+        } else {
+            const recipesNotDeleted = result.rows.filter((o) => {
+                if (!o.is_deleted) {
+                    return result.rows.indexOf(o) !== -1;
+                }
+            });
+            res.json(recipesNotDeleted);
+        }
+    });
+};
+
 module.exports = recipeController;

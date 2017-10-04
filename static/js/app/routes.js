@@ -16,6 +16,7 @@ import SignUpSuccess from '../pages/SignUpSuccess';
 import Terms from '../pages/Terms';
 import User from '../pages/UserPage';
 import OrdersPage from '../pages/OrdersPage';
+import ListOrders from '../pages/UserPage/ListOrders';
 
 const routes = (
     <Route path="/" component={MainLayout}>
@@ -31,6 +32,7 @@ const routes = (
         <Route path="/terms" component={Terms} />
         <Route path="/signin" onEnter={checkLogin} component={SignInPage} />
         <Route path="/profile" onEnter={checkUserId} component={User} />
+        <Route path="/user/orders" onEnter={checkUserId} component={ListOrders} />
         <Route path="/orders" onEnter={checkLoginCook} component={OrdersPage} />
         <Route path="*" component={NotFound} />
     </Route>

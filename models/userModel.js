@@ -7,6 +7,18 @@ UserModel.getUserInfo = (userId) => {
     return query;
 };
 
+UserModel.getUserOrders = (userId) => {
+    const query = {
+        text: `SELECT o.*, oc.*, r.title, u.fullname, os.status FROM orders o
+              LEFT JOIN order_context as oc on oc.order_id = o.id
+              LEFT JOIN recipes as r on r.id = oc.id
+              LEFT JOIN users as u on u.id = o.user_id
+              LEFT JOIN orders_status as os on os.id = o.status
+              WHERE o.user_id='${userId}'`,
+    };
+    return query;
+};
+
 UserModel.updateUserInfo = (editedField, editedValue, userId) => {
     const query = {
         text: `UPDATE users SET ${editedField} = $1 WHERE id = '${userId}'`,

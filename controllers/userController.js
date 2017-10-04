@@ -4,9 +4,20 @@ import signinController from './signinController';
 
 const userController = {};
 
-userController.getUserInfo = (req, res, next) => {
+userController.getUserInfo = (req, res) => {
     const userId = signinController.sessions[req.cookies.access];
     db.query(UserModel.getUserInfo(userId), (err, result) => {
+        if (err) {
+            res.sendStatus(500);
+        } else {
+            res.json(result);
+        }
+    });
+};
+
+userController.getUserOrders = (req, res) => {
+    const userId = signinController.sessions[req.cookies.access];
+    db.query(UserModel.getUserOrders(userId), (err, result) => {
         if (err) {
             res.sendStatus(500);
         } else {
@@ -30,7 +41,6 @@ userController.updateUserInfo = (req, res) => {
     if (userId == id) {
         const editedField = req.body.dbName;
         const editedValue = req.body.temVal;
-        console.log(editedValue);
         db.query(UserModel.updateUserInfo(editedField, editedValue, userId), (err, result) => {
             if (err) {
                 res.sendStatus(500);
@@ -76,6 +86,8 @@ userController.updateUserAvatar = (req, res) => {
         res.sendStatus(500);
     }
 };
+
+
 
 
 module.exports = userController;

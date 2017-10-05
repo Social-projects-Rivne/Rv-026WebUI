@@ -13,7 +13,7 @@ UserModel.getUserOrders = (userId) => {
               LEFT JOIN order_context as oc on oc.order_id = o.id
               LEFT JOIN recipes as r on r.id = oc.id
               LEFT JOIN users as u on u.id = o.user_id
-              LEFT JOIN orders_status as os on os.id = o.status
+              LEFT JOIN orders_status as os on os.id = o.status_id
               WHERE o.user_id='${userId}'`,
     };
     return query;

@@ -17,13 +17,18 @@ userController.getUserInfo = (req, res) => {
 
 userController.getUserOrders = (req, res) => {
     const userId = signinController.sessions[req.cookies.access];
-    db.query(UserModel.getUserOrders(userId), (err, result) => {
-        if (err) {
-            res.sendStatus(500);
-        } else {
-            res.json(result);
-        }
-    });
+    const id = req.params.id;
+    if (userId == id) {
+        db.query(UserModel.getUserOrders(userId), (err, result) => {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                res.json(result);
+            }
+        });
+    } else {
+        res.sendStatus(500);
+    }
 };
 
 userController.checkUserId = (req, res) => {

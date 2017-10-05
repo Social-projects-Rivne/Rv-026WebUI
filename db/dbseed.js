@@ -235,4 +235,41 @@ db.query(`INSERT INTO recipe_tag (recipe_id, tag_id) VALUES (10,1), (10,2), (20,
   if (err) {console.log(err)}
   else {console.log(res)}
 });
+
+db.query(`INSERT INTO orders_status (id, status) VALUES (1, 'new')`,
+(err, res) => {
+  if (err) {console.log(err)}
+  else {console.log(res)}
+});
+
+db.query(`INSERT INTO orders_status (id, status) VALUES (2, 'taken')`,
+(err, res) => {
+  if (err) {console.log(err)}
+  else {console.log(res)}
+});
+
+db.query(`INSERT INTO orders_status (id, status) VALUES (3, 'ready')`,
+(err, res) => {
+  if (err) {console.log(err)}
+  else {console.log(res)}
+});
+
+db.query(`INSERT INTO orders_status (id, status) VALUES (4, 'delivered')`,
+(err, res) => {
+  if (err) {console.log(err)}
+  else {console.log(res)}
+});
+
+db.query(`INSERT INTO orders_status (id, status) VALUES (5, 'paid')`,
+(err, res) => {
+  if (err) {console.log(err)}
+  else {console.log(res)}
+});
+
+db.query(`INSERT INTO orders_status (id, status) VALUES (6, 'canceled')`,
+(err, res) => {
+  if (err) {console.log(err)}
+  else {console.log(res)}
+});
+
 }();

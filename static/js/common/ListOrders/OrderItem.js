@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import _ from 'lodash';
 
+import { ROLE_COOK, ROLE_USER } from '../../../../config';
 import RecipesInOrder from './RecipesInOrder';
+import ChangeStatus from './ChangeStatus';
 
 class OrderItem extends Component {
     createArrayObjectsFromArrays(order_id, recipes_id, order_price, recipes_title) {
@@ -17,25 +19,58 @@ class OrderItem extends Component {
         return objects;
     }
 
+    renderTdForRole(cooker_id, owner_id, fullname) {
+        if (this.props.role === ROLE_USER) {
+            return (
+                <td>{cooker_id}</td>
+            );
+        } else if (this.props.role === ROLE_COOK) {
+            return (
+                <td>
+                    <Link to={`/profile/${owner_id}`}>{fullname}</Link>
+                </td>
+            );
+        }
+        return (null);
+    }
+
+    renderTdCookerWithoutRole(cooker_id) {
+        if (!this.props.role) {
+            return (
+                <td>{cooker_id}</td>
+            );
+        }
+        return (null);
+    }
+
+    renderTdUserWithoutRole(owner_id, fullname) {
+        if (!this.props.role) {
+            return (
+                <td>
+                    <Link to={`/profile/${owner_id}`}>{fullname}</Link>
+                </td>
+            );
+        }
+        return (null);
+    }
+
     render() {
+        const { role } = this.props;
         const { order } = this.props;
         const { order_id, recipes_id, order_price, recipes_title } = this.props.order;
         const recipesInOrder = this.createArrayObjectsFromArrays(order_id, recipes_id, order_price, recipes_title);
         return (
             <tr className="order-item" key={order.id}>
                 <td>{order.id}</td>
-                <td>
-                    <Link to={`/profile/${order.owner_id}`}>{order.fullname}</Link>
-                </td>
-                <td>{order.cooker_id}</td>
+                {this.renderTdForRole(order.cooker_id, order.owner_id, order.fullname)}
+                {this.renderTdCookerWithoutRole(order.cooker_id)}
+                {this.renderTdUserWithoutRole(order.owner_id, order.fullname)}
                 <td>{order.status}</td>
                 <td>
                     <RecipesInOrder recipesInOrder={recipesInOrder} />
                 </td>
                 <td>
-                    <button className="btn btn-success">
-                        change status
-                    </button>
+                    <ChangeStatus role={role} orderId={order.id} status={order.status} />
                 </td>
             </tr>
         );
@@ -44,6 +79,7 @@ class OrderItem extends Component {
 
 OrderItem.PropTypes = {
     order: PropTypes.object,
+    role: PropTypes.string,
 };
 
 export default OrderItem;

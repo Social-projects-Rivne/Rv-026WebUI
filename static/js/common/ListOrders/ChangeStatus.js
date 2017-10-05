@@ -74,9 +74,20 @@ class ChangeStatus extends Component {
             }
         }
     }
-
+    
+    /*
+        test update
+    */
     handleClick(button) {
-        console.log('Test Click', button);
+        fetch(`/api/orderTestUpdate`, { method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include' })
+       .then((res) => {
+            if (res.status === 200) {console.log('good!');}
+        });
     }
 
     render() {

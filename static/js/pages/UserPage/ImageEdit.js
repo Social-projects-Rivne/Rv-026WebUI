@@ -72,7 +72,7 @@ class ImageEdit extends Component {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include' })
-            .then((res) => { if (res.status === 200) { this.setState({ updateMessage: 'Updated!', updateStatus: true, process: 'fetched' }); } else { this.setState({ process: 'fetched', updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false }); } })
+            .then((res) => { if (res.status === 200) { this.setState({ updateMessage: 'Updated!', updateStatus: true, process: 'fetched' }); } else { this.setState({ value: this.state.src, process: 'fetched', updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false }); } })
             .then(setTimeout(() => this.setState({ updateMessage: '', updateStatus: false }), 2000));
         })
         .catch((err) => {

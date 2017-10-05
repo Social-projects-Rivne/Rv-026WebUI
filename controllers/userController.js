@@ -6,10 +6,9 @@ const userController = {};
 
 userController.getUserInfo = (req, res, next) => {
     const userId = signinController.sessions[req.cookies.access];
-    const userObject = new UserModel();
-    db.query(userObject.getUserInfo(userId), (err, result) => {
+    db.query(UserModel.getUserInfo(userId), (err, result) => {
         if (err) {
-            return next(err);
+            res.sendStatus(500);
         } else {
             res.json(result);
         }
@@ -30,9 +29,9 @@ userController.updateUserInfo = (req, res) => {
     const id = req.params.id;
     if (userId == id) {
         const editedField = req.body.dbName;
-        const editedValue = req.body.value;
-        const userObject = new UserModel();
-        db.query(userObject.updateUserInfo(editedField, editedValue, userId), (err, result) => {
+        const editedValue = req.body.temVal;
+        console.log(editedValue);
+        db.query(UserModel.updateUserInfo(editedField, editedValue, userId), (err, result) => {
             if (err) {
                 res.sendStatus(500);
             } else {
@@ -49,8 +48,7 @@ userController.updateUserRole = (req, res) => {
     const id = req.params.id;
     if (userId == id) {
         const editedValue = req.body.value;
-        const userObject = new UserModel();
-        db.query(userObject.updateUserRole(editedValue, userId), (err, result) => {
+        db.query(UserModel.updateUserRole(editedValue, userId), (err, result) => {
             if (err) {
                 res.sendStatus(500);
             } else {
@@ -67,8 +65,7 @@ userController.updateUserAvatar = (req, res) => {
     const id = req.params.id;
     if (userId == id) {
         const ImageSrc = req.body.value;
-        const userObject = new UserModel();
-        db.query(userObject.updateUserAvatar(ImageSrc, userId), (err, result) => {
+        db.query(UserModel.updateUserAvatar(ImageSrc, userId), (err, result) => {
             if (err) {
                 res.sendStatus(500);
             } else {

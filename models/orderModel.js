@@ -6,6 +6,7 @@ orderModel.findAllOrders = () => {
             o.cooker_id, 
             os.status,
             u.id as owner_id,
+            u.role_id,
             u.fullname,
             array_agg(oc.id) as order_id,
             array_agg(oc.price) as order_price,

@@ -8,5 +8,26 @@
     }
     tbody > tr > td {
         vertical-align: middle;
+        .label-status {
+            font-size: 13px;
+            color: black;
+        }
+        .status-btn {
+            border: none;
+            color: #000000;
+            font-weight: bold;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            opacity: 0.8;
+            cursor: pointer;
+            &:hover {
+                opacity: 1;
+            }
+        }
+        
     }
 }

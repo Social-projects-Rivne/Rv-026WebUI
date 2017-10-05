@@ -17,6 +17,7 @@ orderModel.findAllOrders = () => {
         full JOIN orders_status os ON os.id = o.status_id
         inner JOIN recipes r ON oc.recipe_id = r.id
         inner JOIN users u ON u.id = o.user_id
+        where os.status = 'new'
         group by o.id,u.id,os.id`,
     };
     return query;

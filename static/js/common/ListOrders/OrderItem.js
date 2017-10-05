@@ -7,6 +7,8 @@ import { ROLE_COOK, ROLE_USER } from '../../../../config';
 import RecipesInOrder from './RecipesInOrder';
 import ChangeStatus from './ChangeStatus';
 
+import switchColorToElement from './switchColorToElement';
+
 class OrderItem extends Component {
     createArrayObjectsFromArrays(order_id, recipes_id, order_price, recipes_title) {
         const objects = [];
@@ -54,6 +56,14 @@ class OrderItem extends Component {
         return (null);
     }
 
+    renderStatus(orderStatus) {
+        const color = switchColorToElement(orderStatus);
+        if (color) {
+            return <span className="label label-status" style={{ backgroundColor: color }}>{orderStatus}</span>;
+        }
+        return (null);
+    }
+
     render() {
         const { role } = this.props;
         const { order } = this.props;
@@ -65,7 +75,9 @@ class OrderItem extends Component {
                 {this.renderTdForRole(order.cooker_id, order.owner_id, order.fullname)}
                 {this.renderTdCookerWithoutRole(order.cooker_id)}
                 {this.renderTdUserWithoutRole(order.owner_id, order.fullname)}
-                <td>{order.status}</td>
+                <td>
+                    {this.renderStatus(order.status)}
+                </td>
                 <td>
                     <RecipesInOrder recipesInOrder={recipesInOrder} />
                 </td>

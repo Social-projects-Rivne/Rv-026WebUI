@@ -31,9 +31,9 @@ class MultiSelect extends Component {
 
     componentDidUpdate() {
         const diff = this.wrapperContainer.offsetWidth - this.wrapper.offsetWidth;
-        (diff > 0) ?
-            this.wrapperScrollable.style.left = `-${diff}px` :
-            this.wrapperScrollable.style.left = '0px';
+        this.wrapperScrollable.style.left = (diff > 0)
+            ? `-${diff}px`
+            : '0px';
     }
 
     clearValues(event) {

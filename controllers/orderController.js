@@ -13,5 +13,17 @@ orderController.getAllOrders = (req, res) => {
         }
     });
 };
+/*
+    test update
+*/
+orderController.updateOrderTest = (req, res) => {
+    db.query(`UPDATE orders SET status_id = 4 WHERE id = 1`, (err, result) => {
+        if (err) {
+            res.sendStatus(500);
+        } else {
+            res.sendStatus(200);
+        }
+    });
+};
 
 module.exports = orderController;

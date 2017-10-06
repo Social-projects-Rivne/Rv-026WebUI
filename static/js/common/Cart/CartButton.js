@@ -29,7 +29,7 @@ class CartButton extends Component {
                     Cart
                     <img className="cartIcon" src="../../../public/images/icons/cart.png" alt="cart" />
                     </button>
-                    <Cart cart={this.state.show} />
+                    <Cart />
                 </div>
             );
         } else {
@@ -42,7 +42,6 @@ class CartButton extends Component {
                     Cart
                         <img className="cartIcon" src="../../../public/images/icons/cart.png" alt="cart" />
                     </button>
-                    
                 </div>
             );
         }

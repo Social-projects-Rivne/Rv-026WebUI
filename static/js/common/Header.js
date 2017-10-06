@@ -47,17 +47,19 @@ class Header extends Component {
         if (document.cookie) {
             return (
                 <ul className="nav navbar-nav navbar-right">
+                    <li><CartButton /></li>
                     <li><a href="/profile"><span className="glyphicon glyphicon-user" aria-hidden="true"> </span> Profile</a></li>
                     <li><a href="/api/logout">Log Out</a></li>
+                    
                 </ul>
             );
         }
         return (
             <ul className="nav navbar-nav navbar-right">
+                <li><CartButton /></li>
                 <li><a href="/signin">Log In</a></li>
                 <li><a href="/signup">Sign Up</a></li>
-                <li><CartButton /></li>
-            </ul>    
+            </ul>
         );
     }
 

@@ -102,7 +102,8 @@ module.exports = function () {
         text: `CREATE TABLE IF NOT EXISTS order_context(
           id              serial      PRIMARY KEY,
           order_id        integer     references orders(id),
-          recipe_id       integer    references recipes(id),
+          recipe_id       integer     references recipes(id),
+          count           integer,     
           price           integer
           )`,
         values: [],

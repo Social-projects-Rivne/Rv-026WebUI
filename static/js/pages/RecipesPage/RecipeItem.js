@@ -33,11 +33,11 @@ class RecipeItem extends Component {
                     <div>
                         {tags.length > 0 ? <p>{tags}</p> : null}
                     </div>
-                    <p className="card-read-more">
-                        <AddToCartButton item={this.props} />
+                    <p className="card-read-more">                      
                         <Link to={`/recipes/${recipe.id}`}>Read More </Link>
                     </p>
                 </div>
+                <AddToCartButton item={this.props} />
             </div>
         );
     }

@@ -14,6 +14,8 @@ import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import SignUpSuccess from '../pages/SignUpSuccess/SignUpSuccess';
 import Terms from '../pages/Terms/Terms';
 import User from '../pages/UserPage/UserPage';
+import OrderAcceptPage from '../pages/OrderAcceptPage';
+
 
 const routes = (
     <Route path="/" component={MainLayout}>
@@ -28,7 +30,8 @@ const routes = (
         <Route path="/signupsuccess" component={SignUpSuccess} />
         <Route path="/terms" component={Terms} />
         <Route path="/signin" onEnter={checkLogin} component={SignInPage} />
-        <Route path="/profile" onEnter={checkUserId}  component={User} />
+        <Route path="/profile" onEnter={checkUserId} component={User} />
+        <Route path="/orders/new" component={OrderAcceptPage} />
         <Route path="*" component={NotFound} />
     </Route>
 );

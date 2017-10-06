@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 
 import CartItem from './CartItem';
 
@@ -8,12 +9,16 @@ class Cart extends Component {
         this.state = {
             cart: [],
         };
+        this.onClick = this.onClick.bind(this);
     }
     componentWillMount() {
         let items = [];
         items = JSON.parse(localStorage.getItem('cart'));
         console.log(items);
         this.setState({ cart: items });
+    }
+    onClick() {
+        location.href = 'orders/new';
     }
 
     render() {
@@ -24,11 +29,19 @@ class Cart extends Component {
                 return (<CartItem key={index} item={item} />);
             });
             return (
-                <div className="Cart">{ orderList } </div>
+                <div className="Cart">
+                    <div >{ orderList } </div>
+                    <Button
+                        onClick={this.onClick}
+                        className="MakeOrderButton btn-create"
+                    >
+                        Make order!
+                    </Button>
+                </div>
             );
         } else {
             return (
-                <div className="Cart">Cart is empty</div>
+                <div className="Cart">Cart is empty. Please first choose some dishes to order.</div>
             );
         }
     }

@@ -9,27 +9,35 @@ class AddToCartButton extends Component {
         super(props);
         this.onClick = this.onClick.bind(this);
         this.item = this.props.item.recipe;
+        this.item.count = 1;
     }
     onClick() {
-        if (localStorage.getItem('cart') === null) {
+        if (!localStorage.getItem('cart')) {
             orderList.push(this.item);
             localStorage.setItem('cart', JSON.stringify(orderList));
-            console.log(orderList);
         } else {
             orderList = (JSON.parse(localStorage.getItem('cart')));
-            orderList.push(this.item);
-            localStorage.setItem('cart', JSON.stringify(orderList));
+            const found = orderList.find((value, index) => {
+                if (value.id === this.item.id) {
+                    orderList[index].count += 1;
+                    return true;
+                }
+                return false;
+            });
+            if (!found) {
+                orderList.push(this.item);
+            }
             console.log(orderList);
+            localStorage.setItem('cart', JSON.stringify(orderList));
         }
     }
     render() {
         return (
-            <Button 
+            <Button
                 onClick={this.onClick}
-                className="btn-create"
-                bsStyle="info"
+                className="btn-create AddToCartButton"
             >
-            Add to cart
+            Add to cart {'\u2795'}
             </Button>
         );
     }

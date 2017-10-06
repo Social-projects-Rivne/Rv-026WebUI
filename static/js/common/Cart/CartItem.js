@@ -14,6 +14,9 @@ class CartItem extends Component {
                 <p className="cartItemTitle">
                     {this.props.item.title}
                 </p>
+                <p className="cartItemCount">
+                   X {this.props.item.count}
+                </p>
 
             </div>
         );

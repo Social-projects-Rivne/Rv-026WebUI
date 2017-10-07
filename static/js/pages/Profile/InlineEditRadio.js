@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
 import wait from '../../common/wait';
-
-const centerDiv = {
-    margin: 'auto',
-    width: '10%',
-};
+import constants from '../../common/constants';
 
 class InlineEditRadio extends Component {
     constructor(props) {
@@ -108,7 +104,7 @@ class InlineEditRadio extends Component {
             return (
                 <div onClick={this.handleSwitch} role="button">
                     <p className="hoverInline">{this.name}: {this.state.role}</p>
-                    <ReactLoading type="bars" color="#444" style={centerDiv} />
+                    <ReactLoading type="bars" color="#444" style={constants.centerDiv} />
                 </div>
             );
         } else {

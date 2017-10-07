@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types';
 import wait from '../../common/wait';
-
-const centerDiv = {
-    margin: 'auto',
-    width: '10%',
-};
+import constants from '../../common/constants';
 
 class InlineEditText extends Component {
     constructor(props) {
@@ -93,7 +89,7 @@ class InlineEditText extends Component {
                 <div onClick={this.handleSwitch} role="button">
                     {this.dbName === 'fullname' ? (<h2 className="hoverInline" >{this.state.value}</h2>) :
                     (<p className="hoverInline">{this.name}: {this.state.value}</p>)}
-                    <ReactLoading type="bars" color="#444" style={centerDiv} />
+                    <ReactLoading type="bars" color="#444" style={constants.centerDiv} />
                 </div>
             );
         } else {

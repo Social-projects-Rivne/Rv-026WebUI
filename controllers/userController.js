@@ -18,8 +18,10 @@ userController.getUserInfo = (req, res) => {
 userController.getUserOrders = (req, res) => {
     const userId = signinController.sessions[req.cookies.access];
     const id = req.params.id;
+    const roleId = req.params.role_id;
+    console.log(roleId);
     if (userId == id) {
-        db.query(UserModel.getUserOrders(userId), (err, result) => {
+        db.query(UserModel.getUserOrders(userId, roleId), (err, result) => {
             if (err) {
                 res.sendStatus(500);
             } else {
@@ -92,7 +94,16 @@ userController.updateUserAvatar = (req, res) => {
     }
 };
 
-
+userController.getUser = (req, res) => {
+    const userId = req.params.id;
+    db.query(UserModel.getUser(userId), (err, result) => {
+        if (err) {
+            res.sendStatus(500);
+        } else {
+            res.json(result);
+        }
+    });
+};
 
 
 module.exports = userController;

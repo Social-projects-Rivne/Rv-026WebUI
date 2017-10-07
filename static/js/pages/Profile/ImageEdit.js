@@ -2,20 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
 import wait from '../../common/wait';
-
-const avatarStyle = {
-    borderRadius: 150,
-    width: '100%',
-    height: 'auto',
-    maxHeight: '300px',
-    maxWidth: '300px',
-    margin: 'auto',
-};
-
-const centerDiv = {
-    margin: 'auto',
-    width: '10%',
-};
+import constants from '../../common/constants';
 
 class ImageEdit extends Component {
     constructor(props) {
@@ -86,7 +73,7 @@ class ImageEdit extends Component {
             return (
                 <div>
                     <h3> Upload Your Gravatar </h3>
-                    <img src={this.state.value} style={avatarStyle} />
+                    <img src={this.state.value} style={constants.avatarStyle} />
                     <div className="formStyle">
                         <input type="text" value={this.state.value} onChange={this.handleChange} className="form-control" />
                         <input type="button" value="&#10004;" onClick={this.handleSubmit} className="updateButton" />
@@ -99,14 +86,14 @@ class ImageEdit extends Component {
         else if (this.state.process === 'fetching') {
             return (
                 <div className="hoverInline" onClick={this.handleSwitch} role="button">
-                    <img src={this.state.value} style={avatarStyle} alt="avatar" />
-                    <ReactLoading type="bars" color="#444" style={centerDiv} />
+                    <img src={this.state.value} style={constants.avatarStyle} alt="avatar" />
+                    <ReactLoading type="bars" color="#444" style={constants.centerDiv} />
                 </div>
             );
         } else {
             return (
                 <div className="hoverInline" onClick={this.handleSwitch} role="button">
-                    <img src={this.state.value} style={avatarStyle} alt="avatar" />
+                    <img src={this.state.value} style={constants.avatarStyle} alt="avatar" />
                     {this.state.updateStatus ? (<span className="successMessage">{this.state.updateMessage}</span>) : (<span className="failedMessage">{this.state.updateMessage}</span>)}
                 </div>
             );

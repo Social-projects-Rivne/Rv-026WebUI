@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import ReactLoading from 'react-loading';
+import axios from 'axios';
 
 import Recipes from './Recipes';
 import SearchComponent from './SearchComponent';
@@ -16,9 +17,9 @@ const centerDiv = {
 class RecipesPage extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
             recipes: [],
-            process: 'fetching', 
+            process: 'fetching',
         };
         this.getRecipes = this.getRecipes.bind(this);
     }
@@ -27,9 +28,10 @@ class RecipesPage extends Component {
         wait(2000)
         .then(() => {
             this.changeRecipeParams(
-                this.props.params.tag_id, 
-                this.props.params.name, 
-                this.props.params.tagtype
+                this.props.params.tag_id,
+                this.props.params.name,
+                this.props.params.tagtype,
+                this.props.params.ingredients,
             );
         })
         .catch((err) => {
@@ -43,9 +45,10 @@ class RecipesPage extends Component {
         wait(2000)
         .then(() => {
             this.changeRecipeParams(
-                nextProps.params.tag_id, 
-                nextProps.params.name, 
-                nextProps.params.tagtype
+                nextProps.params.tag_id,
+                nextProps.params.name,
+                nextProps.params.tagtype,
+                nextProps.params.ingredients,
             );
         })
         .catch((err) => {
@@ -87,6 +90,16 @@ class RecipesPage extends Component {
             });
     }
 
+    getRecipesByIngredients(ingredients) {
+        const url = `/api/recipes/search/ingredients=${ingredients}`;
+        axios.get(url)
+        .then(response => this.setState({ process: 'fetched', recipes: response.data }))
+        .catch((err) => {
+            this.setState({ process: 'failedToFetch' });
+            console.log(err, 'Failed to get recipes data');
+        });
+    }
+
     getRecipesByTagType(tagtype) {
         const url = `/api/recipes/search/tagtype=${tagtype}`;
         fetch(url)
@@ -102,13 +115,15 @@ class RecipesPage extends Component {
         this.setState({ recipes: elements });
     }
 
-    changeRecipeParams(tagId, name, tagtype) {
+    changeRecipeParams(tagId, name, tagtype, ingredients) {
         if (tagId) {
             this.getRecipesByTagId(tagId);
         } else if (name) {
             this.getRecipesByName(name);
         } else if (tagtype) {
             this.getRecipesByTagType(tagtype);
+        } else if (ingredients) {
+            this.getRecipesByIngredients(ingredients);
         } else {
             this.getAllRecipes();
         }

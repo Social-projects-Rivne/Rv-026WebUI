@@ -77,18 +77,18 @@ recipeModel.findRicipesByName = (recipeName) => {
     const query = {
         text:
         `SELECT r.id,
-            r.title, 
-            r.description, 
-            r.is_deleted, 
-            r.photo, 
-            r.owner_id, 
+            r.title,
+            r.description,
+            r.is_deleted,
+            r.photo,
+            r.owner_id,
             r.rating,
             u.fullname,
-            array_agg(t.id) as tags_id, 
+            array_agg(t.id) as tags_id,
             array_agg(t.name) as tags_name
         FROM recipes r
         FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
-        LEFT JOIN tags t ON rt.tag_id = t.id 
+        LEFT JOIN tags t ON rt.tag_id = t.id
         INNER JOIN users u ON u.id = r.owner_id
         WHERE LOWER(r.title) LIKE $1||'%'
         GROUP BY r.id,u.id
@@ -102,18 +102,18 @@ recipeModel.findRicipesByTagType = (tagType) => {
     const query = {
         text: `
         SELECT r.id,
-            r.title, 
-            r.description, 
-            r.is_deleted, 
-            r.photo, 
-            r.owner_id, 
+            r.title,
+            r.description,
+            r.is_deleted,
+            r.photo,
+            r.owner_id,
             r.rating,
             u.fullname,
-            array_agg(t.id) as tags_id, 
+            array_agg(t.id) as tags_id,
             array_agg(t.name) as tags_name
-        FROM recipes r 
+        FROM recipes r
         FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
-        LEFT JOIN tags t ON rt.tag_id = t.id 
+        LEFT JOIN tags t ON rt.tag_id = t.id
         INNER JOIN users u ON u.id = r.owner_id
         GROUP BY r.id, u.id
         HAVING $1 = any(array_agg(t.tag_type))
@@ -127,18 +127,18 @@ recipeModel.findTop5RicipesByName = (recipeName) => {
     const query = {
         text:
         `SELECT r.id,
-            r.title, 
-            r.description, 
-            r.is_deleted, 
-            r.photo, 
-            r.owner_id, 
+            r.title,
+            r.description,
+            r.is_deleted,
+            r.photo,
+            r.owner_id,
             r.rating,
             u.fullname,
-            array_agg(t.id) as tags_id, 
+            array_agg(t.id) as tags_id,
             array_agg(t.name) as tags_name
         FROM recipes r
         FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
-        LEFT JOIN tags t ON rt.tag_id = t.id 
+        LEFT JOIN tags t ON rt.tag_id = t.id
         INNER JOIN users u ON u.id = r.owner_id
         WHERE LOWER(r.title) LIKE $1||'%'
         GROUP BY r.id,u.id
@@ -154,18 +154,18 @@ recipeModel.findTop5RicipesByTagType = (tagType) => {
     const query = {
         text: `
         SELECT r.id,
-            r.title, 
-            r.description, 
-            r.is_deleted, 
-            r.photo, 
-            r.owner_id, 
+            r.title,
+            r.description,
+            r.is_deleted,
+            r.photo,
+            r.owner_id,
             r.rating,
             u.fullname,
-            array_agg(t.id) as tags_id, 
+            array_agg(t.id) as tags_id,
             array_agg(t.name) as tags_name
-        FROM recipes r 
+        FROM recipes r
         FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
-        LEFT JOIN tags t ON rt.tag_id = t.id 
+        LEFT JOIN tags t ON rt.tag_id = t.id
         INNER JOIN users u ON u.id = r.owner_id
         GROUP BY r.id, u.id
         HAVING $1 = any(array_agg(t.tag_type))
@@ -212,6 +212,28 @@ recipeModel.addDbLink = (table, fieldName, recipeId, insertId) => {
 
 recipeModel.upsertData = (data) => {
     return `INSERT INTO recipes (id,${data.fieldName}) VALUES (${data.id},'${data.value}') ON CONFLICT(id) DO UPDATE SET ${data.fieldName} = '${data.value}'`;
+};
+
+recipeModel.findRecipesByIngredients = (ingredients) => {
+    const query = `
+        SELECT r.id,
+        r.title,
+        r.description,
+        r.photo,
+        r.owner_id,
+        r.rating,
+        r.is_deleted,
+        array_agg(distinct t.id) as tags_id,
+        array_agg(distinct t.name) as tags_name
+        FROM recipes r
+        FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
+        LEFT JOIN tags t ON rt.tag_id = t.id
+        full join calc_card cc on cc.recipe_id = r.id
+        left join ingredients i on cc.ingredient_id = i.id
+        group by r.id
+        having array[${ingredients}] <@ array_agg(distinct i.id)
+    `;
+    return query;
 };
 
 module.exports = recipeModel;

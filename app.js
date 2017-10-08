@@ -10,7 +10,7 @@ import recipeRoutes from './routes/recipe';
 import signInRoutes from './routes/signin';
 import signUpRoutes from './routes/signup';
 import userRoutes from './routes/user';
-
+import orderRoutes from './routes/order';
 
 const app = express();
 
@@ -26,6 +26,7 @@ app.use(userRoutes);
 app.use(recipeRoutes);
 app.use(signInRoutes);
 app.use(signUpRoutes);
+app.use(orderRoutes);
 
 
 app.listen(config.port, config.host, () => {

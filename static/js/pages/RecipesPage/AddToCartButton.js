@@ -27,7 +27,6 @@ class AddToCartButton extends Component {
             if (!found) {
                 orderList.push(this.item);
             }
-            console.log(orderList);
             localStorage.setItem('cart', JSON.stringify(orderList));
         }
     }

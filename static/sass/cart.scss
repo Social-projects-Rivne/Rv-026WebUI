@@ -16,6 +16,12 @@
         color: #fff;
     }
 }
+.cartIcon{
+    margin-bottom: 5px;
+    margin-left: 5px;
+    width: auto;
+    height: 20px;
+}
 .MakeOrderButton{
     border: none;
     outline: none;
@@ -26,8 +32,6 @@
     z-index: 4;
     display: block;
     float: left;
-   
-    
     &:focus, &:active {
         background-color: rgba(0, 255, 0, 0.88);
         
@@ -36,12 +40,7 @@
         background-color: rgba(0, 255, 0, 0.88);
     }
 }
-.cartIcon{
-    margin-bottom: 5px;
-    margin-left: 5px;
-    width: auto;
-    height: 20px;
-}
+
 .Cart{
     position: absolute;
     margin-left: -100px;
@@ -55,6 +54,7 @@
 }
 .cartItem{
     float: left;
+    width: 100%;
     z-index: 4;
 }
 .cartItemImg{

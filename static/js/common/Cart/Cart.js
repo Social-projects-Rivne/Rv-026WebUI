@@ -14,7 +14,6 @@ class Cart extends Component {
     componentWillMount() {
         let items = [];
         items = JSON.parse(localStorage.getItem('cart'));
-        console.log(items);
         this.setState({ cart: items });
     }
     onClick() {
@@ -23,7 +22,6 @@ class Cart extends Component {
 
     render() {
         const items = this.state.cart;
-        console.log(this.state.cart);
         if (items) {
             const orderList = items.map((item, index) => {
                 return (<CartItem key={index} item={item} />);

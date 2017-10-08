@@ -93,7 +93,8 @@ module.exports = function () {
           id              serial      PRIMARY KEY,
           user_id         integer     references users(id),
           cooker_id       integer,    
-          status          integer
+          status          integer     default 1,
+          comment         varchar(200)
           )`,
         values: [],
     };

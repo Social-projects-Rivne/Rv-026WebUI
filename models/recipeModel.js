@@ -52,7 +52,7 @@ recipeModel.findRecipesByTagId = (tagId) => {
     return query;
 };
 
-recipeModel.getAllRecipes = () => {
+recipeModel.getAllRecipes = (maxId) => {
     const query = {
         text: `
         SELECT r.id,
@@ -68,6 +68,8 @@ recipeModel.getAllRecipes = () => {
         FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
         LEFT JOIN tags t ON rt.tag_id = t.id
         GROUP BY r.id
+        HAVING r.id > ${maxId}
+        LIMIT 2
         `,
     };
     return query;

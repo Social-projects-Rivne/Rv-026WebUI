@@ -222,7 +222,7 @@ recipeController.getRecipesByTagId = (req, res, next) => {
 };
 
 recipeController.getAllRecepies = (req, res, next) => {
-    db.query(recipeModel.getAllRecipes(), (err, result) => {
+    db.query(recipeModel.getAllRecipes(req.body.maxId), (err, result) => {
         if (err) {
             return next(err);
         } else {

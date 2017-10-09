@@ -149,32 +149,14 @@ db.query(`INSERT INTO ingredients (name, is_deleted, photo) VALUES ('Чай',NUL
   if (err) {console.log(err)}
   else {console.log(res)}
 });
-db.query(`INSERT INTO recipes (id, title, description, is_deleted, owner_id, photo, rating) VALUES
-(10, 'КРЕМ-СУП У ХЛІБНОМУ ГОРЩИКУ', 'Цибулю, моркву і гриби обсмажити на олії. Влити вино і випарувати його наполовину. Потім потрібно додати воду і картоплю. Коли страва буде готова, збити блендером, посолити і поперчити. Вилити вершки і залишити ще на 10 хвилин. З хліба зрізати вершечок, вийняти мякуш і запекти в духовці до утворення скоринки. Залити крем-суп у попередньо натертий часником хліб.', NULL, 1, 'https://rud.ua/uploads/under_recipe/sup-v-hlebe.jpg', 2);`,
-(err, res) => {
-  if (err) {console.log(err)}
-  else {console.log(res)}
-});
-db.query(`INSERT INTO recipes (id, title, description, is_deleted, owner_id, photo, rating) VALUES
-(20, 'Хліб з майонезом', 'Порізати хліб, намазати на хліб майонез.', NULL, 2, 'https://i12.fotocdn.net/s9/30/public_pin_m/242/2268393757.jpg', 5);`,
-(err, res) => {
-  if (err) {console.log(err)}
-  else {console.log(res)}
-});
-db.query(`INSERT INTO recipes (id, title, description, is_deleted, owner_id, photo, rating) VALUES
-(30, 'Чай', 'Насипати чай в кружку, залити гарячою водою, якщоу вас немає діабету можна додати цукор за смаком.', NULL, 3, 'http://www.fresher.ru/manager_content/images2/7-lyubopytnyx-faktov-o-granenom-stakane/big/3.jpg', 3);`,
-(err, res) => {
-  if (err) {console.log(err)}
-  else {console.log(res)}
-});
-db.query(`INSERT INTO recipes (id, title, description, is_deleted, owner_id, photo, rating) VALUES
-(40, 'Вареники', 'Висипати свіжовпольовані вареники в гарячу воду, варити доки не злипнуться. bellissimo! Будь який шеф-повар буде в захваті!', NULL, 4, 'dickinchocolate.jpg', 3);`,
-(err, res) => {
-  if (err) {console.log(err)}
-  else {console.log(res)}
-});
-db.query(`INSERT INTO recipes (id, title, description, is_deleted, owner_id, photo, rating) VALUES
-(50, 'Котлети по домашньому', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.', NULL, 4, 'http://поради.pp.ua/uploads/posts/2016-12/kotleti-z-ndichogo-farshu-recepti-prigotuvannya_603.jpeg', 4);`,
+
+db.query(`INSERT INTO recipes (id, title, description, is_deleted, owner_id, photo, rating)
+VALUES
+(10, 'КРЕМ-СУП У ХЛІБНОМУ ГОРЩИКУ', 'Цибулю, моркву і гриби обсмажити на олії. Влити вино і випарувати його наполовину. Потім потрібно додати воду і картоплю. Коли страва буде готова, збити блендером, посолити і поперчити. Вилити вершки і залишити ще на 10 хвилин. З хліба зрізати вершечок, вийняти мякуш і запекти в духовці до утворення скоринки. Залити крем-суп у попередньо натертий часником хліб.', NULL, 1, 'https://rud.ua/uploads/under_recipe/sup-v-hlebe.jpg', 2),
+(20, 'Хліб з майонезом', 'Порізати хліб, намазати на хліб майонез.', NULL, 2, 'https://i12.fotocdn.net/s9/30/public_pin_m/242/2268393757.jpg', 5),
+(30, 'Чай', 'Насипати чай в кружку, залити гарячою водою, якщоу вас немає діабету можна додати цукор за смаком.', NULL, 3, 'http://www.fresher.ru/manager_content/images2/7-lyubopytnyx-faktov-o-granenom-stakane/big/3.jpg', 3),
+(40, 'Вареники', 'Висипати свіжовпольовані вареники в гарячу воду, варити доки не злипнуться. bellissimo! Будь який шеф-повар буде в захваті!', NULL, 4, 'dickinchocolate.jpg', 3),
+(50, 'Котлети по домашньому', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.', NULL, 4, 'http://поради.pp.ua/uploads/posts/2016-12/kotleti-z-ndichogo-farshu-recepti-prigotuvannya_603.jpeg', 4);`,
 (err, res) => {
   if (err) {console.log(err)}
   else {console.log(res)}

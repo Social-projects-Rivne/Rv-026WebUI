@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/api/recipe', recipeController.createRecipe);
 router.post('/api/checkTitleExistence', recipeController.checkTitleExistence);
 router.get('/api/:tag_id/recipes', recipeController.getRecipesByTagId);
-router.get('/api/recipes', recipeController.getAllRecepies);
+router.post('/api/recipes', recipeController.getAllRecepies);
 router.get('/api/recipes/getAllIngredients', recipeController.getAllIngredients);
 router.get('/api/recipes/search/name=:name', recipeController.getRecepiesByName);
 router.get('/api/recipes/search/tagtype=:tagtype', recipeController.getRecepiesByTagType);

@@ -9,10 +9,10 @@ orderModel.saveOrder = (order) => {
     return query;
 };
 
-orderModel.saveOrder = (idOrder, orderContext) => {
+orderModel.saveOrder = (idOrder, id, count) => {
     const query = {
-        text: 'ISERT INTO order_context (order_id, recipe_id, count, price ) VALUES ($1, $2, $3, $4)',
-        values: [idOrder, orderContext.id, orderContext.count, 10],
+        text: 'INSERT INTO order_context(order_id, recipe_id, count, price ) VALUES ($1, $2, $3, $4)',
+        values: [idOrder, id, count, 10],
     };
     return query;
 };

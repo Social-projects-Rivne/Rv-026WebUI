@@ -11,7 +11,7 @@ const orderController = {};
 const saveOrderContext = (idOrder, orderContext) => {
     for (let i = 0; i < orderContext.length; i += 1) {
         console.log(orderContext[i]);
-        db.query(orderModel.saveOrderContext(idOrder, orderContext[i]), (err, result) => {
+        db.query(orderModel.saveOrderContext(idOrder, orderContext[i].id, orderContext[i].count), (err, result) => {
             if (err) {
                 console.log(err);
             } else {
@@ -35,8 +35,9 @@ orderController.addOrder = (req, res) => {
         } else {
             order.ownerId = signinController.sessions[req.cookies.access];
             order.comment = fields.comment;
-            const orderContext = fields.orderContext;
-            console.log(orderContext.id);
+            console.log(order);
+            const orderContext = JSON.parse(fields.orderContext);
+            console.log(orderContext);
             db.query(orderModel.saveOrder(order), (error, result) => {
                 if (error) {
                     console.log(error);

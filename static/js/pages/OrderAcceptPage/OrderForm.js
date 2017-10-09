@@ -26,13 +26,14 @@ class OrderForm extends Component {
         const comment = this.state.comment;
         console.log(this.state.items);
         const items = this.state.items;
-        const orderContext = [];
+        let orderContext = [];
         for (let i = 0; i < items.length; i += 1) {
             orderContext[i] = {
                 id: items[i].id,
                 count: items[i].count,
             };
         }
+        orderContext = JSON.stringify(orderContext);
         this.props.handleSubmit({
             comment,
             orderContext,

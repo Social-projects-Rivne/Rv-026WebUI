@@ -63,7 +63,7 @@ class RecipesPage extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ process: 'fetching' });
+        this.setState({ process: 'fetching', recipes: [] });
         wait(2000)
         .then(() => {
             this.changeRecipeParams(
@@ -93,7 +93,12 @@ class RecipesPage extends Component {
         const windowBottom = windowHeight + window.pageYOffset; // 953 + 317 = 1270
 
         if (windowBottom >= docHeight - 3) {
-            this.getAllRecipes();
+            this.changeRecipeParams(
+                this.props.params.tag_id,
+                this.props.params.name,
+                this.props.params.tagtype,
+                this.props.params.ingredients,
+            );
         }
     }
 
@@ -137,8 +142,12 @@ class RecipesPage extends Component {
 
     getRecipesByIngredients(ingredients) {
         const url = `/api/recipes/search/ingredients=${ingredients}`;
-        axios.get(url)
-        .then(response => this.setState({ process: 'fetched', recipes: response.data }))
+
+        axios.post(url, { maxId: findMaxId(this.state.recipes) })
+        .then((response) => {
+            const recipes = this.state.recipes.concat(response.data);
+            this.setState({ process: 'fetched', recipes });
+        })
         .catch((err) => {
             this.setState({ process: 'failedToFetch' });
             console.log(err, 'Failed to get recipes data');

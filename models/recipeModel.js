@@ -216,7 +216,7 @@ recipeModel.upsertData = (data) => {
     return `INSERT INTO recipes (id,${data.fieldName}) VALUES (${data.id},'${data.value}') ON CONFLICT(id) DO UPDATE SET ${data.fieldName} = '${data.value}'`;
 };
 
-recipeModel.findRecipesByIngredients = (ingredients) => {
+recipeModel.findRecipesByIngredients = (ingredients, maxId) => {
     const query = `
         SELECT r.id,
         r.title,
@@ -233,7 +233,8 @@ recipeModel.findRecipesByIngredients = (ingredients) => {
         full join calc_card cc on cc.recipe_id = r.id
         left join ingredients i on cc.ingredient_id = i.id
         group by r.id
-        having array[${ingredients}] <@ array_agg(distinct i.id)
+        having array[${ingredients}] <@ array_agg(distinct i.id) AND r.id>${maxId}
+        LIMIT 1
     `;
     return query;
 };

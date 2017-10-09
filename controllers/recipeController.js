@@ -438,7 +438,7 @@ recipeController.getRecepiesByIngredients = (req, res) => {
     if (!ingredients) {
         res.sendStatus(404);
     }
-    db.query(recipeModel.findRecipesByIngredients(ingredients), (err, result) => {
+    db.query(recipeModel.findRecipesByIngredients(ingredients, req.body.maxId), (err, result) => {
         if (err) {
             res.sendStatus(500);
             console.log(err);

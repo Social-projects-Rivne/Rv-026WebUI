@@ -5,10 +5,6 @@ import orderController from '../controllers/orderController';
 const router = express.Router();
 
 router.get('/api/orders', orderController.getAllOrders);
-
-/*
-    test update
-*/
-router.put('/api/orderTestUpdate', orderController.updateOrderTest);
+router.put('/api/order/status/:orderId/:statusName', orderController.updateStatus);
 
 module.exports = router;

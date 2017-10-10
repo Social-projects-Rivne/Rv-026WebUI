@@ -82,7 +82,7 @@ class OrderItem extends Component {
                     <RecipesInOrder recipesInOrder={recipesInOrder} />
                 </td>
                 <td>
-                    <ChangeStatus role={role} orderId={order.id} status={order.status} />
+                    <ChangeStatus onStatusSubmit={this.props.onStatusSubmit} role={role} orderId={order.id} status={order.status} />
                 </td>
             </tr>
         );

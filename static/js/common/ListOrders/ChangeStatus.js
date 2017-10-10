@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import switchColorToElement from './switchColorToElement';
+import switchButtonToStatus from './switchButtonToStatus';
 import {
     ROLE_COOK, ROLE_USER,
-    STATUS_NEW, STATUS_TAKEN, STATUS_READY, STATUS_DELIVERED, STATUS_PAID, STATUS_CANCELED,
-    BUTTON_NEW, BUTTON_TAKE, BUTTON_READY, BUTTON_DELIVER, BUTTON_PAY, BUTTON_CANCEL,    
+    STATUS_NEW, STATUS_TAKEN, STATUS_READY, STATUS_DELIVERED, STATUS_PAID, STATUS_CANCELED, STATUS_REOPENED,
+    BUTTON_NEW, BUTTON_TAKE, BUTTON_READY, BUTTON_DELIVER, BUTTON_PAY, BUTTON_CANCEL, BUTTON_REOPEN,
 } from '../../../../config';
 
 class ChangeStatus extends Component {
@@ -45,6 +46,12 @@ class ChangeStatus extends Component {
             case STATUS_PAID:
                 this.setState({ displayed: [], messageCook: 'success!' });
                 break;
+            case STATUS_CANCELED:
+                this.setState({ displayed: [BUTTON_REOPEN], messageCook: '' });
+                break;
+            case STATUS_REOPENED:
+                this.setState({ displayed: [BUTTON_NEW], messageCook: '' });
+                break;
             default:
                 break;
             }
@@ -69,25 +76,25 @@ class ChangeStatus extends Component {
             case STATUS_PAID:
                 this.setState({ displayed: [], messageUser: 'success!' });
                 break;
+            case STATUS_CANCELED:
+                this.setState({ displayed: [BUTTON_REOPEN], messageUser: '' });
+                break;
+            case STATUS_REOPENED:
+                this.setState({ displayed: [BUTTON_NEW], messageUser: '' });
+                break;
             default:
                 break;
             }
         }
     }
-    
-    /*
-        test update
-    */
+
     handleClick(button) {
-        fetch(`/api/orderTestUpdate`, { method: 'PUT',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include' })
-       .then((res) => {
-            if (res.status === 200) {console.log('good!');}
-        });
+        let { orderId, role, status } = this.props;
+        const currentStatus = switchButtonToStatus(button);
+        
+        this.displayedForCook(role, currentStatus);
+        this.displayedForUser(role, currentStatus);
+        this.props.onStatusSubmit({ currentStatus, orderId });
     }
 
     render() {

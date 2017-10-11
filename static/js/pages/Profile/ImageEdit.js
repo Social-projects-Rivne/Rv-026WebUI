@@ -52,7 +52,7 @@ class ImageEdit extends Component {
         };
         wait(2000)
         .then(() => {
-            fetch(`/api/user/${this.id}/updateGravatar`, { method: 'PUT',
+            fetch(`/api/user/${this.id}/update/gravatar`, { method: 'PUT',
                 body: JSON.stringify(ImageSrc),
                 headers: {
                     'Accept': 'application/json',

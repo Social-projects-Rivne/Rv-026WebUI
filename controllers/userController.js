@@ -19,7 +19,6 @@ userController.getUserOrders = (req, res) => {
     const userId = signinController.sessions[req.cookies.access];
     const id = req.params.id;
     const roleId = req.params.role_id;
-    console.log(roleId);
     if (userId == id) {
         db.query(UserModel.getUserOrders(userId, roleId), (err, result) => {
             if (err) {
@@ -105,5 +104,19 @@ userController.getUser = (req, res) => {
     });
 };
 
+userController.updateStatus = (req, res) => {
+    const statusValue = req.body.value;
+    const userId = req.body.id;
+    const orderId = req.body.order;
+    const roleId = req.body.role;
+    console.log(req.body);
+    db.query(UserModel.updateStatus(userId, statusValue, orderId, roleId), (err, result) => {
+        if (err) {
+            res.sendStatus(500);
+        } else {
+            res.sendStatus(200);
+        }
+    });
+};
 
 module.exports = userController;

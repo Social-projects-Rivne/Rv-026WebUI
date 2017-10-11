@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import ButtonStatus from './StatusButton';
 
 class Result extends Component {
     constructor(props) {
@@ -16,9 +17,12 @@ class Result extends Component {
                     <td>{item.status}</td>
                     <td><Link to={`/recipes/${item.recipe_id}`}>{item.title}</Link></td>
                     <td>{item.price}</td>
+                    <td><ButtonStatus order_id={item.order_id} status_id={item.status_id} role_id={this.id} id={this.id === 2 ? item.user_id : item.cooker_id} /></td>
                 </tr>
             );
         });
+
+
 
         return (
             <div className="table-responsive">

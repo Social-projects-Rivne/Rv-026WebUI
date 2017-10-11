@@ -50,7 +50,7 @@ class InlineEditRadio extends Component {
             }
             wait(2000)
             .then(() => {
-                fetch(`/api/user/${this.id}/updateRole`, { method: 'PUT',
+                fetch(`/api/user/${this.id}/update/role`, { method: 'PUT',
                     body: JSON.stringify(radioValue),
                     headers: {
                         'Accept': 'application/json',

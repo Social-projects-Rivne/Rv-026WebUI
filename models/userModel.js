@@ -2,7 +2,7 @@ const UserModel = {};
 
 UserModel.getUserInfo = (userId) => {
     const query = {
-        text: `SELECT users.*, users_roles.user_role FROM users JOIN users_roles ON users_roles.id=users.role_id WHERE users.id='${userId}'`,
+        text: `SELECT u.about_me, u.email, u.fullname, u.gravatar, u.id, u.is_premium, u.role_id, u.phone_number, users_roles.user_role FROM users as u JOIN users_roles ON users_roles.id=u.role_id WHERE u.id='${userId}'`,
     };
     return query;
 };
@@ -78,5 +78,22 @@ UserModel.getUser = (userId) => {
     };
     return query;
 };
+
+UserModel.updateStatus = (userId, statusValue, orderId, roleId) => {
+    let query;
+    if (Number(roleId) === 2) {
+        query = {
+            text: `UPDATE orders SET status_id = $1 WHERE user_id = '${userId}' AND id = '${orderId}'`,
+            values: [statusValue],
+        };
+    } else if (Number(roleId) === 3) {
+        query = {
+            text: `UPDATE orders SET status_id = $1 WHERE cooker_id = '${userId}' AND id = '${orderId}'`,
+            values: [statusValue],
+        };
+    }
+    return query;
+};
+
 
 module.exports = UserModel;

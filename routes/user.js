@@ -7,8 +7,10 @@ const router = express.Router();
 router.get('/api/user', userController.getUserInfo);
 router.get('/api/user/:id', userController.getUser);
 router.get('/api/user/:id/role/:role_id/orders/', userController.getUserOrders);
-router.put('/api/user/:id/updateProfile', userController.updateUserInfo);
-router.put('/api/user/:id/updateRole', userController.updateUserRole);
-router.put('/api/user/:id/updateGravatar', userController.updateUserAvatar);
+router.put('/api/user/:id/orders/status', userController.updateStatus);
+router.put('/api/user/:id/update/profile', userController.updateUserInfo);
+router.put('/api/user/:id/update/role', userController.updateUserRole);
+router.put('/api/user/:id/update/gravatar', userController.updateUserAvatar);
+
 
 module.exports = router;

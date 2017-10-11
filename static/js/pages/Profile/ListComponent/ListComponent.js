@@ -13,7 +13,7 @@ class ListComponent extends Component {
         this.state = { orders: [], process: 'fetching' };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         wait(2000)
         .then(() => {
             fetch(`/api/user/${this.id}/role/${this.role_id}/orders/`, { method: 'GET', credentials: 'include' })

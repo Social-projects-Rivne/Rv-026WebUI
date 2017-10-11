@@ -54,7 +54,7 @@ class InlineEditText extends Component {
             };
             wait(2000)
             .then(() => {
-                fetch(`/api/user/${this.id}/updateProfile`, { method: 'PUT',
+                fetch(`/api/user/${this.id}/update/profile`, { method: 'PUT',
                     body: JSON.stringify(textField),
                     headers: {
                         'Accept': 'application/json',

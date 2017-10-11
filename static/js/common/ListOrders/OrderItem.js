@@ -29,7 +29,7 @@ class OrderItem extends Component {
         } else if (this.props.role === ROLE_COOK) {
             return (
                 <td>
-                    <Link to={`/profile/${owner_id}`}>{fullname}</Link>
+                    <Link to={`/user/${owner_id}`}>{fullname}</Link>
                 </td>
             );
         }
@@ -49,7 +49,7 @@ class OrderItem extends Component {
         if (!this.props.role) {
             return (
                 <td>
-                    <Link to={`/profile/${owner_id}`}>{fullname}</Link>
+                    <Link to={`/user/${owner_id}`}>{fullname}</Link>
                 </td>
             );
         }

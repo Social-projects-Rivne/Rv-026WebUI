@@ -1,5 +1,7 @@
 import db from '../db';
 import orderModel from '../models/orderModel';
+import signinController from './signinController';
+import { STATUS_TAKEN } from '../config';
 
 const orderController = {};
 
@@ -21,13 +23,24 @@ orderController.updateStatus = (req, res) => {
             console.log(error);
         } else {
             const statusId = result.rows[0].id;
-            db.query(orderModel.updateStatusId(statusId, orderId), (err, resultat) => {
-                if (err) {
-                    res.sendStatus(500);
-                } else {
-                    res.sendStatus(200);
-                }
-            });
+            if (statusName === STATUS_TAKEN) {
+                const cookId = signinController.sessions[req.cookies.access];
+                db.query(orderModel.updateStatusIdAndCookId(cookId, statusId, orderId), (err, resultat) => {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.sendStatus(200);
+                    }
+                });
+            } else {
+                db.query(orderModel.updateStatusId(statusId, orderId), (err, resultat) => {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.sendStatus(200);
+                    }
+                });
+            }
         }
     });
 };

@@ -61,7 +61,9 @@ class ListOrders extends Component {
                             {this.renderThUserWithoutRole()}
                             <th>Status</th>
                             <th>Dishes</th>
+                            <th>Prices</th>
                             <th>Change Status</th>
+                            <th>Comment</th>
                         </tr>
                     </thead>
                     <tbody>

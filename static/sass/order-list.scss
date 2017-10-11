@@ -1,9 +1,11 @@
 .orders-table {
     .order-item {
-
-        .recipes-in-order {
-            width: 50%;
-            float: left;
+        .recipe-block{
+        display: inline;
+            .recipes-in-order {
+                width: 50%;
+                float: left;
+            }
         }
     }
     tbody > tr > td {
@@ -32,6 +34,7 @@
         .image-container {
             width: 50%;
             float: left;
+            text-align: center;
             .image {
                 width: 60px;
                 height: auto;

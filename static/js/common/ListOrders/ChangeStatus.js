@@ -38,7 +38,7 @@ class ChangeStatus extends Component {
                 this.setState({ displayed: [BUTTON_READY, BUTTON_CANCEL], messageCook: '' });
                 break;
             case STATUS_READY:
-                this.setState({ displayed: [], messageCook: 'wait, dish cooking' });
+                this.setState({ displayed: [], messageCook: 'wait, dish on the way' });
                 break;
             case STATUS_DELIVERED:
                 this.setState({ displayed: [BUTTON_PAY], messageCook: '' });
@@ -71,7 +71,7 @@ class ChangeStatus extends Component {
                 this.setState({ displayed: [BUTTON_DELIVER], messageUser: '' });
                 break;
             case STATUS_DELIVERED:
-                this.setState({ displayed: [], messageUser: 'wait, confirms the payment' });
+                this.setState({ displayed: [], messageUser: 'I will soon confirm the payment' });
                 break;
             case STATUS_PAID:
                 this.setState({ displayed: [], messageUser: 'success!' });
@@ -91,7 +91,7 @@ class ChangeStatus extends Component {
     handleClick(button) {
         let { orderId, role, status } = this.props;
         const currentStatus = switchButtonToStatus(button);
-        
+
         this.displayedForCook(role, currentStatus);
         this.displayedForUser(role, currentStatus);
         this.props.onStatusSubmit({ currentStatus, orderId });
@@ -109,7 +109,7 @@ class ChangeStatus extends Component {
                         </div>
                     </div>
                     <div className="image-container">
-                        <img className="image" alt="cook" src={messageCook ? '/public/images/common/cook.png' : '/public/images/common/user.jpg'} />
+                        <img className="image" alt="cook" src={messageUser ? '/public/images/common/cook.png' : '/public/images/common/user.jpg'} />
                     </div>
                 </div>
             );
@@ -135,16 +135,10 @@ class ChangeStatus extends Component {
                 );
             });
         }
-//якщо кук то messageCook компонента
         return (
             <div>
                 {buttonList}
-                
                 {this.renderMessage(messageUser, messageCook)}
-                
-
-
-                
             </div>
         );
     }

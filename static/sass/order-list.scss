@@ -28,6 +28,70 @@
                 opacity: 1;
             }
         }
+        /* info messages */
+        .image-container {
+            width: 50%;
+            float: left;
+            .image {
+                width: 60px;
+                height: auto;
+            }
+        }
+        .talk-container {
+            width: 50%;
+            float: left;
+            .talk-bubble {
+                display: inline-block;
+                position: relative;
+                height: auto;
+                background-color: lightyellow;
+                .talktext{
+                    padding: 1em;
+                    text-align: left;
+                    line-height: 1.5em;
+                    p{
+                        -webkit-margin-before: 0em;
+                        -webkit-margin-after: 0em;
+                    }
+                }
+
+            }
+            .border{
+                border: 8px solid #a8c3e0;
+            }
+            .round{
+                border-radius: 10px;
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+            
+            }
+            .tri-right.border.right-top:before {
+                content: ' ';
+                position: absolute;
+                width: 0;
+                height: 0;
+                left: auto;
+                right: -40px;
+                top: -8px;
+                bottom: auto;
+                border: 32px solid;
+                border-color: #a8c3e0 transparent transparent transparent;
+            }
+            .tri-right.right-top:after{
+                content: ' ';
+                position: absolute;
+                width: 0;
+                height: 0;
+                left: auto;
+                right: -20px;
+                top: 0px;
+                bottom: auto;
+                border: 20px solid;
+                border-color: lightyellow transparent transparent transparent;
+            }
+        }
+
+        
         
     }
 }

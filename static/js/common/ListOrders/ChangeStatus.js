@@ -97,6 +97,26 @@ class ChangeStatus extends Component {
         this.props.onStatusSubmit({ currentStatus, orderId });
     }
 
+    renderMessage(messageUser, messageCook) {
+        if (messageUser || messageCook) {
+            return (
+                <div>
+                    <div className="talk-container">
+                        <div className="talk-bubble tri-right round border right-top">
+                            <div className="talktext">
+                                <p>{messageUser || messageCook}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="image-container">
+                        <img className="image" alt="cook" src={messageCook ? '/public/images/common/cook.png' : '/public/images/common/user.jpg'} />
+                    </div>
+                </div>
+            );
+        }
+        return (null);
+    }
+
     render() {
         const { messageUser, messageCook } = this.state;
         let buttonList = this.state.displayed;
@@ -115,12 +135,16 @@ class ChangeStatus extends Component {
                 );
             });
         }
-
+//якщо кук то messageCook компонента
         return (
             <div>
                 {buttonList}
-                {messageCook}
-                {messageUser}
+                
+                {this.renderMessage(messageUser, messageCook)}
+                
+
+
+                
             </div>
         );
     }

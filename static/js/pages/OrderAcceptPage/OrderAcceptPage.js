@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import axios from 'axios';
 
 import Header from '../../common/Header';
@@ -18,7 +19,8 @@ class OrderAcceptPage extends Component {
         }
         console.log(data);
         axios.post('/api/addOrder', data)
-        .then(res => this.msg.show(res.data, { type: 'success' }))
+        .then(() => localStorage.clear())
+        .then(setTimeout(() => browserHistory.push('/recipes'), 500))
         .catch(err => console.log(err));
     }
     render() {

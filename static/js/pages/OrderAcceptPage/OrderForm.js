@@ -15,8 +15,14 @@ class OrderForm extends Component {
         super(props);
         this.state = {
             comment: '',
+            price: '',
             items: JSON.parse(localStorage.getItem('cart')),
+           
+            emptyPrice: '',
+
+            buttonDisabledPrice: true,
         };
+        this.onPriceChange = this.onPriceChange.bind(this);
         this.onCommentChange = this.onCommentChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
@@ -24,6 +30,7 @@ class OrderForm extends Component {
     onSubmit(e) {
         e.preventDefault();
         const comment = this.state.comment;
+        const price = this.state.price;
         console.log(this.state.items);
         const items = this.state.items;
         let orderContext = [];
@@ -35,13 +42,31 @@ class OrderForm extends Component {
         }
         orderContext = JSON.stringify(orderContext);
         this.props.handleSubmit({
+            price,
             comment,
             orderContext,
         });
     }
+    onPriceChange(e) {
+        this.setState({ price: e.target.value });
+        this.setState({ buttonDisabledPrice: !e.target.value });
+        this.emptyValidate(e.target.value, 'emptyPrice', 'Price is Required');
+    }
     onCommentChange(e) {
         this.setState({ comment: e.target.value });
     }
+
+
+    emptyValidate(value, emptyField, emptyMessage) {
+        if (_.isEmpty(value)) {
+            this.setState({ [emptyField]: [emptyMessage] });
+        } else {
+            this.setState({ [emptyField]: null });
+        }
+    }
+
+    errorMessage = (m) => m === null ? '' : <div className="text-danger">{m}</div>;
+
     render() {
         if (this.state.items) {
             const orderList = this.state.items.map((item, index) => {
@@ -58,6 +83,18 @@ class OrderForm extends Component {
                         <h1 className="title">Is your order right?</h1>
                         <FormGroup>
                             <div className="order-list"> { orderList }</div>
+                            <label htmlFor="RecipesForm--price">Price</label>
+                            <FormControl
+                                type="number"
+                                name="price"
+                                id="Order-Form--price"
+                                placeholder="Price"
+                                value={this.state.price}
+                                onChange={this.onPriceChange}
+                            />
+                            {this.errorMessage(this.state.emptyPrice)}
+                        </FormGroup>
+                        <FormGroup>
                             <label htmlFor="RecipesForm--comment">Comment</label>
                             <FormControl
                                 componentClass="textarea"
@@ -67,8 +104,13 @@ class OrderForm extends Component {
                                 value={this.state.comment}
                                 onChange={this.onCommentChange}
                             />
+                            
                         </FormGroup>
-                        <Button type="submit">
+                        <Button
+                            type="submit"
+                            disabled={
+                            this.state.buttonDisabledPrice}
+                        >
                             Submit
                         </Button>
                     </form>

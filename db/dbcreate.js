@@ -94,7 +94,8 @@ module.exports = function () {
           user_id         integer     references users(id),
           cooker_id       integer,    
           status          integer     default 1,
-          comment         varchar(200)
+          comment         varchar(200),
+          price           integer
           )`,
         values: [],
     };
@@ -104,8 +105,7 @@ module.exports = function () {
           id              serial      PRIMARY KEY,
           order_id        integer     references orders(id),
           recipe_id       integer     references recipes(id),
-          count           integer,     
-          price           integer
+          count           integer   
           )`,
         values: [],
     };

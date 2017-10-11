@@ -21,20 +21,21 @@ const saveOrderContext = (idOrder, orderContext) => {
         );
     }
 };
-
 orderController.addOrder = (req, res) => {
     const form = new multiparty.Form();
     let order = {
-        ownerId: '',
+        userId: 1,
         comment: '',
+        price: 0,
         status: 1,
     };
     form.parse(req, (err, fields, files) => {
         if (err) {
             console.log(err);
         } else {
-            order.ownerId = signinController.sessions[req.cookies.access];
-            order.comment = fields.comment;
+            order.userId = signinController.sessions[req.cookies.access];
+            order.comment = fields.comment[0];
+            order.price = fields.price;
             console.log(order);
             const orderContext = JSON.parse(fields.orderContext);
             console.log(orderContext);
@@ -44,7 +45,7 @@ orderController.addOrder = (req, res) => {
                 } else {
                     const idOrder = result.rows[0].id;
                     saveOrderContext(idOrder, orderContext);
-                    res.send('Order created!');
+                    res.send('Order creat ed!');
                 }
             });
         }

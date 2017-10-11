@@ -11,10 +11,18 @@ class Cart extends Component {
         };
         this.onClick = this.onClick.bind(this);
     }
+
     componentWillMount() {
         let items = [];
         items = JSON.parse(localStorage.getItem('cart'));
         this.setState({ cart: items });
+        console.log('123');
+    }
+    componentDidMount() {
+        setInterval(() => {
+            this.setState({ cart: JSON.parse(localStorage.getItem('cart')) });
+            console.log(this.state.cart);
+        }, 500);
     }
     onClick() {
         location.href = 'orders/new';

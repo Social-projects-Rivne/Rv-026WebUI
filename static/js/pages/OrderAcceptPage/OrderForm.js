@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import {
     Button,
     ControlLabel,
@@ -25,13 +26,13 @@ class OrderForm extends Component {
         this.onPriceChange = this.onPriceChange.bind(this);
         this.onCommentChange = this.onCommentChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
     onSubmit(e) {
         e.preventDefault();
         const comment = this.state.comment;
         const price = this.state.price;
-        console.log(this.state.items);
         const items = this.state.items;
         let orderContext = [];
         for (let i = 0; i < items.length; i += 1) {
@@ -46,6 +47,10 @@ class OrderForm extends Component {
             comment,
             orderContext,
         });
+    }
+    onClick() {
+        localStorage.removeItem('cart');
+        browserHistory.push('/recipes');
     }
     onPriceChange(e) {
         this.setState({ price: e.target.value });
@@ -85,6 +90,7 @@ class OrderForm extends Component {
                             <div className="order-list"> { orderList }</div>
                             <label htmlFor="RecipesForm--price">Price</label>
                             <FormControl
+                                className="price"
                                 type="number"
                                 name="price"
                                 id="Order-Form--price"
@@ -112,6 +118,11 @@ class OrderForm extends Component {
                             this.state.buttonDisabledPrice}
                         >
                             Submit
+                        </Button>
+                        <Button
+                            onClick={this.onClick}
+                        >
+                            Cancel
                         </Button>
                     </form>
                 </div>

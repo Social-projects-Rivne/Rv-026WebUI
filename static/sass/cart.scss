@@ -1,4 +1,17 @@
-
+.octicon-bell{
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top: 13px;
+    left: 48px;
+    z-index: 2;
+    border: 3px solid #272727;
+    border-radius: 50px;
+    .circle{
+        
+        fill: rgb(30, 105, 218);
+    }
+}
 .cartButton{
     padding-top: 15px;
     background: none;

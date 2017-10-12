@@ -1,0 +1,21 @@
+.order-form {
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+    background-color: rgba(204, 204, 204, 0.185);
+    .accept-order-form {
+        border-radius:7px;
+        position: relative;
+        .title {
+            margin: 0 auto;
+            
+        }
+        .order-list {
+            margin: 0;
+        }
+        .price {
+            width: 15%;
+        }
+    }
+    
+}

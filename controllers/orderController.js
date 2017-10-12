@@ -36,16 +36,14 @@ orderController.addOrder = (req, res) => {
             order.userId = signinController.sessions[req.cookies.access];
             order.comment = fields.comment[0];
             order.price = fields.price;
-            console.log(order);
             const orderContext = JSON.parse(fields.orderContext);
-            console.log(orderContext);
             db.query(orderModel.saveOrder(order), (error, result) => {
                 if (error) {
                     console.log(error);
                 } else {
                     const idOrder = result.rows[0].id;
                     saveOrderContext(idOrder, orderContext);
-                    res.send('Order creat ed!');
+                    res.send('Order created!');
                 }
             });
         }

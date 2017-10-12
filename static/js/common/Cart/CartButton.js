@@ -9,6 +9,7 @@ class CartButton extends Component {
         this.onClick = this.onClick.bind(this);
         this.state = {
             show: false,
+            status: false,
         };
     }
     onClick() {
@@ -29,7 +30,10 @@ class CartButton extends Component {
                     Cart
                     <img className="cartIcon" src="../../../public/images/icons/cart.png" alt="cart" />
                     </button>
-                    <Cart />
+                    <Cart show={this.state.show} />
+                    <svg className="octicon-bell" viewBox="-1 -1 2 2">
+                        <circle className="circle" cx="0" cy="0" r="1" />
+                    </svg>
                 </div>
             );
         } else {

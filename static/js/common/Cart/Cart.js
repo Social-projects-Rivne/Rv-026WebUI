@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-
+import { browserHistory } from 'react-router';
 import CartItem from './CartItem';
 
 class Cart extends Component {
@@ -8,6 +8,11 @@ class Cart extends Component {
         super(props);
         this.state = {
             cart: [],
+            interval:
+                setInterval(() => {
+                    this.setState({ cart: JSON.parse(localStorage.getItem('cart')) });
+                    //console.log(this.state.cart);
+                }, 500),
         };
         this.onClick = this.onClick.bind(this);
     }
@@ -16,16 +21,12 @@ class Cart extends Component {
         let items = [];
         items = JSON.parse(localStorage.getItem('cart'));
         this.setState({ cart: items });
-        console.log('123');
     }
-    componentDidMount() {
-        setInterval(() => {
-            this.setState({ cart: JSON.parse(localStorage.getItem('cart')) });
-            console.log(this.state.cart);
-        }, 500);
+    componentWillUnmount() {
+        clearInterval(this.state.interval);
     }
     onClick() {
-        location.href = 'orders/new';
+        browserHistory.push('/orders/new');
     }
 
     render() {

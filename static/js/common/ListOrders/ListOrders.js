@@ -45,12 +45,9 @@ class ListOrders extends Component {
 
     render() {
         const role = this.state.role;
-
-
         const { orders } = this.props;
-        console.log(orders);
         const orderList = orders.map((order) => {
-            return <OrderItem key={order.id} order={order} role={role} />;
+            return <OrderItem onStatusSubmit={this.props.onStatusSubmit} key={order.id} order={order} role={role} />;
         });
 
         return (
@@ -64,7 +61,9 @@ class ListOrders extends Component {
                             {this.renderThUserWithoutRole()}
                             <th>Status</th>
                             <th>Dishes</th>
+                            <th>Prices</th>
                             <th>Change Status</th>
+                            <th>Comment</th>
                         </tr>
                     </thead>
                     <tbody>

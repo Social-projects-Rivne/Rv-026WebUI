@@ -20,6 +20,7 @@ class OrdersPage extends Component {
             orders: null,
             process: 'fetching',
         };
+        this.onStatusSubmit = this.onStatusSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -30,6 +31,26 @@ class OrdersPage extends Component {
         .catch((err) => {
             this.setState({ process: 'failedToFetch' });
             console.log(err, 'Failed to get orders data');
+        });
+    }
+
+    onStatusSubmit({ currentStatus, orderId }) {
+        fetch(`/api/order/status/${orderId}/${currentStatus}`, {
+            method: 'PUT',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            credentials: 'include',
+        }).then((res) => {
+            if (res.status === 200) {
+                wait(0)
+                .then(() => {
+                    this.getAllOrders();
+                })
+                .catch((err) => {
+                    this.setState({ process: 'failedToFetch' });
+                    console.log(err, 'Failed to get orders data');
+                });
+                console.log('good!');
+            }
         });
     }
 
@@ -57,7 +78,7 @@ class OrdersPage extends Component {
                 <div>
                     <HeaderCook />
                     <div className="container">
-                        <ListOrders orders={orders} />
+                        <ListOrders onStatusSubmit={this.onStatusSubmit} orders={orders} />
                     </div>
                 </div>
             );

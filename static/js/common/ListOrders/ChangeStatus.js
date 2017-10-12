@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import switchColorToElement from './switchColorToElement';
+import switchButtonToStatus from './switchButtonToStatus';
 import {
     ROLE_COOK, ROLE_USER,
-    STATUS_NEW, STATUS_TAKEN, STATUS_READY, STATUS_DELIVERED, STATUS_PAID, STATUS_CANCELED,
-    BUTTON_NEW, BUTTON_TAKE, BUTTON_READY, BUTTON_DELIVER, BUTTON_PAY, BUTTON_CANCEL,    
+    STATUS_NEW, STATUS_TAKEN, STATUS_READY, STATUS_DELIVERED, STATUS_PAID, STATUS_CANCELED, STATUS_REOPENED,
+    BUTTON_NEW, BUTTON_TAKE, BUTTON_READY, BUTTON_DELIVER, BUTTON_PAY, BUTTON_CANCEL, BUTTON_REOPEN,
 } from '../../../../config';
 
 class ChangeStatus extends Component {
@@ -37,13 +38,19 @@ class ChangeStatus extends Component {
                 this.setState({ displayed: [BUTTON_READY, BUTTON_CANCEL], messageCook: '' });
                 break;
             case STATUS_READY:
-                this.setState({ displayed: [], messageCook: 'wait, dish cooking' });
+                this.setState({ displayed: [], messageCook: 'wait, dish on the way' });
                 break;
             case STATUS_DELIVERED:
                 this.setState({ displayed: [BUTTON_PAY], messageCook: '' });
                 break;
             case STATUS_PAID:
                 this.setState({ displayed: [], messageCook: 'success!' });
+                break;
+            case STATUS_CANCELED:
+                this.setState({ displayed: [BUTTON_REOPEN], messageCook: '' });
+                break;
+            case STATUS_REOPENED:
+                this.setState({ displayed: [BUTTON_NEW], messageCook: '' });
                 break;
             default:
                 break;
@@ -64,30 +71,50 @@ class ChangeStatus extends Component {
                 this.setState({ displayed: [BUTTON_DELIVER], messageUser: '' });
                 break;
             case STATUS_DELIVERED:
-                this.setState({ displayed: [], messageUser: 'wait, confirms the payment' });
+                this.setState({ displayed: [], messageUser: 'I will soon confirm the payment' });
                 break;
             case STATUS_PAID:
                 this.setState({ displayed: [], messageUser: 'success!' });
+                break;
+            case STATUS_CANCELED:
+                this.setState({ displayed: [BUTTON_REOPEN], messageUser: '' });
+                break;
+            case STATUS_REOPENED:
+                this.setState({ displayed: [BUTTON_NEW], messageUser: '' });
                 break;
             default:
                 break;
             }
         }
     }
-    
-    /*
-        test update
-    */
+
     handleClick(button) {
-        fetch(`/api/orderTestUpdate`, { method: 'PUT',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include' })
-       .then((res) => {
-            if (res.status === 200) {console.log('good!');}
-        });
+        let { orderId, role, status } = this.props;
+        const currentStatus = switchButtonToStatus(button);
+
+        this.displayedForCook(role, currentStatus);
+        this.displayedForUser(role, currentStatus);
+        this.props.onStatusSubmit({ currentStatus, orderId });
+    }
+
+    renderMessage(messageUser, messageCook) {
+        if (messageUser || messageCook) {
+            return (
+                <div>
+                    <div className="talk-container">
+                        <div className="talk-bubble tri-right round border right-top">
+                            <div className="talktext">
+                                <p>{messageUser || messageCook}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="image-container">
+                        <img className="image" alt="cook" src={messageUser ? '/public/images/common/cook.png' : '/public/images/common/user.jpg'} />
+                    </div>
+                </div>
+            );
+        }
+        return (null);
     }
 
     render() {
@@ -108,12 +135,10 @@ class ChangeStatus extends Component {
                 );
             });
         }
-
         return (
             <div>
                 {buttonList}
-                {messageCook}
-                {messageUser}
+                {this.renderMessage(messageUser, messageCook)}
             </div>
         );
     }

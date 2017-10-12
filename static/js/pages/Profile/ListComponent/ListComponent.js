@@ -38,7 +38,7 @@ class ListComponent extends Component {
         } else if (phase === 'fetched') {
             return (
                 <div>
-                    { _.isEmpty(orders) ? <p>Sorry, there are no orders yet :(</p> : <Result result={orders} role_id={this.role_id} /> }
+                    { _.isEmpty(orders) ? <p>Sorry, there are no orders yet :(</p> : <Result result={orders} role_id={this.role_id} id={this.id} onStatusSubmit={this.onStatusSubmit} /> }
                 </div>
             );
         } else if (phase === 'failedToFetch') {

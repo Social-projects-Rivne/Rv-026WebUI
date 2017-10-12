@@ -31,7 +31,7 @@ class Result extends Component {
                                 <p>Premium: {result.is_premium === true ? ('active') : ('none') }</p>
                             </TabPanel>
                             <TabPanel>
-                                <ListComponent userId={result.id} role_id={result.role_id} />
+                                <ListComponent userId={result.id} role_id={result.role_id} onStatusSubmit={this.onStatusSubmit} />
                             </TabPanel>
                         </Tabs>
                     </div>

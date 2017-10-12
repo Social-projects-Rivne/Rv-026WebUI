@@ -9,19 +9,45 @@ class User extends Component {
     constructor() {
         super();
         this.state = { user: [], process: 'fetching' };
+        this.onStatusSubmit = this.onStatusSubmit.bind(this);
     }
 
     componentWillMount() {
         wait(2000)
         .then(() => {
-            fetch('/api/user/', { method: 'GET', credentials: 'include' })
-                .then(response => response.json(), this.setState({ process: 'fetched' }))
-                .then(({ rows: user }) => this.setState({ user }));
+            this.getAllOrders();
         })
             .catch((err) => {
                 this.setState({ process: 'failedToFetch' });
                 console.log(err, 'Failed to get profile data');
             });
+    }
+
+
+    onStatusSubmit({ currentStatus, orderId }) {
+        fetch(`/api/order/status/${orderId}/${currentStatus}`, {
+            method: 'PUT',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            credentials: 'include',
+        }).then((res) => {
+            if (res.status === 200) {
+                wait(0)
+                .then(() => {
+                    this.getAllOrders();
+                })
+                .catch((err) => {
+                    this.setState({ process: 'failedToFetch' });
+                    console.log(err, 'Failed to get orders data');
+                });
+                console.log('good!');
+            }
+        });
+    }
+
+    getAllOrders() {
+        fetch('/api/user/', { method: 'GET', credentials: 'include' })
+            .then(response => response.json(), this.setState({ process: 'fetched' }))
+            .then(({ rows: user }) => this.setState({ user }));
     }
 
     render() {
@@ -38,7 +64,7 @@ class User extends Component {
             return (
                 <div>
                     <Header />
-                    <Result result={user} />
+                    <Result result={user} onStatusSubmit={this.onStatusSubmit} />
                 </div>
             );
         } else if (phase === 'failedToFetch') {

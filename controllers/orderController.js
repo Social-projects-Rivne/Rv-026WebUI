@@ -1,5 +1,7 @@
 import db from '../db';
 import orderModel from '../models/orderModel';
+import signinController from './signinController';
+import { STATUS_TAKEN } from '../config';
 
 const orderController = {};
 
@@ -13,15 +15,32 @@ orderController.getAllOrders = (req, res) => {
         }
     });
 };
-/*
-    test update
-*/
-orderController.updateOrderTest = (req, res) => {
-    db.query(`UPDATE orders SET status_id = 4 WHERE id = 1`, (err, result) => {
-        if (err) {
-            res.sendStatus(500);
+
+orderController.updateStatus = (req, res) => {
+    const { orderId, statusName } = req.params;
+    db.query(orderModel.findIdToStatusName(statusName), (error, result) => {
+        if (error) {
+            console.log(error);
         } else {
-            res.sendStatus(200);
+            const statusId = result.rows[0].id;
+            if (statusName === STATUS_TAKEN) {
+                const cookId = signinController.sessions[req.cookies.access];
+                db.query(orderModel.updateStatusIdAndCookId(cookId, statusId, orderId), (err, resultat) => {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.sendStatus(200);
+                    }
+                });
+            } else {
+                db.query(orderModel.updateStatusId(statusId, orderId), (err, resultat) => {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.sendStatus(200);
+                    }
+                });
+            }
         }
     });
 };

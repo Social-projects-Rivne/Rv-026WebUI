@@ -24,15 +24,6 @@ const findMaxId = (arr) => {
     return maxId;
 };
 
-const makeFetchOptions = maxId =>
-    ({
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ maxId }),
-    });
-
 class RecipesPage extends Component {
     constructor(props) {
         super(props);
@@ -103,10 +94,8 @@ class RecipesPage extends Component {
     }
 
     getAllRecipes() {
-        const url = '/api/recipes';
-        const options = makeFetchOptions(findMaxId(this.state.recipes));
-
-        fetch(url, options)
+        const url = `/api/recipes/search?maxId=${findMaxId(this.state.recipes)}`;
+        fetch(url)
             .then(response => response.json())
             .then((response) => {
                 const recipes = this.state.recipes.concat(response);
@@ -141,9 +130,8 @@ class RecipesPage extends Component {
     }
 
     getRecipesByIngredients(ingredients) {
-        const url = `/api/recipes/search/ingredients=${ingredients}`;
-
-        axios.post(url, { maxId: findMaxId(this.state.recipes) })
+        const url = `/api/recipes/ingredients/search?ingredients=${ingredients}&maxId=${findMaxId(this.state.recipes)}`;
+        axios.get(url)
         .then((response) => {
             const recipes = this.state.recipes.concat(response.data);
             this.setState({ process: 'fetched', recipes });

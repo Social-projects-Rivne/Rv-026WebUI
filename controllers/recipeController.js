@@ -222,7 +222,7 @@ recipeController.getRecipesByTagId = (req, res, next) => {
 };
 
 recipeController.getAllRecepies = (req, res, next) => {
-    db.query(recipeModel.getAllRecipes(req.body.maxId), (err, result) => {
+    db.query(recipeModel.getAllRecipes(req.query.maxId), (err, result) => {
         if (err) {
             return next(err);
         } else {
@@ -434,11 +434,11 @@ recipeController.getAllIngredients = (req, res) => {
 };
 
 recipeController.getRecepiesByIngredients = (req, res) => {
-    const ingredients = req.params.ingredients;
+    const ingredients = req.query.ingredients;
     if (!ingredients) {
         res.sendStatus(404);
     }
-    db.query(recipeModel.findRecipesByIngredients(ingredients, req.body.maxId), (err, result) => {
+    db.query(recipeModel.findRecipesByIngredients(ingredients, req.query.maxId), (err, result) => {
         if (err) {
             res.sendStatus(500);
             console.log(err);

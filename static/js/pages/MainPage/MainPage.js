@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Header from '../../common/Header';
+import TestComponentOnMainPage from './TestComponentOnMainPage';
 
 const bannerBlock = {
     fontSize: '80px',
@@ -29,6 +30,7 @@ class MainPage extends Component {
                 <Header />
                 <p style={bannerBlock}>FOOD MAKE & DELIEVERY</p>
                 <p style={comment}>forget about hunger forever with FM&D!</p>
+                <TestComponentOnMainPage />
             </div>
 
         );

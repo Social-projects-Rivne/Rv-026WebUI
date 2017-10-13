@@ -7,6 +7,10 @@ import ListComponent from './ListComponent';
 import constants from '../../common/constants';
 
 class Result extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         const profile = this.props.result.map((result) => {
             return (
@@ -31,7 +35,7 @@ class Result extends Component {
                                 <p>Premium: {result.is_premium === true ? ('active') : ('none') }</p>
                             </TabPanel>
                             <TabPanel>
-                                <ListComponent userId={result.id} role_id={result.role_id} onStatusSubmit={this.onStatusSubmit} />
+                                <ListComponent userId={result.id} role_id={result.role_id} role_name={result.user_role} onStatusSubmit={this.props.onStatusSubmit} />
                             </TabPanel>
                         </Tabs>
                     </div>

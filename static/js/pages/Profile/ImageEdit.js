@@ -86,14 +86,14 @@ class ImageEdit extends Component {
         else if (this.state.process === 'fetching') {
             return (
                 <div className="hoverInline" onClick={this.handleSwitch} role="button">
-                    <img src={this.state.value} style={constants.avatarStyle} alt="avatar" />
+                    <img className="bounce" src={this.state.value} style={constants.avatarStyle} alt="avatar" />
                     <ReactLoading type="bars" color="#444" style={constants.centerDiv} />
                 </div>
             );
         } else {
             return (
                 <div className="hoverInline" onClick={this.handleSwitch} role="button">
-                    <img src={this.state.value} style={constants.avatarStyle} alt="avatar" />
+                    <img className="bounce" src={this.state.value} style={constants.avatarStyle} alt="avatar" />
                     {this.state.updateStatus ? (<span className="successMessage">{this.state.updateMessage}</span>) : (<span className="failedMessage">{this.state.updateMessage}</span>)}
                 </div>
             );
@@ -102,8 +102,8 @@ class ImageEdit extends Component {
 }
 
 ImageEdit.propTypes = {
-    value: PropTypes.string,
     src: PropTypes.string,
+    value: PropTypes.string,
     userId: PropTypes.number,
 };
 

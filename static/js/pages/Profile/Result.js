@@ -30,7 +30,7 @@ class Result extends Component {
                                 <p>Email: {result.email}</p>
                                 <InlineEditText value={result.phone_number} dbName="phone_number" name="Phone" userId={result.id} />
                                 <h1 style={constants.hfStyle}>General information:</h1>
-                                <InlineEditRadio role={result.user_role} role_id={result.role_id} name="Role" userId={result.id} />
+                                <p>Role: {result.user_role}</p>
                                 <InlineEditText value={result.about_me ? (result.about_me) : ('Enter something about yourself')} name="About" dbName="about_me" userId={result.id} />
                                 <p>Premium: {result.is_premium === true ? ('active') : ('none') }</p>
                             </TabPanel>

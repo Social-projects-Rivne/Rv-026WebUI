@@ -10,7 +10,6 @@ class ListComponent extends Component {
     constructor(props) {
         super(props);
         this.id = this.props.userId;
-        this.role_id = this.props.role_id;
         this.role_name = this.props.role_name;
         this.state = { orders: [], process: 'fetching' };
         this.onStatusSubmit = this.onStatusSubmit.bind(this);
@@ -43,13 +42,12 @@ class ListComponent extends Component {
                     this.setState({ process: 'failedToFetch' });
                     console.log(err, 'Failed to get orders data');
                 });
-                console.log('good!');
             }
         });
     }
 
     getAllOrders() {
-        fetch(`/api/user/${this.id}/role/${this.role_id}/orders/`, { method: 'GET', credentials: 'include' })
+        fetch(`/api/user/${this.id}/orders/role=${this.role_name}`, { method: 'GET', credentials: 'include' })
         .then(response => response.json(), this.setState({ process: 'fetched' }))
         .then(({ rows: orders }) => this.setState({ orders }));
     }
@@ -67,7 +65,7 @@ class ListComponent extends Component {
         } else if (phase === 'fetched') {
             return (
                 <div>
-                    { _.isEmpty(orders) ? <p>Sorry, there are no orders yet :(</p> : <Result result={orders} role_id={this.role_id} id={this.id} role_name={this.role_name} onStatusSubmit={this.onStatusSubmit} /> }
+                    { _.isEmpty(orders) ? <p>Sorry, there are no orders yet :(</p> : <Result result={orders} id={this.id} role_name={this.role_name} onStatusSubmit={this.onStatusSubmit} /> }
                 </div>
             );
         } else if (phase === 'failedToFetch') {

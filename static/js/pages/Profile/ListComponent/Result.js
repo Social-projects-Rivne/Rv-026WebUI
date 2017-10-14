@@ -7,7 +7,6 @@ import ChangeStatus from '../../../common/ListOrders/ChangeStatus';
 class Result extends Component {
     constructor(props) {
         super(props);
-        this.role = this.props.role_id;
         this.role_name = this.props.role_name;
         this.userId = this.props.id;
         this.ChangeStatus = this.props.onStatusSubmit;
@@ -43,11 +42,11 @@ class Result extends Component {
             return (
                 <div key={item.id} className="flexbox-table">
                     <div className="cell">{item.id}</div>
-                    {this.role === 2 ?
+                    {this.role_name === 'user' ?
                         <div className="cell">
                             <Link to={`/user/${item.cooker_id}`}>{!item.fullname ? (item.email.split('@')[0]) : item.fullname }</Link>
                         </div>
-                      :  this.role === 3 ?
+                      :  this.role_name === 'cook' ?
                           <div className="cell">
                               <Link to={`/user/${item.user_id}`}>{!item.fullname ? (item.email.split('@')[0]) : item.fullname }</Link>
                           </div>
@@ -65,7 +64,7 @@ class Result extends Component {
             <div>
                 <div className="flexbox-table">
                     <div className="cell">#</div>
-                    {this.role === 2 ? <div className="cell">Cooker</div> :  this.role === 3 ? <div className="cell">Client</div> : <div className="cell">Cooker / Owner</div> }
+                    {this.role_name === 'user' ? <div className="cell">Cooker</div> :  this.role_name === 'cook' ? <div className="cell">Client</div> : <div className="cell">Cooker / Owner</div> }
                     <div className="cell"> Status</div>
                     <div className="cell">Dishes</div>
                     <div className="cell">Price</div>
@@ -78,7 +77,6 @@ class Result extends Component {
 }
 
 Result.propTypes = {
-    role_id: PropTypes.number,
     id: PropTypes.number,
     role_name: PropTypes.string,
     onStatusSubmit:  PropTypes.func,

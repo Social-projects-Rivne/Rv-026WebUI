@@ -1,6 +1,8 @@
+import { ROLE_USER, ROLE_COOK } from '../config';
 import db from '../db';
 import UserModel from '../models/userModel';
 import signinController from './signinController';
+
 
 const userController = {};
 
@@ -18,15 +20,33 @@ userController.getUserInfo = (req, res) => {
 userController.getUserOrders = (req, res) => {
     const userId = signinController.sessions[req.cookies.access];
     const id = req.params.id;
-    const roleId = req.params.role_id;
+    const roleName = req.params.role_name;
     if (userId == id) {
-        db.query(UserModel.getUserOrders(userId, roleId), (err, result) => {
-            if (err) {
-                res.sendStatus(500);
-            } else {
-                res.json(result);
-            }
-        });
+        if (roleName === ROLE_USER) {
+            db.query(UserModel.getUserOrders(userId), (err, result) => {
+                if (err) {
+                    res.sendStatus(500);
+                } else {
+                    res.json(result);
+                }
+            });
+        } else if (roleName === ROLE_COOK) {
+            db.query(UserModel.getCookOrders(userId), (err, result) => {
+                if (err) {
+                    res.sendStatus(500);
+                } else {
+                    res.json(result);
+                }
+            });
+        } else {
+            db.query(UserModel.getCookOrders(userId), (err, result) => {
+                if (err) {
+                    res.sendStatus(500);
+                } else {
+                    res.json(result);
+                }
+            });
+        }
     } else {
         res.sendStatus(500);
     }
@@ -100,21 +120,6 @@ userController.getUser = (req, res) => {
             res.sendStatus(500);
         } else {
             res.json(result);
-        }
-    });
-};
-
-userController.updateStatus = (req, res) => {
-    const statusValue = req.body.value;
-    const userId = req.body.id;
-    const orderId = req.body.order;
-    const roleId = req.body.role;
-    console.log(req.body);
-    db.query(UserModel.updateStatus(userId, statusValue, orderId, roleId), (err, result) => {
-        if (err) {
-            res.sendStatus(500);
-        } else {
-            res.sendStatus(200);
         }
     });
 };

@@ -31,13 +31,14 @@ class OrdersPage extends Component {
     }
 
     onStatusSubmit({ currentStatus, orderId }) {
+        this.setState({ process: 'fetching' });
         fetch(`/api/order/status/${orderId}/${currentStatus}`, {
             method: 'PUT',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             credentials: 'include',
         }).then((res) => {
             if (res.status === 200) {
-                wait(0)
+                wait(1000)
                 .then(() => {
                     this.getAllOrders();
                 })

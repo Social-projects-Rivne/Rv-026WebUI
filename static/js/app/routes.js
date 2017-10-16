@@ -32,11 +32,10 @@ const routes = (
         <Route path="/terms" component={Terms} />
         <Route path="/signin" onEnter={checkLogin} component={SignInPage} />
         <Route path="/profile" onEnter={checkUserId} component={User} />
-        <Route path="/orders" component={OrdersPage} />
+        <Route path="/orders" onEnter={checkLoginCook} component={OrdersPage} />
         <Route path="/user/:id" component={UserPAge} />
         <Route path="*" component={NotFound} />
     </Route>
 );
-//for test order page without onEnter={checkLoginCook}
 
 export default routes;

@@ -11,7 +11,7 @@ orderModel.findAllOrders = () => {
             u.role_id,
             u.fullname,
             u.email,
-            array_agg(oc.id) as order_id,
+            array_agg(oc.id) as order_contex_id,
             array_agg(r.id) as recipes_id,
             array_agg(r.title) as recipes_title,
             array_agg(oc.count) as count

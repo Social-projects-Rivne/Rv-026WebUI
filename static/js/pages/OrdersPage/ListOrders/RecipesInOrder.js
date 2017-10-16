@@ -7,7 +7,7 @@ class RecipesInOrder extends Component {
         const { recipesInOrder } = this.props;
         const recipesInOrderList = recipesInOrder.map((item) => {
             return (
-                <div key={item.order_id} className="recipe-block" >
+                <div key={item.order_contex_id} className="recipe-block" >
                     <p className="recipes-in-order">
                         <Link to={`/recipes/${item.recipes_id}`}>{item.recipes_title}</Link>
                     </p>

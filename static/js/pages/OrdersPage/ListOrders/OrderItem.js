@@ -12,8 +12,8 @@ class OrderItem extends Component {
     render() {
         const role = ROLE_COOK;
         const { order } = this.props;
-        const { order_id, recipes_id, recipes_title, count } = this.props.order;
-        const recipesInOrder = createArrayObjectsFromArrays(order_id, recipes_id, recipes_title, count);
+        const { order_contex_id, recipes_id, recipes_title, count } = this.props.order;
+        const recipesInOrder = createArrayObjectsFromArrays(order_contex_id, recipes_id, recipes_title, count);
         return (
             <tr className="order-item" key={order.id}>
                 <td>{order.id}</td>

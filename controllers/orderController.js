@@ -1,7 +1,7 @@
 import db from '../db';
 import orderModel from '../models/orderModel';
 import signinController from './signinController';
-import { STATUS_TAKEN } from '../config';
+import { STATUS_TAKEN, STATUS_CANCELED } from '../config';
 
 const orderController = {};
 
@@ -26,6 +26,14 @@ orderController.updateStatus = (req, res) => {
             if (statusName === STATUS_TAKEN) {
                 const cookId = signinController.sessions[req.cookies.access];
                 db.query(orderModel.updateStatusIdAndCookId(cookId, statusId, orderId), (err, resultat) => {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.sendStatus(200);
+                    }
+                });
+            } else if (statusName === STATUS_CANCELED) {
+                db.query(orderModel.updateStatusIdAndCookId(null, statusId, orderId), (err, resultat) => {
                     if (err) {
                         res.sendStatus(500);
                     } else {

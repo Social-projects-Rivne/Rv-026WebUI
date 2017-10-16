@@ -1,10 +1,12 @@
+import { ROLE_USER, ROLE_COOK } from '../config';
 import db from '../db';
 import UserModel from '../models/userModel';
 import signinController from './signinController';
 
+
 const userController = {};
 
-userController.getUserInfo = (req, res, next) => {
+userController.getUserInfo = (req, res) => {
     const userId = signinController.sessions[req.cookies.access];
     db.query(UserModel.getUserInfo(userId), (err, result) => {
         if (err) {
@@ -13,6 +15,41 @@ userController.getUserInfo = (req, res, next) => {
             res.json(result);
         }
     });
+};
+
+userController.getUserOrders = (req, res) => {
+    const userId = signinController.sessions[req.cookies.access];
+    const id = req.params.id;
+    const roleName = req.params.role_name;
+    if (userId == id) {
+        if (roleName === ROLE_USER) {
+            db.query(UserModel.getUserOrders(userId), (err, result) => {
+                if (err) {
+                    res.sendStatus(500);
+                } else {
+                    res.json(result);
+                }
+            });
+        } else if (roleName === ROLE_COOK) {
+            db.query(UserModel.getCookOrders(userId), (err, result) => {
+                if (err) {
+                    res.sendStatus(500);
+                } else {
+                    res.json(result);
+                }
+            });
+        } else {
+            db.query(UserModel.getCookOrders(userId), (err, result) => {
+                if (err) {
+                    res.sendStatus(500);
+                } else {
+                    res.json(result);
+                }
+            });
+        }
+    } else {
+        res.sendStatus(500);
+    }
 };
 
 userController.checkUserId = (req, res) => {
@@ -30,7 +67,6 @@ userController.updateUserInfo = (req, res) => {
     if (userId == id) {
         const editedField = req.body.dbName;
         const editedValue = req.body.temVal;
-        console.log(editedValue);
         db.query(UserModel.updateUserInfo(editedField, editedValue, userId), (err, result) => {
             if (err) {
                 res.sendStatus(500);
@@ -77,5 +113,15 @@ userController.updateUserAvatar = (req, res) => {
     }
 };
 
+userController.getUser = (req, res) => {
+    const userId = req.params.id;
+    db.query(UserModel.getUser(userId), (err, result) => {
+        if (err) {
+            res.sendStatus(500);
+        } else {
+            res.json(result);
+        }
+    });
+};
 
 module.exports = userController;

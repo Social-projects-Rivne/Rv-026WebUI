@@ -14,8 +14,9 @@ import RecipePage from '../pages/RecipePage';
 import SignUpPage from '../pages/SignUpPage';
 import SignUpSuccess from '../pages/SignUpSuccess';
 import Terms from '../pages/Terms';
-import User from '../pages/UserPage';
+import User from '../pages/Profile';
 import OrdersPage from '../pages/OrdersPage';
+import UserPAge from '../pages/UserPage';
 
 const routes = (
     <Route path="/" component={MainLayout}>
@@ -32,9 +33,10 @@ const routes = (
         <Route path="/signin" onEnter={checkLogin} component={SignInPage} />
         <Route path="/profile" onEnter={checkUserId} component={User} />
         <Route path="/orders" component={OrdersPage} />
+        <Route path="/user/:id" component={UserPAge} />
         <Route path="*" component={NotFound} />
     </Route>
 );
-//for test order page without onEnter={checkLoginCook} 
+//for test order page without onEnter={checkLoginCook}
 
 export default routes;

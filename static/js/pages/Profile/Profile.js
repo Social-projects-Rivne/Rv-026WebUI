@@ -5,7 +5,6 @@ import Result from './Result';
 import Header from '../../common/Header';
 import constants from '../../common/constants';
 
-
 class User extends Component {
     constructor() {
         super();
@@ -15,7 +14,7 @@ class User extends Component {
     componentWillMount() {
         wait(2000)
         .then(() => {
-            fetch(`/api/user/${this.props.params.id}`, { method: 'GET', credentials: 'include' })
+            fetch('/api/user/', { method: 'GET', credentials: 'include' })
                 .then(response => response.json(), this.setState({ process: 'fetched' }))
                 .then(({ rows: user }) => this.setState({ user }));
         })

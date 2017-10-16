@@ -1,39 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import _ from 'lodash';
 
-import { ROLE_COOK, ROLE_USER } from '../../../../config';
 import RecipesInOrder from './RecipesInOrder';
-import ChangeStatus from '../ChangeStatus';
-
-import switchColorToElement from '../switchColorToElement';
+import ChangeStatus from '../../../common/ChangeStatus';
+import RenderStatus from '../../../common/OrderHelpers/RenderStatus';
+import createArrayObjectsFromArrays from '../../../common/OrderHelpers/createArrayObjectsFromArrays';
+import { ROLE_COOK } from '../../../../../config';
 
 class OrderItem extends Component {
-    createArrayObjectsFromArrays(order_id, recipes_id, recipes_title, count) {
-        const objects = [];
-        for (let i = 0; i < recipes_id.length; i++) {
-            objects.push(_.zipObject(
-                ['order_id', 'recipes_id', 'recipes_title', 'count'],
-                [order_id[i], recipes_id[i], recipes_title[i], count[i]],
-            ));
-        }
-        return objects;
-    }
-
-    renderStatus(orderStatus) {
-        const color = switchColorToElement(orderStatus);
-        if (color) {
-            return <span className="label label-status" style={{ backgroundColor: color }}>{orderStatus}</span>;
-        }
-        return (null);
-    }
-
     render() {
-        const { role } = this.props;
+        const role = ROLE_COOK;
         const { order } = this.props;
         const { order_id, recipes_id, recipes_title, count } = this.props.order;
-        const recipesInOrder = this.createArrayObjectsFromArrays(order_id, recipes_id, recipes_title, count);
+        const recipesInOrder = createArrayObjectsFromArrays(order_id, recipes_id, recipes_title, count);
         return (
             <tr className="order-item" key={order.id}>
                 <td>{order.id}</td>
@@ -41,7 +21,7 @@ class OrderItem extends Component {
                     <Link to={`/user/${order.owner_id}`}>{order.fullname}</Link>
                 </td>
                 <td>
-                    {this.renderStatus(order.status)}
+                    <RenderStatus orderStatus={order.status} />
                 </td>
                 <td>
                     <RecipesInOrder recipesInOrder={recipesInOrder} />
@@ -62,7 +42,7 @@ class OrderItem extends Component {
 
 OrderItem.PropTypes = {
     order: PropTypes.object,
-    role: PropTypes.string,
+    onStatusSubmit: PropTypes.func,
 };
 
 export default OrderItem;

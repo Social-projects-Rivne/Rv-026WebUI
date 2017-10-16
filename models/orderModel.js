@@ -2,7 +2,7 @@ const orderModel = {};
 
 orderModel.findAllOrders = () => {
     const query = {
-        text: `SELECT o.id, 
+        text: `SELECT o.id,
             o.cooker_id,
             o.price,
             o.comment,
@@ -10,6 +10,7 @@ orderModel.findAllOrders = () => {
             u.id as owner_id,
             u.role_id,
             u.fullname,
+            u.email,
             array_agg(oc.id) as order_id,
             array_agg(r.id) as recipes_id,
             array_agg(r.title) as recipes_title,
@@ -19,11 +20,12 @@ orderModel.findAllOrders = () => {
         full JOIN orders_status os ON os.id = o.status_id
         inner JOIN recipes r ON oc.recipe_id = r.id
         inner JOIN users u ON u.id = o.user_id
-        group by o.id,u.id,os.id 
+        where os.status = 'new'
+        group by o.id,u.id,os.id
         ORDER BY o.id DESC;`,
     };
     return query;
-};//for test without where os.status = 'new'
+};
 
 orderModel.findIdToStatusName = (status) => {
     const query = {

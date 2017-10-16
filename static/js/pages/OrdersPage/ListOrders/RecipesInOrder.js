@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 class RecipesInOrder extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { recipesInOrder } = this.props;
         const recipesInOrderList = recipesInOrder.map((item) => {

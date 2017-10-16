@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import _ from 'underscore';
+import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
+import Result from './Result';
+import wait from '../../../common/wait';
+import constants from '../../../common/constants';
 
-import Header from '../../common/Header';
-import ListOrders from './ListOrders';
-
-import wait from '../../common/wait';
-import constants from '../../common/constants';
-
-class OrdersPage extends Component {
+class ListComponent extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            orders: null,
-            process: 'fetching',
-        };
+        this.id = this.props.userId;
+        this.role_name = this.props.role_name;
+        this.state = { orders: [], process: 'fetching' };
         this.onStatusSubmit = this.onStatusSubmit.bind(this);
     }
 
@@ -24,11 +20,12 @@ class OrdersPage extends Component {
         .then(() => {
             this.getAllOrders();
         })
-        .catch((err) => {
-            this.setState({ process: 'failedToFetch' });
-            console.log(err, 'Failed to get orders data');
-        });
+          .catch((err) => {
+              this.setState({ process: 'failedToFetch' });
+              console.log(err, 'Failed to get profile data');
+          });
     }
+
 
     onStatusSubmit({ currentStatus, orderId }) {
         fetch(`/api/order/status/${orderId}/${currentStatus}`, {
@@ -45,19 +42,16 @@ class OrdersPage extends Component {
                     this.setState({ process: 'failedToFetch' });
                     console.log(err, 'Failed to get orders data');
                 });
-                console.log('good!');
             }
         });
     }
 
     getAllOrders() {
-        axios.get('/api/orders')
-        .then((res) => {
-            this.setState({ process: 'fetched', orders: res.data });
-        }).catch((error) => {
-            console.log(error);
-        });
+        fetch(`/api/user/${this.id}/orders/role=${this.role_name}`, { method: 'GET', credentials: 'include' })
+        .then(response => response.json(), this.setState({ process: 'fetched' }))
+        .then(({ rows: orders }) => this.setState({ orders }));
     }
+
 
     render() {
         const orders = this.state.orders;
@@ -65,29 +59,29 @@ class OrdersPage extends Component {
         if (phase === 'fetching') {
             return (
                 <div>
-                    <Header />
                     <ReactLoading style={constants.centerDiv} type="bars" color="#444" height="70" width="20" />
                 </div>
             );
         } else if (phase === 'fetched') {
             return (
                 <div>
-                    <Header />
-                    <div className="container">
-                        <ListOrders onStatusSubmit={this.onStatusSubmit} orders={orders} />
-                    </div>
+                    { _.isEmpty(orders) ? <p>Sorry, there are no orders yet :(</p> : <Result result={orders} id={this.id} role_name={this.role_name} onStatusSubmit={this.onStatusSubmit} /> }
                 </div>
             );
         } else if (phase === 'failedToFetch') {
             return (
                 <div>
-                    <Header />
-                    <div>Failed to fetch data from server</div>
+                    <h6>Failed to fetch your data :( </h6>
                 </div>
             );
         }
-        return true;
     }
 }
 
-export default OrdersPage;
+ListComponent.propTypes = {
+    role_id: PropTypes.number,
+    userId: PropTypes.number,
+    role_name: PropTypes.string,
+};
+
+export default ListComponent;

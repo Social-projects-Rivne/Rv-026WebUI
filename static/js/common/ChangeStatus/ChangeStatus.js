@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import _ from 'lodash';
 
-import switchColorToElement from './switchColorToElement';
+import switchColorToElement from '../switchColorToElement';
 import switchButtonToStatus from './switchButtonToStatus';
 import {
     ROLE_COOK, ROLE_USER,

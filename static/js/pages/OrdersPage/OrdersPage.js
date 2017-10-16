@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import ReactLoading from 'react-loading';
 
-import HeaderCook from '../../common/HeaderCook';
+import Header from '../../common/Header';
 import ListOrders from '../../common/ListOrders';
 
 import wait from '../../common/wait';
@@ -69,14 +69,14 @@ class OrdersPage extends Component {
         if (phase === 'fetching') {
             return (
                 <div>
-                    <HeaderCook />
+                    <Header />
                     <ReactLoading style={centerDiv} type="bars" color="#444" height="70" width="20" />
                 </div>
             );
         } else if (phase === 'fetched') {
             return (
                 <div>
-                    <HeaderCook />
+                    <Header />
                     <div className="container">
                         <ListOrders onStatusSubmit={this.onStatusSubmit} orders={orders} />
                     </div>
@@ -85,7 +85,7 @@ class OrdersPage extends Component {
         } else if (phase === 'failedToFetch') {
             return (
                 <div>
-                    <HeaderCook />
+                    <Header />
                     <div>Failed to fetch data from server</div>
                 </div>
             );

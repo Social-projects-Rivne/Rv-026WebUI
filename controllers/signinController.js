@@ -24,8 +24,10 @@ signinController.login = (req, res) => {
             response = 'ok';
             // adding cookie session to the response
             const cookie = uuidv4();
+            const roleCookie = queryResult.user_role;
             signinController.sessions[cookie] = queryResult.id;
             res.cookie('access', cookie);
+            res.cookie('role', roleCookie);
         }
         res.send(response);
     });
@@ -34,6 +36,7 @@ signinController.login = (req, res) => {
 signinController.logout = (req, res) => {
     delete signinController.sessions[req.cookies.access];
     res.clearCookie('access');
+    res.clearCookie('role');
     res.redirect('/');
 };
 

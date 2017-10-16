@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { Navbar } from 'react-bootstrap';
 
+import { ROLE_COOK } from '../../../config';
 
 class Header extends Component {
     constructor(props) {
@@ -19,6 +20,13 @@ class Header extends Component {
         }
     }
 
+    getCookie(name) {
+        const nameReplace = name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1');
+        const matches = document.cookie.match(new RegExp(
+          `(?:^|; )${nameReplace}=([^;]*)`,
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
 
     handleClick(e) {
         e.preventDefault();
@@ -36,6 +44,15 @@ class Header extends Component {
         if (document.cookie) {
             return (
                 <li><a href="/recipes/new">Create Recipe</a></li>
+            );
+        }
+        return (null);
+    }
+
+    renderListOfJobs() {
+        if (document.cookie && this.getCookie('role') === ROLE_COOK) {
+            return (
+                <li><a href="/orders">List of jobs</a></li>
             );
         }
         return (null);
@@ -72,6 +89,7 @@ class Header extends Component {
                         <ul className="nav navbar-nav">
                             <li><a href="/recipes">Recipes</a></li>
                             {this.renderCreateRecipe()};
+                            {this.renderListOfJobs()};
                             <li><a href="/about">About Us</a></li>
                         </ul>
                         {this.renderLoginLogout()};

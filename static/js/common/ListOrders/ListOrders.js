@@ -12,37 +12,6 @@ class ListOrders extends Component {
         };
     }
 
-    renderThForRole() {
-        if (this.state.role === ROLE_USER) {
-            return (
-                <th>Cooker</th>
-            );
-        } else if (this.state.role === ROLE_COOK) {
-            return (
-                <th>Owner</th>
-            );
-        }
-        return (null);
-    }
-
-    renderThCookerWithoutRole() {
-        if (!this.state.role) {
-            return (
-                <th>Cooker</th>
-            );
-        }
-        return (null);
-    }
-
-    renderThUserWithoutRole() {
-        if (!this.state.role) {
-            return (
-                <th>User</th>
-            );
-        }
-        return (null);
-    }
-
     render() {
         const role = this.state.role;
         const { orders } = this.props;
@@ -56,9 +25,7 @@ class ListOrders extends Component {
                     <thead>
                         <tr>
                             <th>#</th>
-                            {this.renderThForRole()}
-                            {this.renderThCookerWithoutRole()}
-                            {this.renderThUserWithoutRole()}
+                            <th>Owner</th>
                             <th>Status</th>
                             <th>Dishes</th>
                             <th>Prices</th>

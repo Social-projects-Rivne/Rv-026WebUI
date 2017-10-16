@@ -5,9 +5,9 @@ import _ from 'lodash';
 
 import { ROLE_COOK, ROLE_USER } from '../../../../config';
 import RecipesInOrder from './RecipesInOrder';
-import ChangeStatus from './ChangeStatus';
+import ChangeStatus from '../ChangeStatus';
 
-import switchColorToElement from './switchColorToElement';
+import switchColorToElement from '../switchColorToElement';
 
 class OrderItem extends Component {
     createArrayObjectsFromArrays(order_id, recipes_id, recipes_title, count) {
@@ -19,41 +19,6 @@ class OrderItem extends Component {
             ));
         }
         return objects;
-    }
-
-    renderTdForRole(cooker_id, owner_id, fullname) {
-        if (this.props.role === ROLE_USER) {
-            return (
-                <td>{cooker_id}</td>
-            );
-        } else if (this.props.role === ROLE_COOK) {
-            return (
-                <td>
-                    <Link to={`/profile/${owner_id}`}>{fullname}</Link>
-                </td>
-            );
-        }
-        return (null);
-    }
-
-    renderTdCookerWithoutRole(cooker_id) {
-        if (!this.props.role) {
-            return (
-                <td>{cooker_id}</td>
-            );
-        }
-        return (null);
-    }
-
-    renderTdUserWithoutRole(owner_id, fullname) {
-        if (!this.props.role) {
-            return (
-                <td>
-                    <Link to={`/profile/${owner_id}`}>{fullname}</Link>
-                </td>
-            );
-        }
-        return (null);
     }
 
     renderStatus(orderStatus) {
@@ -72,9 +37,9 @@ class OrderItem extends Component {
         return (
             <tr className="order-item" key={order.id}>
                 <td>{order.id}</td>
-                {this.renderTdForRole(order.cooker_id, order.owner_id, order.fullname)}
-                {this.renderTdCookerWithoutRole(order.cooker_id)}
-                {this.renderTdUserWithoutRole(order.owner_id, order.fullname)}
+                <td>
+                    <Link to={`/user/${order.owner_id}`}>{order.fullname}</Link>
+                </td>
                 <td>
                     {this.renderStatus(order.status)}
                 </td>

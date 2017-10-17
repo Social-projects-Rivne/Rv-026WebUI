@@ -18,8 +18,7 @@ const saveOrderContext = (idOrder, orderContext) => {
             } else {
                 console.log('All good!');
             }
-        },
-        );
+        });
     }
 };
 orderController.addOrder = (req, res) => {
@@ -48,9 +47,8 @@ orderController.addOrder = (req, res) => {
                 }
             });
         }
-    },
-);
-
+    });
+};
 
 orderController.getAllOrders = (req, res) => {
     db.query(orderModel.findAllOrders(), (err, result) => {
@@ -98,6 +96,5 @@ orderController.updateStatus = (req, res) => {
             }
         }
     });
-};
 };
 module.exports = orderController;

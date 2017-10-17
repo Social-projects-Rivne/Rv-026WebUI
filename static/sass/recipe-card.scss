@@ -49,6 +49,7 @@
 
 
 .card {
+    position:relative;
     -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     -webkit-transition: 0.3s;
@@ -76,6 +77,7 @@
         height: auto;
         border-radius: 0 0 0 20px;
         position: absolute;
+        z-index: 4;
         right: 0;
         top: 0;
         background-color: #32CD32;

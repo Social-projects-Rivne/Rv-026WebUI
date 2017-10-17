@@ -6,7 +6,8 @@ import db from '../db';
 import signinController from '../controllers/signinController';
 
 import orderModel from '../models/orderModel';
-import { STATUS_TAKEN, STATUS_CANCELED } from '../config';
+import { STATUS_NEW, STATUS_TAKEN, STATUS_CANCELED } from '../config';
+
 
 const orderController = {};
 
@@ -28,7 +29,7 @@ orderController.addOrder = (req, res) => {
         userId: 1,
         comment: '',
         price: 0,
-        status: 1,
+        status_id: null,
     };
     form.parse(req, (err, fields, files) => {
         if (err) {
@@ -38,13 +39,20 @@ orderController.addOrder = (req, res) => {
             order.comment = fields.comment[0];
             order.price = fields.price;
             const orderContext = JSON.parse(fields.orderContext);
-            db.query(orderModel.saveOrder(order), (error, result) => {
+            db.query(orderModel.findIdToStatusName(STATUS_NEW), (error, result) => {
                 if (error) {
                     console.log(error);
                 } else {
-                    const idOrder = result.rows[0].id;
-                    saveOrderContext(idOrder, orderContext);
-                    res.send('Order created!');
+                    order.status_id = result.rows[0].id;
+                    db.query(orderModel.saveOrder(order), (error, result) => {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            const idOrder = result.rows[0].id;
+                            saveOrderContext(idOrder, orderContext);
+                            res.send('Order created!');
+                        }
+                    });
                 }
             });
         }

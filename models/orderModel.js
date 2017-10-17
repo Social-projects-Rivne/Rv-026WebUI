@@ -3,8 +3,8 @@ const orderModel = {};
 orderModel.saveOrder = (order) => {
     console.log(order);
     const query = {
-        text: 'INSERT INTO orders (user_id, comment, status, price) VALUES($1, $2, $3, $4) RETURNING id',
-        values: [order.userId, order.comment, order.status, 0 + order.price],
+        text: 'INSERT INTO orders (user_id, comment, status_id, price) VALUES($1, $2, $3, $4) RETURNING id',
+        values: [order.userId, order.comment, order.status_id, 0 + order.price],
     };
     return query;
 }

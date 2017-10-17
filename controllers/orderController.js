@@ -6,6 +6,7 @@ import db from '../db';
 import signinController from '../controllers/signinController';
 
 import orderModel from '../models/orderModel';
+import { STATUS_TAKEN, STATUS_CANCELED } from '../config';
 
 const orderController = {};
 

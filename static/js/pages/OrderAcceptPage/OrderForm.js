@@ -88,7 +88,11 @@ class OrderForm extends Component {
                         <h1 className="title">Is your order right?</h1>
                         <FormGroup>
                             <div className="order-list"> { orderList }</div>
-                            <label htmlFor="RecipesForm--price">Price</label>
+                            <div className="label">
+                                <p>
+                                    Price*
+                                </p>
+                            </div>
                             <FormControl
                                 className="price"
                                 type="number"
@@ -98,8 +102,10 @@ class OrderForm extends Component {
                                 value={this.state.price}
                                 onChange={this.onPriceChange}
                             />
+                            <p>{'\u20B4'}</p>
                             {this.errorMessage(this.state.emptyPrice)}
                         </FormGroup>
+                            
                         <FormGroup>
                             <label htmlFor="RecipesForm--comment">Comment</label>
                             <FormControl

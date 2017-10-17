@@ -36,7 +36,8 @@ class AddToCartButton extends Component {
                 onClick={this.onClick}
                 className="btn-create AddToCartButton"
             >
-            Add to cart {'\u2795'}
+            Add to cart
+            <div className="plus-symbol spin">{'\u2795'}</div>
             </Button>
         );
     }

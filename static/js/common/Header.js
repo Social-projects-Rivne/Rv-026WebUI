@@ -56,7 +56,6 @@ class Header extends Component {
         }
         return (
             <ul className="nav navbar-nav navbar-right">
-                <li><CartButton /></li>
                 <li><a href="/signin">Log In</a></li>
                 <li><a href="/signup">Sign Up</a></li>
             </ul>

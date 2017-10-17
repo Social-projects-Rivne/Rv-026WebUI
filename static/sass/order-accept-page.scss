@@ -1,19 +1,43 @@
 .order-form {
     position: relative;
-    width: 50%;
+    width: 70%;
     margin: 0 auto;
     background-color: rgba(204, 204, 204, 0.185);
+    border-radius:7px;
+    padding: 10px;
     .accept-order-form {
-        border-radius:7px;
+        margin-top: 0;
         position: relative;
         .title {
-            margin: 0 auto;
-            
-        }
-        .order-list {
+            text-align: center;
             margin: 0;
         }
+        .order-list {
+            width: auto;
+            height: initial;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+        }
+        .cartItem {
+            display: flex;
+            flex-direction: row;
+            .cartItemImg {
+                width: 10%;
+                height: 10%;
+            }
+        }
+        .label{
+            color: #222222;
+            font-size: 12pt;
+            display: block;
+            float: left;
+        }
         .price {
+            display: block;
+            float: left;
             width: 15%;
         }
     }

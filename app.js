@@ -10,7 +10,6 @@ import signInRoutes from './routes/signin';
 import signUpRoutes from './routes/signup';
 import userRoutes from './routes/user';
 
-
 const app = express();
 
 app.use(cors());
@@ -26,8 +25,6 @@ app.use(recipeRoutes);
 app.use(orderRoutes);
 app.use(signInRoutes);
 app.use(signUpRoutes);
-
-
 app.listen(3090, 'localhost', () => {
     console.log('Server listening on port ', 3090);
 });

@@ -2,8 +2,9 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { Navbar } from 'react-bootstrap';
-
+import CartButton from './Cart/CartButton';
 import { ROLE_COOK } from '../../../config';
+
 
 class Header extends Component {
     constructor(props) {
@@ -62,8 +63,10 @@ class Header extends Component {
         if (document.cookie) {
             return (
                 <ul className="nav navbar-nav navbar-right">
+                    <li><CartButton /></li>
                     <li><a href="/profile"><span className="glyphicon glyphicon-user" aria-hidden="true"> </span> Profile</a></li>
                     <li><a href="/api/logout">Log Out</a></li>
+                    
                 </ul>
             );
         }

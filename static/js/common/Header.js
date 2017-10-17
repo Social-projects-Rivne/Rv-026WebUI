@@ -2,25 +2,32 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { Navbar } from 'react-bootstrap';
-
 import CartButton from './Cart/CartButton';
+import { ROLE_COOK } from '../../../config';
 
 
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.state = { loggedIn: false };
+        this.state = { loggedIn: document.cookie };
         this.renderLoginLogout = this.renderLoginLogout.bind(this);
     }
 
     componentWillMount() {
         if (document.cookie) {
-            this.setState({ loggedIn: true });
+            this.setState({ loggedIn: document.cookie });
         } else {
-            this.setState({ loggedIn: false });
+            this.setState({ loggedIn: document.cookie });
         }
     }
 
+    getCookie(name) {
+        const nameReplace = name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1');
+        const matches = document.cookie.match(new RegExp(
+          `(?:^|; )${nameReplace}=([^;]*)`,
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
 
     handleClick(e) {
         e.preventDefault();
@@ -38,6 +45,15 @@ class Header extends Component {
         if (document.cookie) {
             return (
                 <li><a href="/recipes/new">Create Recipe</a></li>
+            );
+        }
+        return (null);
+    }
+
+    renderListOfJobs() {
+        if (document.cookie && this.getCookie('role') === ROLE_COOK) {
+            return (
+                <li><a href="/orders">List of jobs</a></li>
             );
         }
         return (null);
@@ -76,7 +92,7 @@ class Header extends Component {
                         <ul className="nav navbar-nav">
                             <li><a href="/recipes">Recipes</a></li>
                             {this.renderCreateRecipe()};
-                            <li><a href="/order">Order now</a></li>
+                            {this.renderListOfJobs()};
                             <li><a href="/about">About Us</a></li>
                         </ul>
                         {this.renderLoginLogout()};

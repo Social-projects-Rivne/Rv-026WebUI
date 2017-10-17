@@ -2,20 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
 import wait from '../../common/wait';
-
-const avatarStyle = {
-    borderRadius: 150,
-    width: '100%',
-    height: 'auto',
-    maxHeight: '300px',
-    maxWidth: '300px',
-    margin: 'auto',
-};
-
-const centerDiv = {
-    margin: 'auto',
-    width: '10%',
-};
+import constants from '../../common/constants';
 
 class ImageEdit extends Component {
     constructor(props) {
@@ -65,14 +52,14 @@ class ImageEdit extends Component {
         };
         wait(2000)
         .then(() => {
-            fetch(`/api/user/${this.id}/updateGravatar`, { method: 'PUT',
+            fetch(`/api/user/${this.id}/update/gravatar`, { method: 'PUT',
                 body: JSON.stringify(ImageSrc),
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include' })
-            .then((res) => { if (res.status === 200) { this.setState({ updateMessage: 'Updated!', updateStatus: true, process: 'fetched' }); } else { this.setState({ process: 'fetched', updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false }); } })
+            .then((res) => { if (res.status === 200) { this.setState({ updateMessage: 'Updated!', updateStatus: true, process: 'fetched' }); } else { this.setState({ value: this.state.src, process: 'fetched', updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false }); } })
             .then(setTimeout(() => this.setState({ updateMessage: '', updateStatus: false }), 2000));
         })
         .catch((err) => {
@@ -86,7 +73,7 @@ class ImageEdit extends Component {
             return (
                 <div>
                     <h3> Upload Your Gravatar </h3>
-                    <img src={this.state.value} style={avatarStyle} />
+                    <img src={this.state.value} style={constants.avatarStyle} />
                     <div className="formStyle">
                         <input type="text" value={this.state.value} onChange={this.handleChange} className="form-control" />
                         <input type="button" value="&#10004;" onClick={this.handleSubmit} className="updateButton" />
@@ -99,14 +86,14 @@ class ImageEdit extends Component {
         else if (this.state.process === 'fetching') {
             return (
                 <div className="hoverInline" onClick={this.handleSwitch} role="button">
-                    <img src={this.state.value} style={avatarStyle} alt="avatar" />
-                    <ReactLoading type="bars" color="#444" style={centerDiv} />
+                    <img className="bounce" src={this.state.value} style={constants.avatarStyle} alt="avatar" />
+                    <ReactLoading type="bars" color="#444" style={constants.centerDiv} />
                 </div>
             );
         } else {
             return (
                 <div className="hoverInline" onClick={this.handleSwitch} role="button">
-                    <img src={this.state.value} style={avatarStyle} alt="avatar" />
+                    <img className="bounce" src={this.state.value} style={constants.avatarStyle} alt="avatar" />
                     {this.state.updateStatus ? (<span className="successMessage">{this.state.updateMessage}</span>) : (<span className="failedMessage">{this.state.updateMessage}</span>)}
                 </div>
             );
@@ -115,8 +102,8 @@ class ImageEdit extends Component {
 }
 
 ImageEdit.propTypes = {
-    value: PropTypes.string,
     src: PropTypes.string,
+    value: PropTypes.string,
     userId: PropTypes.number,
 };
 

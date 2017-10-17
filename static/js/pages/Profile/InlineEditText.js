@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types';
 import wait from '../../common/wait';
-
-const centerDiv = {
-    margin: 'auto',
-    width: '10%',
-};
+import constants from '../../common/constants';
 
 class InlineEditText extends Component {
     constructor(props) {
@@ -50,26 +46,26 @@ class InlineEditText extends Component {
         } else if (this.props.dbName === 'fullname' && this.state.temVal.length > 64) {
             this.setState({ message: 'Please, enter less than 64 symbols!' });
         } else {
-            this.setState({ value: this.state.temVal, editable: false, message: '' });
+            this.setState({ temVal: this.state.temVal, editable: false, message: '' });
             event.preventDefault();
             const textField = {
-                value: this.state.temVal,
+                temVal: this.state.temVal,
                 dbName: this.props.dbName,
             };
             wait(2000)
             .then(() => {
-                fetch(`/api/user/${this.id}/updateProfile`, { method: 'PUT',
+                fetch(`/api/user/${this.id}/update/profile`, { method: 'PUT',
                     body: JSON.stringify(textField),
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
                     },
                     credentials: 'include' })
-                   .then((res) => { if (res.status === 200) { this.setState({ updateMessage: 'Updated!', updateStatus: true, process: 'fetched' }); } else { this.setState({ process: 'fetched', updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false }); } })
+                   .then((res) => { if (res.status === 200) { this.setState({ updateMessage: 'Updated!', updateStatus: true, process: 'fetched', value: textField.temVal }); } else { this.setState({ process: 'fetched', updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false }); } })
                    .then(setTimeout(() => this.setState({ updateMessage: '', updateStatus: false }), 2000));
             })
             .catch((err) => {
-                this.setState({ process: 'failedToFetch' });
+                this.setState({ process: 'fetched' });
                 console.log(err, 'Failed to get image data');
             });
         }
@@ -93,7 +89,7 @@ class InlineEditText extends Component {
                 <div onClick={this.handleSwitch} role="button">
                     {this.dbName === 'fullname' ? (<h2 className="hoverInline" >{this.state.value}</h2>) :
                     (<p className="hoverInline">{this.name}: {this.state.value}</p>)}
-                    <ReactLoading type="bars" color="#444" style={centerDiv} />
+                    <ReactLoading type="bars" color="#444" style={constants.centerDiv} />
                 </div>
             );
         } else {

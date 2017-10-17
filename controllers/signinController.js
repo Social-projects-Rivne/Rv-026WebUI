@@ -24,8 +24,10 @@ signinController.login = (req, res) => {
             response = 'ok';
             // adding cookie session to the response
             const cookie = uuidv4();
+            const roleCookie = queryResult.user_role;
             signinController.sessions[cookie] = queryResult.id;
             res.cookie('access', cookie);
+            res.cookie('role', roleCookie);
         }
         res.send(response);
     });
@@ -34,6 +36,7 @@ signinController.login = (req, res) => {
 signinController.logout = (req, res) => {
     delete signinController.sessions[req.cookies.access];
     res.clearCookie('access');
+    res.clearCookie('role');
     res.redirect('/');
 };
 
@@ -43,6 +46,29 @@ signinController.checkLogin = (req, res) => {
         response = 'alreadyLoggedIn';
     }
     res.send(response);
+};
+
+signinController.checkLoginCook = (req, res) => {
+    let response = 'ok';
+    const cookId = signinController.sessions[req.cookies.access];
+    if (cookId) {
+        db.query(signinModel.findRoleById(cookId), (err, result) => {
+            if (err) {
+                console.log(err);
+                res.send(response);
+            } else {
+                const roleName = result.rows[0].user_role;
+                if (roleName === 'cook' && req.cookies.access in signinController.sessions) {
+                    response = 'alreadyLoggedInCook';
+                    res.send(response);
+                } else {
+                    res.send(response);
+                }
+            }
+        });
+    } else {
+        res.send(response);
+    }
 };
 
 module.exports = signinController;

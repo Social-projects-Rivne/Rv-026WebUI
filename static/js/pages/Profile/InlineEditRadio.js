@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
 import wait from '../../common/wait';
-
-const centerDiv = {
-    margin: 'auto',
-    width: '10%',
-};
+import constants from '../../common/constants';
 
 class InlineEditRadio extends Component {
     constructor(props) {
@@ -50,29 +46,29 @@ class InlineEditRadio extends Component {
                 value: this.state.value,
             };
             if (!radioValue.value) {
-                radioValue.value = '2';
+                radioValue.value = 2;
             }
             wait(2000)
             .then(() => {
-                fetch(`/api/user/${this.id}/updateRole`, { method: 'PUT',
+                fetch(`/api/user/${this.id}/update/role`, { method: 'PUT',
                     body: JSON.stringify(radioValue),
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
                     },
                     credentials: 'include' })
-                   .then((res) => { if (res.status === 200) { this.setState({ updateMessage: 'Updated!', updateStatus: true, process: 'fetched' }); } else { this.setState({ updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false, process: 'fetched' }); } })
+                   .then((res) => { if (res.status === 200) { this.setState({ value: radioValue.value, updateMessage: 'Updated!', updateStatus: true, process: 'fetched' }); } else { this.setState({ value: this.state.role_id, updateMessage: 'Oooops! something wrong. Please try again later.', updateStatus: false, process: 'fetched',  }); } })
                    .then(setTimeout(() => this.setState({ updateMessage: '', updateStatus: false }), 2000))
                    .then(() => {
                        let val = '';
-                       switch (this.state.value) {
-                       case '1':
+                       switch (Number(this.state.value)) {
+                       case 1:
                            val = 'admin';
                            break;
-                       case '2':
+                       case 2:
                            val = 'user';
                            break;
-                       case '3':
+                       case 3:
                            val = 'cook';
                            break;
                        default:
@@ -108,7 +104,7 @@ class InlineEditRadio extends Component {
             return (
                 <div onClick={this.handleSwitch} role="button">
                     <p className="hoverInline">{this.name}: {this.state.role}</p>
-                    <ReactLoading type="bars" color="#444" style={centerDiv} />
+                    <ReactLoading type="bars" color="#444" style={constants.centerDiv} />
                 </div>
             );
         } else {

@@ -7,13 +7,13 @@ class RecipesInOrder extends Component {
         const { recipesInOrder } = this.props;
         const recipesInOrderList = recipesInOrder.map((item) => {
             return (
-                <div key={item.order_contex_id} className="recipe-block" >
-                    <p className="recipes-in-order">
+                <div className="orders-context-flexbox-table" key={item.order_contex_id}>
+                    <div className="cell">
                         <Link to={`/recipes/${item.recipes_id}`}>{item.recipes_title}</Link>
-                    </p>
-                    <p className="recipes-in-order">
+                    </div>
+                    <div className="cell">
                         Х {item.count}
-                    </p>
+                    </div>
                 </div>
             );
         });

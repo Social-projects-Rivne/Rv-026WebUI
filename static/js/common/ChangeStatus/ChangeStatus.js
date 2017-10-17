@@ -100,18 +100,7 @@ class ChangeStatus extends Component {
     renderMessage(messageUser, messageCook) {
         if (messageUser || messageCook) {
             return (
-                <div>
-                    <div className="talk-container">
-                        <div className="talk-bubble tri-right round border right-top">
-                            <div className="talktext">
-                                <p>{messageUser || messageCook}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="image-container">
-                        <img className="image" alt="cook" src={messageUser ? '/public/images/common/cook.png' : '/public/images/common/user.jpg'} />
-                    </div>
-                </div>
+                <p>{messageUser || messageCook}</p>
             );
         }
         return (null);

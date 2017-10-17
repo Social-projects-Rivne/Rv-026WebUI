@@ -15,27 +15,27 @@ class OrderItem extends Component {
         const { order_contex_id, recipes_id, recipes_title, count } = this.props.order;
         const recipesInOrder = createArrayObjectsFromArrays(order_contex_id, recipes_id, recipes_title, count);
         return (
-            <tr className="order-item" key={order.id}>
-                <td>{order.id}</td>
-                <td>
+            <div className="orders-flexbox-table" key={order.id}>
+                <div className="cell">{order.id}</div>
+                <div className="cell">
                     <Link to={`/user/${order.owner_id}`}>{order.fullname}</Link>
-                </td>
-                <td>
+                </div>
+                <div className="cell">
                     <RenderStatus orderStatus={order.status} />
-                </td>
-                <td>
+                </div>
+                <div className="cell">
                     <RecipesInOrder recipesInOrder={recipesInOrder} />
-                </td>
-                <td>
+                </div>
+                <div className="cell">
                     {order.price} {"\u20B4"}
-                </td>
-                <td>
+                </div>
+                <div className="cell">
                     <ChangeStatus onStatusSubmit={this.props.onStatusSubmit} role={role} orderId={order.id} status={order.status} />
-                </td>
-                <td>
+                </div>
+                <div className="cell">
                     {order.comment}
-                </td>
-            </tr>
+                </div>
+            </div>
         );
     }
 }

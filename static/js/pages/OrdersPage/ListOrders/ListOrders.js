@@ -11,23 +11,17 @@ class ListOrders extends Component {
         });
 
         return (
-            <div className="table-responsive">
-                <table className="table orders-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Owner</th>
-                            <th>Status</th>
-                            <th>Dishes</th>
-                            <th>Prices</th>
-                            <th>Change Status</th>
-                            <th>Comment</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {orderList}
-                    </tbody>
-                </table>
+            <div className="orders">
+                <div className="orders-flexbox-table">
+                    <div className="cell">#</div>
+                    <div className="cell">Owner</div>
+                    <div className="cell">Status</div>
+                    <div className="cell">Dishes</div>
+                    <div className="cell">Prices</div>
+                    <div className="cell">Change Status</div>
+                    <div className="cell">Comment</div>
+                </div>
+                {orderList}
             </div>
         );
     }

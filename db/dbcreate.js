@@ -306,6 +306,9 @@ module.exports = function () {
       db.query(createRecipe_tag,(err, res) => {
           console.log(res);
       })
+      db.query(createOrdersStatus,(err, ress) => {
+        console.log(err);
+      })
       db.query(createOrder,(err, res) => {
         console.log(err);
     })

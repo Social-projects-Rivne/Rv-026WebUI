@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router';
 import axios from 'axios';
 import ReactLoading from 'react-loading';
 
+import MultiSelect from './MultiSelect/MultiSelect';
 import SearchBar from './SearchBar';
 import DropDown from './DropDown';
 import SearchElements from './SearchElements';
@@ -26,23 +27,49 @@ class SearchComponent extends Component {
             item: '',
             itemNow: '',
             process: '',
+            selectedOptions: [], // selected options' ids from MultiSelect form
+            fetchedIngredients: [], // ingredient list after fetching from server
         };
 
         this.typeChange = this.typeChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onSearchItemNow = this.onSearchItemNow.bind(this);
         this.elementSearch = this.elementSearch.bind(this);
+        this.onMultiSelectChange = this.onMultiSelectChange.bind(this);
+        this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.item !== this.state.item && this.state.item) {
             this.setState({ process: 'fetching' });
         }
-        
+
+        if (prevState.type !== this.state.type && this.state.type === 'searchByIngredients') {
+            axios.get('/api/recipes/getAllIngredients')
+            .then((response) => {
+                const sortedData = response.data.sort((a, b) => {
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    return 0;
+                });
+                this.setState({ fetchedIngredients: sortedData });
+            })
+            .catch(error => console.log(error));
+            return;
+        }
+
         if (prevState.type !== this.state.type) {
             this.setState({ process: 'fetching' });
             this.elementSearch(this.state.item);
         }
+    }
+
+    onMultiSelectChange(arr) {
+        this.setState({ selectedOptions: arr });
     }
 
     onSearchItemNow(itemNow) {
@@ -102,6 +129,10 @@ class SearchComponent extends Component {
         this.setState({ type, elements: [] });
     }
 
+    handleSearchButtonClick() {
+        browserHistory.push(`/recipes/search/ingredients=${this.state.selectedOptions.join(',')}`);
+    }
+
     render() {
         const phase = this.state.process;
         const type = this.state.type;
@@ -124,7 +155,22 @@ class SearchComponent extends Component {
                 </form>
             );
         } else if (type === 'searchByIngredients') {
-            inputSearch = <div>multy search ingredients</div>;
+            inputSearch = (
+                <div style={{ display: 'flex' }}>
+                    <MultiSelect
+                        onOptionsChange={this.onMultiSelectChange}
+                        options={this.state.fetchedIngredients}
+                    />
+                    <button
+                        type="submit"
+                        className="btn btn-primary btn-search-go"
+                        disabled={!this.state.selectedOptions.length}
+                        onClick={this.handleSearchButtonClick}
+                    >
+                    Go!
+                    </button>
+                </div>
+            );
         } else if (type === 'searchByTags') {
             inputSearch = <div>multy search tags</div>;
         }

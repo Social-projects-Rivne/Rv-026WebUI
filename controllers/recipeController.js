@@ -222,7 +222,7 @@ recipeController.getRecipesByTagId = (req, res, next) => {
 };
 
 recipeController.getAllRecepies = (req, res, next) => {
-    db.query(recipeModel.getAllRecipes(), (err, result) => {
+    db.query(recipeModel.getAllRecipes(req.query.maxId), (err, result) => {
         if (err) {
             return next(err);
         } else {
@@ -420,6 +420,37 @@ recipeController.updateRecipe = (req, res) => {
             }
         });
     }
+};
+
+recipeController.getAllIngredients = (req, res) => {
+    db.query(ingredientModel.getAllIngredients(), (err, result) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        } else {
+            res.json(result.rows);
+        }
+    });
+};
+
+recipeController.getRecepiesByIngredients = (req, res) => {
+    const ingredients = req.query.ingredients;
+    if (!ingredients) {
+        res.sendStatus(404);
+    }
+    db.query(recipeModel.findRecipesByIngredients(ingredients, req.query.maxId), (err, result) => {
+        if (err) {
+            res.sendStatus(500);
+            console.log(err);
+        } else {
+            const recipesNotDeleted = result.rows.filter((o) => {
+                if (!o.is_deleted) {
+                    return result.rows.indexOf(o) !== -1;
+                }
+            });
+            res.json(recipesNotDeleted);
+        }
+    });
 };
 
 module.exports = recipeController;

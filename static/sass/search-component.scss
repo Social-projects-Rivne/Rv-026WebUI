@@ -2,7 +2,7 @@
     text-align: center;
     margin: 25px 0 25px 0;
     form {
-        width: 85%;
+        width: 80%;
         float: left;
     }
     .search-title {
@@ -24,7 +24,7 @@
             border-bottom-left-radius: 0px;
             border-top-left-radius: 0px;
         }
-        
+
         .select-search {
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -33,7 +33,7 @@
             background-repeat: no-repeat;
             background-position: 95% 42%;
             color: white;
-            width: 15%;
+            width: 20%;
             border-color: #2e6da4;
             border: 1px solid transparent;
             border-radius: 4px;
@@ -68,8 +68,8 @@
             margin: 0 auto;
         }
     }
-    
-    
+
+
     .select-search option {
         background-color: white;
         color: black;

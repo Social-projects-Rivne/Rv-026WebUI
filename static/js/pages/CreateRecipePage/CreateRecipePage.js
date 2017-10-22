@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import AlertContainer from 'react-alert';
+import axios from 'axios';
 
 import Header from '../../common/Header';
 import RecipesForm from './RecipesForm';
@@ -14,36 +16,21 @@ class CreateRecipePage extends Component {
         offset: 14,
         position: 'top right',
         theme: 'light',
-        time: 4000,
+        time: 1000,
         transition: 'fade',
         type: 'success',
     }
 
-    addRecipe(recipe) {
-        return new Promise((resolve, reject) => {
-            const data = new FormData();
-            data.append('title', recipe.title);
-            data.append('description', recipe.description);
-            data.append('is_deleted', recipe.is_deleted);
-            data.append('photo', recipe.photo);
-            data.append('tags', recipe.tags);
-            data.append('rating', recipe.rating);
-            const xhr = new XMLHttpRequest();
-            xhr.open('post', '/api/recipe', true);
-            xhr.onload = function add() {
-                if (this.status === 200) {
-                    resolve(this.response);
-                } else {
-                    reject(this.statusText);
-                }
-            };
-            xhr.send(data);
-        });
-    }
-
     handleSubmit(recipe) {
-        this.addRecipe(recipe)
-            .then(res => this.msg.show(res, { type: 'success' }))
+        const data = new FormData();
+        for (const key in recipe) {
+            if (hasOwnProperty.call(recipe, key)) {
+                data.append(key, recipe[key]);
+            }
+        }
+        axios.post('/api/recipe', data)
+            .then(res => this.msg.show(res.data, { type: 'success' }))
+            .then(setTimeout(() => browserHistory.push('/recipes'), 2000))
             .catch(err => console.log(err));
     }
 

@@ -32,6 +32,7 @@ class SignInForm extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handlePaste = this.handlePaste.bind(this);
     }
 
     handleSubmit(e) {
@@ -82,6 +83,20 @@ class SignInForm extends Component {
         );
     }
 
+    handlePaste(e) {
+        const obj = {
+            target: {
+                name: e.target.name,
+                value: e.clipboardData.getData('Text'),
+                validity: {
+                    valueMissing: false,
+                },
+            },
+        };
+        this.handleChange(obj);
+    }
+
+
     getFormError = (emailError, passwordError) => {
         if (emailError && passwordError) {
             return 'Email and password are required';
@@ -110,6 +125,7 @@ class SignInForm extends Component {
                         id="SigninForm--email"
                         required
                         onChange={this.handleChange}
+                        onPaste={this.handlePaste}
                         autoComplete="off"
                     />
                 </FormGroup>
@@ -123,6 +139,7 @@ class SignInForm extends Component {
                         id="SigninForm--password"
                         required
                         onChange={this.handleChange}
+                        onPaste={this.handlePaste}
                         autoComplete="off"
                     />
                     {this.errorMessage(this.state.serverError || this.state.error)}

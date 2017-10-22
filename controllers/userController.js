@@ -1,87 +1,127 @@
-import multiparty from 'multiparty';
-import fs from 'fs';
-import uuidv4 from 'uuid/v4';
+import { ROLE_USER, ROLE_COOK } from '../config';
 import db from '../db';
-import userModel from '../models/userModel';
+import UserModel from '../models/userModel';
 import signinController from './signinController';
 
-let userController = {};
 
-userController.getUserInfo = (req, res, next) => {
+const userController = {};
+
+userController.getUserInfo = (req, res) => {
     const userId = signinController.sessions[req.cookies.access];
-    let userObject = new userModel();
-    db.query(userObject.getUserInfo(userId), (err,result) => {
+    db.query(UserModel.getUserInfo(userId), (err, result) => {
         if (err) {
-           return next(err);
-        } else{
-           res.json(result);
+            res.sendStatus(500);
+        } else {
+            res.json(result);
         }
-      });
+    });
 };
 
-userController.checkUserId = (req, res, next) => {
-    let userId = signinController.sessions[req.cookies.access];
+userController.getUserOrders = (req, res) => {
+    const userId = signinController.sessions[req.cookies.access];
+    const id = req.params.id;
+    const roleName = req.params.role_name;
+    if (userId == id) {
+        if (roleName === ROLE_USER) {
+            db.query(UserModel.getUserOrders(userId), (err, result) => {
+                if (err) {
+                    res.sendStatus(500);
+                } else {
+                    res.json(result);
+                }
+            });
+        } else if (roleName === ROLE_COOK) {
+            db.query(UserModel.getCookOrders(userId), (err, result) => {
+                if (err) {
+                    res.sendStatus(500);
+                } else {
+                    res.json(result);
+                }
+            });
+        } else {
+            db.query(UserModel.getCookOrders(userId), (err, result) => {
+                if (err) {
+                    res.sendStatus(500);
+                } else {
+                    res.json(result);
+                }
+            });
+        }
+    } else {
+        res.sendStatus(500);
+    }
+};
+
+userController.checkUserId = (req, res) => {
+    const userId = signinController.sessions[req.cookies.access];
     let response = '';
     if (userId) {
         response = 'alreadyLoggedIn';
     }
     res.send(response);
-}
+};
 
-userController.updateUserInfo = (req, res, next) => {
-  const userId = signinController.sessions[req.cookies.access];
-  const id = req.params.id;
-  if(userId == id) {
-  let editedField = req.body.dbName;
-  let editedValue = req.body.value;
-  let userObject = new userModel();
-  db.query(userObject.updateUserInfo(editedField, editedValue, userId), (err,result) => {
-    if (err) {
-       res.sendStatus(500);
-    } else{
-       res.sendStatus(200);
+userController.updateUserInfo = (req, res) => {
+    const userId = signinController.sessions[req.cookies.access];
+    const id = req.params.id;
+    if (userId == id) {
+        const editedField = req.body.dbName;
+        const editedValue = req.body.temVal;
+        db.query(UserModel.updateUserInfo(editedField, editedValue, userId), (err, result) => {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                res.sendStatus(200);
+            }
+        });
+    } else {
+        res.sendStatus(500);
     }
-    });
-  } else {
-      res.sendStatus(500);
-  }
-}
+};
 
-userController.updateUserRole = (req, res, next) => {
-  const userId = signinController.sessions[req.cookies.access];
-  const id = req.params.id;
-  if(userId == id) {
-  let editedValue = req.body.value;
-  var userObject = new userModel();
-  db.query(userObject.updateUserRole(editedValue, userId), (err,result) => {
-    if (err) {
-       res.sendStatus(500);
-    } else{
-       res.sendStatus(200);
+userController.updateUserRole = (req, res) => {
+    const userId = signinController.sessions[req.cookies.access];
+    const id = req.params.id;
+    if (userId == id) {
+        const editedValue = req.body.value;
+        db.query(UserModel.updateUserRole(editedValue, userId), (err, result) => {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                res.sendStatus(200);
+            }
+        });
+    } else {
+        res.sendStatus(500);
     }
-    });
-  } else {
-      res.sendStatus(500);
-  }
-}
+};
 
-userController.updateUserAvatar = (req, res, next) => {
-  const userId = signinController.sessions[req.cookies.access];
-  const id = req.params.id;
-  if(userId == id) {
-  let ImageSrc = req.body.value;
-  var userObject = new userModel();
-  db.query(userObject.updateUserAvatar(ImageSrc, userId), (err,result) => {
-    if (err) {
-       res.sendStatus(500);
-    } else{
-       res.sendStatus(200);
+userController.updateUserAvatar = (req, res) => {
+    const userId = signinController.sessions[req.cookies.access];
+    const id = req.params.id;
+    if (userId == id) {
+        const ImageSrc = req.body.value;
+        db.query(UserModel.updateUserAvatar(ImageSrc, userId), (err, result) => {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                res.sendStatus(200);
+            }
+        });
+    } else {
+        res.sendStatus(500);
     }
+};
+
+userController.getUser = (req, res) => {
+    const userId = req.params.id;
+    db.query(UserModel.getUser(userId), (err, result) => {
+        if (err) {
+            res.sendStatus(500);
+        } else {
+            res.json(result);
+        }
     });
-  } else {
-      res.sendStatus(500);
-  }
-}
+};
 
-
-module.exports=userController;
+module.exports = userController;

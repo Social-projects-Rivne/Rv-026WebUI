@@ -5,14 +5,14 @@ const footer = {
 }
 
 const footerWhole = {
-    position: 'relative',
-    left: '0',
-    bottom: '0',
-    width: '100%',
-    padding:'10px',
     textAlign: 'center',
     backgroundColor: '#333',
-    color: 'white'
+    color: 'white',
+    padding: '10px 0px 0px',
+    position: 'absolute',
+    bottom: '0px',
+    width: '100%',
+
 }
 
 const footerLinks = {
@@ -24,20 +24,16 @@ class Footer extends Component {
         return(
             <footer style={footerWhole}>
                 <ul style = {footer}>
-                    <li><a style={footerLinks} href="#">About us</a></li>
-                    <li><a style={footerLinks} href="#">Order now!</a></li>
+                    <li><a style={footerLinks} href="/about">About us</a></li>
+                    <li><a style={footerLinks} href="/order">Order now!</a></li>
                 </ul>
                 <ul style = {footer}>
-                    <li><a style={footerLinks} href="#">Recipes</a></li>
-                    <li><a style={footerLinks} href="#">How it works</a></li>
+                    <li><a style={footerLinks} href="/recipes">Recipes</a></li>
+                    <li><a style={footerLinks} href="/services">Our services</a></li>
                 </ul>
                 <ul style = {footer}>
-                    <li><a style={footerLinks} href="#">Our services</a></li>
-                    <li><a style={footerLinks} href="#">Prices</a></li>
-                </ul>
-                <ul style = {footer}>
-                    <li><a style={footerLinks} href="#">Contact Us</a></li>
-                    <li><a style={footerLinks} href="#">Pricy Police</a></li>
+                    <li><a style={footerLinks} href="/contact">Contact Us</a></li>
+                    <li><a style={footerLinks} href="/pricy_police">Pricy Police</a></li>
                 </ul>
             </footer>
         );

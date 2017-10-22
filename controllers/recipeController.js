@@ -1,111 +1,186 @@
 import multiparty from 'multiparty';
 import fs from 'fs';
 import uuidv4 from 'uuid/v4';
+import _ from 'lodash';
 
 import db from '../db';
 import recipeModel from '../models/recipeModel';
 import tagModel from '../models/tagModel';
+import ingredientModel from '../models/ingredientModel';
 
 import signinController from '../controllers/signinController';
 
-let recipeController = {};
+const recipeController = {};
 
-var parseStringTags = (stringTags) => {
-    var arrayTags = stringTags.split(',');
-    for (var i = 0; i < arrayTags.length; i++) {
-        arrayTags[i] = arrayTags[i].replace(/[-+().!@#$%^&' "*<>\s]/g, '');
+const parseStringElements = (stringElements) => {
+    let arrayElements = stringElements.split(',');
+    for (let i = 0; i < arrayElements.length; i++) {
+        arrayElements[i] = arrayElements[i].replace(/[^a-zA-Z0-9а-яА-Я]/g, '');
     }
-    return arrayTags;
-}
+    arrayElements = _.uniqBy(arrayElements, e => e);
+    return arrayElements;
+};
 
-recipeController.createRecipe = (req, res, next) => {
-    let form = new multiparty.Form();
+const saveTagsInRecipeTag = (idReicpe, idTag) => {
+    db.query(recipeModel.saveRecipeTag(idReicpe, idTag), (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+    });
+};
 
+const saveUniqueTags = (idReicpe, uniqueTagsArray) => {
+    if (!_.isEmpty(uniqueTagsArray)) {
+        for (let i = 0; i < uniqueTagsArray.length; i++) {
+            db.query(tagModel.saveTags(uniqueTagsArray[i]), (err, resultat) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    const idTag = resultat.rows[0].id;
+                    saveTagsInRecipeTag(idReicpe, idTag);
+                }
+            });
+        }
+    }
+};
+
+const saveRepetitiveTags = (idReicpe, repetitiveTagsArray) => {
+    if (!_.isEmpty(repetitiveTagsArray)) {
+        for (let i = 0; i < repetitiveTagsArray.length; i++) {
+            db.query(tagModel.findTagByName(repetitiveTagsArray[i]), (err, resultat) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    const idTag = resultat.rows[0].id;
+                    saveTagsInRecipeTag(idReicpe, idTag);
+                }
+            });
+        }
+    }
+};
+
+const saveRecipeTags = (idReicpe, recipeArrayTags) => {
+    db.query(tagModel.findAllTags(), (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            const allTagsArray = result.rows;
+            const allTagsNameArray = allTagsArray.map(tag => tag.name);
+            const uniqueTagsArray = recipeArrayTags.filter(o => allTagsNameArray.indexOf(o) === -1);
+            const repetitiveTagsArray = recipeArrayTags.filter(o => allTagsNameArray.indexOf(o) !== -1);
+            saveRepetitiveTags(idReicpe, repetitiveTagsArray);
+            saveUniqueTags(idReicpe, uniqueTagsArray);
+        }
+    });
+};
+
+const saveIngredientsInCalcCard = (idReicpe, idIngredient) => {
+    db.query(recipeModel.saveRecipeIngredient(idReicpe, idIngredient), (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+    });
+};
+
+const saveUniqueIngredients = (idReicpe, uniqueIngredientsArray) => {
+    if (!_.isEmpty(uniqueIngredientsArray)) {
+        for (let i = 0; i < uniqueIngredientsArray.length; i++) {
+            db.query(ingredientModel.saveIngredients(uniqueIngredientsArray[i]), (err, resultat) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    const idIngredient = resultat.rows[0].id;
+                    saveIngredientsInCalcCard(idReicpe, idIngredient);
+                }
+            });
+        }
+    }
+};
+
+const saveRepetitiveIngredients = (idReicpe, repetitiveIngredientsArray) => {
+    if (!_.isEmpty(repetitiveIngredientsArray)) {
+        for (let i = 0; i < repetitiveIngredientsArray.length; i++) {
+            db.query(ingredientModel.findIngredientByName(repetitiveIngredientsArray[i]), (err, resultat) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    const idIngredient = resultat.rows[0].id;
+                    saveIngredientsInCalcCard(idReicpe, idIngredient);
+                }
+            });
+        }
+    }
+};
+
+const saveRecipeIngredients = (idReicpe, recipeArrayIngredients) => {
+    db.query(ingredientModel.findAllIngredients(), (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            const allIngredientsArray = result.rows;
+            const allIngredientsNameArray = allIngredientsArray.map(i => i.name);
+            const uniqueIngredientsArray = recipeArrayIngredients.filter(o => allIngredientsNameArray.indexOf(o) === -1);
+            const repetitiveIngredientsArray = recipeArrayIngredients.filter(o => allIngredientsNameArray.indexOf(o) !== -1);
+            saveRepetitiveIngredients(idReicpe, repetitiveIngredientsArray);
+            saveUniqueIngredients(idReicpe, uniqueIngredientsArray);
+        }
+    });
+};
+
+const uploadImageToServer = (tempPath, fullPath) => {
+    fs.readFile(tempPath, (errorData, data) => {
+        if (errorData) {
+            console.log(errorData);
+        } else {
+            fs.writeFile(fullPath, data, (error) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    fs.unlink(tempPath, (err) => {
+                        console.log(err);
+                    });
+                }
+            });
+        }
+    });
+};
+
+recipeController.createRecipe = (req, res) => {
+    const ownerId = signinController.sessions[req.cookies.access];
+    const form = new multiparty.Form();
     form.parse(req, (err, fields, files) => {
         if (err) {
-            return next(err);
+            console.log(err);
         } else {
-            let { path: tempPath, originalFilename, headers } = files.photo[0];
-            var availableHeaderTypes = "image/jpeg|image/png|image/gif";
-            var fileExtension = originalFilename.split('.').pop();
+            const { path: tempPath, originalFilename, headers } = files.photo[0];
+            const availableHeaderTypes = 'image/jpeg|image/png|image/gif';
+            const fileExtension = originalFilename.split('.').pop();
+            const imageName = uuidv4();
+            const fullPath = `public/images/recipes/${imageName}.${fileExtension}`;
+            const fullPathForSave = `/../${fullPath}`;
             if (availableHeaderTypes.includes(headers['content-type'])) {
-                let copyToPath = "/public/images/recipes/" + originalFilename;
-                let imageName = uuidv4();
-                let fullPath = `public/images/recipes/${imageName}.${fileExtension}`;
-                let fullPathForSave = `/../${fullPath}`;
-                let ownerId = signinController.sessions[req.cookies.access];
-                fs.readFile(tempPath, (err, data) => {
-                    fs.writeFile(fullPath, data, (err) => {
-                        fs.unlink(tempPath, () => {
-                            var recipeObject = new recipeModel(
-                                fields.title[0],
-                                fields.description[0],
-                                null,
-                                ownerId,
-                                fullPathForSave,
-                                Number(fields.rating[0])
-                            );
-                            db.query(recipeObject.saveRecipe(recipeObject), (err, result) => {
-                                if (err) {
-                                    return next(err);
-                                } else {
-                                    var idReicpe = result.rows[0].id;
-                                    var recipeArrayTags = parseStringTags(fields.tags[0]);
-                                    db.query(tagModel.findAllTags(), (err, result) => {
-                                        if (err) {
-                                            return next(err);
-                                        } else {
-                                            var allTagsArray = result.rows;
-                                            var allTagsNameArray = allTagsArray.map(function(tag) {
-                                                return tag.name;
-                                            });
-                                            var uniqueTagsArray = recipeArrayTags.filter((o) => {
-                                                return allTagsNameArray.indexOf(o) == -1;
-                                            });
-                                            var repetitiveTagsArray = recipeArrayTags.filter((o) => {
-                                                return allTagsNameArray.indexOf(o) !== -1;
-                                            });
-                                            if (repetitiveTagsArray.length > 0) {
-                                                for (var i = 0; i < repetitiveTagsArray.length; i++) {
-                                                    db.query(tagModel.findTagByName(repetitiveTagsArray[i]), (err, resultat) => {
-                                                        if (err) {
-                                                            return next(err);
-                                                        } else {
-                                                            var idTag = resultat.rows[0].id;
-                                                            db.query(recipeObject.saveRecipeTag(idReicpe, idTag), (err, result) => {
-                                                                if (err) {
-                                                                    return next(err);
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                            if (uniqueTagsArray.length > 0) {
-                                                for (var i = 0; i < uniqueTagsArray.length; i++) {
-                                                    db.query(tagModel.saveTags(uniqueTagsArray[i]), (err, resultat) => {
-                                                        if (err) {
-                                                            return next(err);
-                                                        } else {
-                                                            var idTag = resultat.rows[0].id;
-                                                            db.query(recipeObject.saveRecipeTag(idReicpe, idTag), (err, result) => {
-                                                                if (err) {
-                                                                    return next(err);
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                            res.send("Recipe created!");
-                                        }
-                                    });
-                                }
-                            });
-                        });
-                    });
-                });
+                uploadImageToServer(tempPath, fullPath);
             }
+            const recipe = {
+                title: fields.title[0],
+                description: fields.description[0],
+                is_deleted: null,
+                owner_id: ownerId,
+                photo: fullPathForSave,
+                rating: fields.rating[0],
+            };
+            db.query(recipeModel.saveRecipe(recipe), (error, result) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    const idReicpe = result.rows[0].id;
+                    const recipeArrayTags = parseStringElements(fields.tags[0]);
+                    const recipeArrayIngredients = parseStringElements(fields.ingredients[0]);
+                    saveRecipeTags(idReicpe, recipeArrayTags);
+                    saveRecipeIngredients(idReicpe, recipeArrayIngredients);
+                    res.send('Recipe created!');
+                }
+            });
         }
     });
 };
@@ -113,8 +188,7 @@ recipeController.createRecipe = (req, res, next) => {
 recipeController.checkTitleExistence = (req, res) => {
     const titleForCheck = req.body.title;
 
-    var recipeObject = new recipeModel();
-    db.query(recipeObject.findTitle(titleForCheck), (err, result) => {
+    db.query(recipeModel.findTitle(titleForCheck), (err, result) => {
         if (err) {
             console.log(err.stack);
             res.send(err.stack);
@@ -130,9 +204,8 @@ recipeController.checkTitleExistence = (req, res) => {
 
 recipeController.getRecipesByTagId = (req, res, next) => {
     var tagId = req.params.tag_id;
-    var recipeObject = new recipeModel();
 
-    db.query(recipeObject.findRecipesByTagId(tagId), (err, result) => {
+    db.query(recipeModel.findRecipesByTagId(tagId), (err, result) => {
         if (err) {
             return next(err);
         } else {
@@ -149,8 +222,7 @@ recipeController.getRecipesByTagId = (req, res, next) => {
 };
 
 recipeController.getAllRecepies = (req, res, next) => {
-    var recipeObject = new recipeModel();
-    db.query(recipeObject.getAllRecipes(), (err, result) => {
+    db.query(recipeModel.getAllRecipes(req.query.maxId), (err, result) => {
         if (err) {
             return next(err);
         } else {
@@ -167,9 +239,8 @@ recipeController.getAllRecepies = (req, res, next) => {
 };
 
 recipeController.getRecepiesByName = (req, res, next) => {
-    var recipeObject = new recipeModel();
     var recipeName = req.params.name;
-    db.query(recipeObject.findRicipesByName(recipeName), (err, result) => {
+    db.query(recipeModel.findRicipesByName(recipeName), (err, result) => {
         if (err) {
             console.log('error!');
             return next(err);
@@ -187,9 +258,8 @@ recipeController.getRecepiesByName = (req, res, next) => {
 }
 
 recipeController.getRecepiesByTagType = (req, res, next) => {
-    var recipeObject = new recipeModel();
     var tagType = req.params.tagtype;
-    db.query(recipeObject.findRicipesByTagType(tagType), (err, result) => {
+    db.query(recipeModel.findRicipesByTagType(tagType), (err, result) => {
         if (err) {
             console.log('error!');
             return next(err);
@@ -206,9 +276,8 @@ recipeController.getRecepiesByTagType = (req, res, next) => {
 }
 
 recipeController.autocompleteRecepiesByTagType = (req, res, next) => {
-    var recipeObject = new recipeModel();
     var tagType = req.body.item;
-    db.query(recipeObject.findTop5RicipesByTagType(tagType), (err, result) => {
+    db.query(recipeModel.findTop5RicipesByTagType(tagType), (err, result) => {
         if (err) {
             console.log('error!');
             return next(err);
@@ -225,9 +294,8 @@ recipeController.autocompleteRecepiesByTagType = (req, res, next) => {
 }
 
 recipeController.autocompleteRecepiesByName = (req, res, next) => {
-    var recipeObject = new recipeModel();
     var recipeName = req.body.item;
-    db.query(recipeObject.findTop5RicipesByName(recipeName), (err, result) => {
+    db.query(recipeModel.findTop5RicipesByName(recipeName), (err, result) => {
         if (err) {
             console.log('error!');
             return next(err);
@@ -277,8 +345,7 @@ recipeController.getRecipeById = (req, res) => {
         return;
     }
 
-    const recipeObject = new recipeModel()
-    db.query(recipeObject.getRecipeById(id), (err, result) => {
+    db.query(recipeModel.getRecipeById(id), (err, result) => {
         if (err) {
             res.json(err.name);
         } else if (result.rows.length === 0) {
@@ -286,7 +353,7 @@ recipeController.getRecipeById = (req, res) => {
         } else {
             const recipe = recipeHelper(result.rows, ownerId);
 
-            db.query(recipeObject.getTagsByRecipeId(id), (error, resultInner) => {
+            db.query(recipeModel.getTagsByRecipeId(id), (error, resultInner) => {
                 recipe.tags = [];
                 // we don't check for errors and return just blank array for tags
                 if (resultInner.rows.length > 0) {
@@ -301,7 +368,6 @@ recipeController.getRecipeById = (req, res) => {
 recipeController.updateRecipe = (req, res) => {
     const recipeData = req.body;
     const recipeObject = new recipeModel();
-    console.log(recipeData.fieldName);
     if (recipeData.fieldName == "ingredients" || recipeData.fieldName == "tags") {
         let status = true;
         let fieldConnect = null;
@@ -315,7 +381,7 @@ recipeController.updateRecipe = (req, res) => {
             table = "recipe_tag";
         }
         recipeData.deleteValue.forEach((value) => {
-            db.query(recipeObject.removeDbLink(table, fieldConnect, recipeData.id, value.id), (error) => {
+            db.query(recipeModel.removeDbLink(table, fieldConnect, recipeData.id, value.id), (error) => {
                 if (error) {
                     status = false;
                 }
@@ -325,10 +391,10 @@ recipeController.updateRecipe = (req, res) => {
             res.sendStatus(500)
         }
         recipeData.addValue.forEach((value) => {
-            db.query(recipeObject.updateRecipe(recipeData, value.name), (error, result) => {
+            db.query(recipeModel.updateRecipe(recipeData, value.name), (error, result) => {
                 if (result.rows) {
                     const insertId = result.rows[0].id;
-                    db.query(recipeObject.addDbLink(table, fieldConnect, recipeData.id, insertId), (error) => {
+                    db.query(recipeModel.addDbLink(table, fieldConnect, recipeData.id, insertId), (error) => {
                         if (error) {
                             status = false;
                         } else {
@@ -358,8 +424,38 @@ recipeController.updateRecipe = (req, res) => {
                 }
             });
         }
-        
     }
+};
+
+recipeController.getAllIngredients = (req, res) => {
+    db.query(ingredientModel.getAllIngredients(), (err, result) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        } else {
+            res.json(result.rows);
+        }
+    });
+};
+
+recipeController.getRecepiesByIngredients = (req, res) => {
+    const ingredients = req.query.ingredients;
+    if (!ingredients) {
+        res.sendStatus(404);
+    }
+    db.query(recipeModel.findRecipesByIngredients(ingredients, req.query.maxId), (err, result) => {
+        if (err) {
+            res.sendStatus(500);
+            console.log(err);
+        } else {
+            const recipesNotDeleted = result.rows.filter((o) => {
+                if (!o.is_deleted) {
+                    return result.rows.indexOf(o) !== -1;
+                }
+            });
+            res.json(recipesNotDeleted);
+        }
+    });
 };
 
 module.exports = recipeController;

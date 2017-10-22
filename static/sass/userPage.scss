@@ -1,0 +1,177 @@
+@-webkit-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    -webkit-transform: translateY(0); }
+  40% {
+    -webkit-transform: translateY(-80px); }
+  60% {
+    -webkit-transform: translateY(-35px); } }
+@-moz-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    -moz-transform: translateY(0); }
+  40% {
+    -moz-transform: translateY(-80px); }
+  60% {
+    -moz-transform: translateY(-35px); } }
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    -o-transform: translateY(0);
+    transform: translateY(0); }
+  40% {
+    -webkit-transform: translateY(-80px);
+    -moz-transform: translateY(-80px);
+    -ms-transform: translateY(-80px);
+    -o-transform: translateY(-80px);
+    transform: translateY(-80px); }
+  60% {
+    -webkit-transform: translateY(-35px);
+    -moz-transform: translateY(-35px);
+    -ms-transform: translateY(-35px);
+    -o-transform: translateY(-35px);
+    transform: translateY(-35px); } }
+
+
+.UserComponent {
+    margin-top: 50px;
+    font-size: 20px;
+    font-weight: 900;
+    word-wrap: break-word;
+
+    input, textarea {
+        font-size: 20px;
+        font-weight: 900;
+        word-wrap: break-word;
+    }
+    input[type="button"] {
+        background: none;
+        border: none;
+        outline: none;
+        &:focus, &:active {
+            background: none;
+            border: none;
+            outline: none;
+        }
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+    .formStyle {
+        width: 80%;
+        padding: 10px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .cancelButton {
+        color: #B7340D;
+        width: 8%;
+    }
+    .updateButton {
+        color: #274B2F;
+        width: 8%;
+    }
+    input[type="text"], textarea {
+        display: inline-block;
+        width: 80%;
+        resize: vertical;
+        vertical-align: middle;
+    }
+    h1, h2, h3 {
+        font-weight: 900;
+    }
+}
+
+  .flexbox-table{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100% ;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+            justify-content: center;
+    text-align: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+            align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+
+    .cell {
+        &:first-child{
+          width: 5%;
+        }
+
+        &:nth-child(2){
+          width: 20%;
+        }
+
+        &:nth-child(3){
+          width: 12%;
+        }
+
+        &:nth-child(4){
+          width: 40%;
+        }
+
+        &:nth-child(5){
+          width: 8%;
+        }
+
+        &:nth-child(6){
+          width: 15%;
+        }
+
+        &:nth-child(7){
+          width: 100%;
+          padding: 10px 0;
+        }
+    }
+
+    img{
+      display: none;
+    }
+
+  }
+
+  .warningMessage {
+    color: #8a6d3b;
+    display: block;
+    margin: 10px 0;
+  }
+
+  .successMessage {
+    color: #3c763d;
+    display: block;
+    margin: 10px 0;
+  }
+
+  .failedMessage {
+    color: #C42128;
+    display: block;
+    margin: 10px 0;
+  }
+
+  .label-status {
+      color: #000000;
+  }
+
+  .hoverInline{
+    cursor: pointer;
+      &:hover::after {
+          content: '';
+          color: #3c763d;
+          position: absolute;
+          margin-left: 20px;
+    }
+
+    .bounce{
+      -webkit-animation: bounce 2s;
+      animation: bounce 2s;
+    }
+}

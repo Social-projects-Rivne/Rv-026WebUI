@@ -1,0 +1,77 @@
+@import "./userPage.css";
+@import "./recipe-card.css";
+@import "./search-component.css";
+@import "./create-recipe-form.css";
+@import "./list-creator.css";
+@import "./multiselect.css";
+
+// @import "../js/pages/RecipesPage/SearchComponent/MultiSelect/multiselect.scss";
+
+@import "./cart.scss";
+@import "./order-accept-page.scss";
+@import "./order-list.css";
+@import url('https://fonts.googleapis.com/css?family=Play:400,700&subset=cyrillic,cyrillic-ext');
+@import './node_modules/react-tabs/style/react-tabs.scss';
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
+  font-family: 'Play', sans-serif;
+  min-height: 100%;
+  background-image: url('/public/images/common/mybg.png');
+}
+
+footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+  z-index: 999;
+}
+
+.navbar-inverse{
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+.main-page{
+  .main-slider {
+    font-size: 5vw;
+    color: #ffffff;
+    position: relative;
+    text-shadow: 4px 2px #000000;
+  }
+
+  div{
+      div:first-child .main-slider p{
+           bottom: 15%;
+           right: 5%;
+           position: absolute;
+        }
+
+        div:nth-child(2) .main-slider p {
+           top: 15%;
+           text-align: center;
+           position: absolute;
+           width: 100%;
+      }
+
+      div:nth-child(3) .main-slider p {
+           bottom: 12%;
+           right: 2%;
+           text-align: center;
+           position: absolute;
+      }
+    }
+}

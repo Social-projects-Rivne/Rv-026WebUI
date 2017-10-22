@@ -1,35 +1,41 @@
 import db from '../db';
 
-module.exports=function(){
+module.exports = function () {
+    const createUsersRoles = {
+        text: `CREATE TABLE IF NOT EXISTS users_roles(
+              id          serial      PRIMARY KEY,
+              user_role   varchar(30) UNIQUE
+        );`,
+        values: [],
+    };
+    const createOrdersStatus = {
+        text: `CREATE TABLE IF NOT EXISTS orders_status(
+              id        serial      PRIMARY KEY,
+              status    varchar(30) UNIQUE
+        );`,
+        values: [],
+    };
+    const createTags = {
+        text: `CREATE TABLE IF NOT EXISTS tags(
+              id                  serial         PRIMARY KEY,
+              name                varchar(30)    UNIQUE         NOT NULL,
+              tag_description     text,
+              tag_type            varchar(30)
+        )`,
+        values: [],
+    };
+    const createIngredients = {
+        text: `CREATE TABLE IF NOT EXISTS ingredients(
+              id            serial        PRIMARY KEY,
+              name          varchar(30)   UNIQUE      NOT NULL,
+              is_deleted    date          DEFAULT CURRENT_DATE,
+              photo         varchar(200)
+        )`,
+        values: [],
+    };
 
-  const  createUsers_roles= {
-    text: `CREATE TABLE IF NOT EXISTS users_roles(
-            id          serial      PRIMARY KEY,
-            user_role   varchar(30) UNIQUE
-          );`,
-    values: [],
-  }
-  const createTags = {
-    text:`CREATE TABLE IF NOT EXISTS tags(
-            id                  serial         PRIMARY KEY,
-            name                varchar(30)    UNIQUE         NOT NULL,
-            tag_description     text,
-            tag_type            varchar(30)
-          )`,
-    values: [],
-  }
-  const createIngredients = {
-    text:`CREATE TABLE IF NOT EXISTS ingredients(
-            id            serial        PRIMARY KEY,
-            name          varchar(30)   UNIQUE      NOT NULL,
-            is_deleted    date          DEFAULT CURRENT_DATE,
-            photo         varchar(200)
-          )`,
-    values: [],
-  }
-
-  const createUsers ={
-    text: `CREATE TABLE IF NOT EXISTS users(
+    const createUsers = {
+        text: `CREATE TABLE IF NOT EXISTS users(
               id              serial        PRIMARY KEY,
               fullname        varchar(64),
               role_id         integer       references    users_roles(id),
@@ -43,11 +49,11 @@ module.exports=function(){
               activation_id   char(36),
               is_deleted      date
           );`,
-    values: [],
-  }
+        values: [],
+    };
 
-  const createRecipes = {
-    text: `CREATE TABLE IF NOT EXISTS recipes(
+    const createRecipes = {
+        text: `CREATE TABLE IF NOT EXISTS recipes(
               id            serial        PRIMARY KEY,
               title         varchar(100)  UNIQUE,
               description   text,
@@ -56,8 +62,8 @@ module.exports=function(){
               photo         varchar(200),
               rating        integer
           )`,
-    values: [],
-  }
+        values: [],
+    };
 
   const createCalc_card = {
     text: `CREATE TABLE IF NOT EXISTS calc_card(
@@ -80,14 +86,36 @@ module.exports=function(){
   values: [],
   }
 
-  const createRecipe_tag = {
-    text: `CREATE TABLE IF NOT EXISTS recipe_tag(
+    const createRecipe_tag = {
+        text: `CREATE TABLE IF NOT EXISTS recipe_tag(
           id              serial      PRIMARY KEY,
           recipe_id       integer     references recipes(id),
           tag_id          integer     references tags(id)
           )`,
-  values: [],
-  }
+        values: [],
+    };
+
+    const createOrder = {
+        text: `CREATE TABLE IF NOT EXISTS orders(
+          id              serial      PRIMARY KEY,
+          user_id         integer     references users(id),
+          cooker_id       integer,    
+          status_id       integer     references orders_status(id),
+          comment         varchar(200),
+          price           integer
+          )`,
+        values: [],
+    };
+
+    const createOrderContext = {
+        text: `CREATE TABLE IF NOT EXISTS order_context(
+          id              serial      PRIMARY KEY,
+          order_id        integer     references orders(id),
+          recipe_id       integer    references recipes(id),
+          count           integer
+          )`,
+        values: [],
+    };
 
   const commentArr = [];
   commentArr[0]={
@@ -254,11 +282,11 @@ module.exports=function(){
   })
 
   var p2 =new Promise((resolve, reject) => {
-    db.query(createUsers_roles,(err, res) => {
+    db.query(createUsersRoles,(err, res) => {
         resolve('Table created');
     })
   })
-  p2.then(res =>{
+  p2.then(res => {
     db.query(createUsers,(err, res) => {
       console.log(res);
       db.query(createRecipes,(err,res) => {
@@ -278,6 +306,16 @@ module.exports=function(){
       db.query(createRecipe_tag,(err, res) => {
           console.log(res);
       })
+      db.query(createOrdersStatus,(err, ress) => {
+        console.log(err);
+      })
+      db.query(createOrder,(err, res) => {
+        console.log(err);
+    })
+    db.query(createOrderContext,(err, res) => {
+      console.log(err);
+  })
+      
   })
 
   Promise.all([p1, p2, p3]).then(value =>{

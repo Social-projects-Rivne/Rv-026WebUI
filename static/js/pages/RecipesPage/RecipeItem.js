@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
+import AddToCartButton from './AddToCartButton';
+
 class RecipeItem extends Component {
     render() {
         const recipe = this.props.recipe;
@@ -31,10 +33,11 @@ class RecipeItem extends Component {
                     <div>
                         {tags.length > 0 ? <p>{tags}</p> : null}
                     </div>
-                    <p className="card-read-more">
+                    <p className="card-read-more">                      
                         <Link to={`/recipes/${recipe.id}`}>Read More </Link>
                     </p>
                 </div>
+                <AddToCartButton item={this.props} />
             </div>
         );
     }

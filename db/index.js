@@ -1,6 +1,6 @@
 import {Pool, Client} from 'pg';
 
-import config from  '../db/config.js';
+import config from  '../../db/config.js';
 
 const conString = `postgres://${config.userName}:${config.password}@${config.dbServerLocation}:${config.serverPort}/${config.dbName}`;
 

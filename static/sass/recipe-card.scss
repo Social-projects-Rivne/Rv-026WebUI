@@ -18,7 +18,38 @@
     }
 }
 
+@keyframes anm {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.2); 
+    }
+}
+@keyframes anm0 {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.8;
+    }
+}
+@keyframes shake {
+    from {
+        transform: rotate(1deg);
+    }
+    50%{
+        transform: rotate(-1deg);
+    }
+    to{
+        transform: rotate(-1deg);
+    }
+}
+
+
+
 .card {
+    position:relative;
     -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     -webkit-transition: 0.3s;
@@ -32,9 +63,42 @@
     width: 100%;
     // display: inline-block;
     &:hover {
+
+        animation: shake  0.4s linear;
         -webkit-box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        .AddToCartButton{
+            display: block;
+        }
     }
+    .AddToCartButton{
+        border: 0px;
+        width: auto;
+        height: auto;
+        border-radius: 0 0 0 20px;
+        position: absolute;
+        z-index: 4;
+        right: 0;
+        top: 0;
+        background-color: #32CD32;
+        display: none;
+        animation: anm0 1s linearnp;
+        &:focus, &:active {
+            background-color:#32CD32;
+            border:0;
+            outline: none;
+        }
+        &:hover {
+            background-color: rgba(0, 255, 0, 0.88);;
+            border: 0;
+            animation: anm  0.8s ease alternate-reverse;
+        }
+        .plus-symbol{ 
+            display: inline;
+            font-size: 12pt;
+        }
+    }
+
     .card-image {
         width: 100%;
     }
@@ -53,6 +117,7 @@
         font-size: 22px;
         font-weight: bold;
     }
+    
     .card-read-more > a {
         color: #005ec3;
         text-decoration: none;

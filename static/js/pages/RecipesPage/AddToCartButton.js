@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 
-let orderList = [];
-
 class AddToCartButton extends Component {
     constructor(props) {
         super(props);
@@ -12,6 +10,7 @@ class AddToCartButton extends Component {
         this.item.count = 1;
     }
     onClick() {
+        let orderList = [];
         if (!localStorage.getItem('cart')) {
             orderList.push(this.item);
             localStorage.setItem('cart', JSON.stringify(orderList));

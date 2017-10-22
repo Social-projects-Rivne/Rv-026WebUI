@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import _ from 'underscore';
 
 
 import wait from './wait';
@@ -104,7 +105,8 @@ class ItemsList extends Component {
             editing: !this.state.editing,
             saving: true,
         });
-
+        console.log(this.state.items);
+        console.log(this.state.deletedItem);
         this.props.onSave(this.props.updateId, this.state.items, this.state.deletedItem, this.props.fieldName);
 
     }
@@ -122,7 +124,7 @@ class ItemsList extends Component {
 
 
     render() {
-        const items = this.state.items.map(function(item, index) {
+        const items = this.state.items.map( (item, index) => {
                 return <li key = { index } > { item.name } &nbsp; {
                     this.state.editing ? < button onClick = { this.deleteItem.bind(this, index) }
                     type = "button"
@@ -185,7 +187,7 @@ class ItemsList extends Component {
             createItem(e) {
                 e.preventDefault();
                 var item = this.refs.itemName.value;
-                if (typeof item === 'string' && item.length > 0) {
+                if (_.isString(item) && !_.isEmpty(item)) {
                     this.props.addItem(item);
                     this.refs.itemForm.reset();
                 }

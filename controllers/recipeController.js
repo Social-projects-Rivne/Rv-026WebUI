@@ -367,7 +367,7 @@ recipeController.getRecipeById = (req, res) => {
 
 recipeController.updateRecipe = (req, res) => {
     const recipeData = req.body;
-
+    const recipeObject = new recipeModel();
     if (recipeData.fieldName == "ingredients" || recipeData.fieldName == "tags") {
         let status = true;
         let fieldConnect = null;
@@ -412,13 +412,18 @@ recipeController.updateRecipe = (req, res) => {
             res.sendStatus(500);
         }
     } else {
-        db.query(recipeModel.upsertData(recipeData), (err) => {
-            if (err) {
-                res.sendStatus(500);
-            } else {
-                res.sendStatus(200);
-            }
-        });
+        if(!recipeData.fieldName || !recipeData.value){
+            res.sendStatus(404);
+        }
+        else{
+            db.query(recipeObject.upsertData(recipeData), (err) => {
+                if (err) {
+                    res.sendStatus(500);
+                } else {
+                    res.sendStatus(200);
+                }
+            });
+        }
     }
 };
 

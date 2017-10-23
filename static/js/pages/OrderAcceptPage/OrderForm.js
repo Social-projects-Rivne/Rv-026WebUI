@@ -81,55 +81,64 @@ class OrderForm extends Component {
             });
             return (
                 <div className="order-form">
-                    <form
-                        className="accept-order-form"
-                        onSubmit={this.onSubmit}
-                    >
+                    <form className="accept-order-form" onSubmit={this.onSubmit}>
                         <h1 className="title">Is your order right?</h1>
                         <FormGroup>
-                            <div className="order-list"> { orderList }</div>
-                            <div className="label">
-                                <p>
-                                    Price*
-                                </p>
+                            <div className="order-list">
+                                { orderList }
                             </div>
-                            <FormControl
-                                className="price"
-                                type="number"
-                                name="price"
-                                id="Order-Form--price"
-                                placeholder="Price"
-                                value={this.state.price}
-                                onChange={this.onPriceChange}
-                            />
-                            <p>{'\u20B4'}</p>
-                            {this.errorMessage(this.state.emptyPrice)}
+                            <div>
+                                <FormGroup className="row">
+                                    <label className="col-xs-2 control-label" htmlFor="OrderForm--price">
+                                        Price *
+                                    </label>
+                                    <div className="col-xs-8">
+                                        <FormControl
+                                            className="price"
+                                            type="number"
+                                            name="price"
+                                            id="OrderForm--price"
+                                            placeholder="Price"
+                                            value={this.state.price}
+                                            onChange={this.onPriceChange}
+                                        />
+                                    </div>
+                                    <div className="col-xs-2 price-sign">
+                                        {'\u20B4'}
+                                    </div>
+                                    {this.errorMessage(this.state.emptyPrice)}
+                                </FormGroup>
+                            </div>
                         </FormGroup>
-                            
-                        <FormGroup>
-                            <label htmlFor="RecipesForm--comment">Comment</label>
-                            <FormControl
-                                componentClass="textarea"
-                                name="comment"
-                                id="OrderForm--comment"
-                                placeholder="Comment to your order"
-                                value={this.state.comment}
-                                onChange={this.onCommentChange}
-                            />
-                            
+                        <FormGroup className="row">
+                            <label className="col-xs-3 col-sm-2 col-md-2 comment-label" htmlFor="OrderForm--comment">Comment</label>
+                            <div className="col-xs-9 col-sm-10 col-md-10">
+                                <FormControl
+                                    componentClass="textarea"
+                                    name="comment"
+                                    id="OrderForm--comment"
+                                    placeholder="Comment to your order"
+                                    value={this.state.comment}
+                                    onChange={this.onCommentChange}
+                                />
+                            </div>
                         </FormGroup>
-                        <Button
-                            type="submit"
-                            disabled={
-                            this.state.buttonDisabledPrice}
-                        >
-                            Submit
-                        </Button>
-                        <Button
-                            onClick={this.onClick}
-                        >
-                            Cancel
-                        </Button>
+                        <FormGroup className="button-block">
+                            <Button
+                                className="button-order btn-info button-create"
+                                type="submit"
+                                disabled={
+                                this.state.buttonDisabledPrice}
+                            >
+                                Create
+                            </Button>
+                            <Button
+                                className="button-order btn-danger"
+                                onClick={this.onClick}
+                            >
+                                Cancel
+                            </Button>
+                        </FormGroup>
                     </form>
                 </div>
             );

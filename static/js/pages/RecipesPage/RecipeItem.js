@@ -5,8 +5,16 @@ import { Link } from 'react-router';
 import AddToCartButton from './AddToCartButton';
 
 class RecipeItem extends Component {
+    renderAddToCartButton(recipe) {
+        if (document.cookie) {
+            return (
+                <AddToCartButton item={recipe} />
+            );
+        }
+    }
+
     render() {
-        const recipe = this.props.recipe;
+        const { recipe } = this.props;
         const ids = recipe.tags_id;
         const tagsName = recipe.tags_name;
         const tags = [];
@@ -33,11 +41,11 @@ class RecipeItem extends Component {
                     <div>
                         {tags.length > 0 ? <p>{tags}</p> : null}
                     </div>
-                    <p className="card-read-more">                      
+                    <p className="card-read-more">
                         <Link to={`/recipes/${recipe.id}`}>Read More </Link>
                     </p>
                 </div>
-                <AddToCartButton item={this.props} />
+                {this.renderAddToCartButton(this.props)}
             </div>
         );
     }

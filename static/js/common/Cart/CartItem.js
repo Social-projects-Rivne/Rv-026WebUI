@@ -9,14 +9,15 @@ class CartItem extends Component {
     render() {
         return (
             <div className="cartItem">
-                <img className="cartItemImg" src={`${this.props.item.photo}`} alt="recipe photo" />
-                <p className="cartItemTitle">
+                <div className="cell">
+                    <img className="cartItemImg" src={`${this.props.item.photo}`} alt="recipe photo" />
+                </div>
+                <div className="cell cartItemTitle">
                     {this.props.item.title}
-                </p>
-                <p className="cartItemCount">
-                   X {this.props.item.count}
-                </p>
-
+                </div>
+                <div className="cell cartItemCount">
+                    X {this.props.item.count}
+                </div>
             </div>
         );
     }

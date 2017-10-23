@@ -75,6 +75,21 @@
         
             &:nth-child(6){
                 width: 22%;
+                @keyframes status-btn-an2 {
+                    from {
+                        color: #000482;
+                        padding: 15px 32px;
+                        transform: scale(1);
+                        opacity: 0.8;
+                    }
+                    to {
+                        color: #000482;
+                        padding: 15px 32px;
+                        transform: scale(1.3); 
+                        opacity: 1;
+                    }
+                }
+                
                 .status-btn {
                     border: none;
                     color: #000000;
@@ -87,12 +102,17 @@
                     margin: 4px 2px;
                     opacity: 0.8;
                     cursor: pointer;
-                    @media screen and (max-width: 767px) {
-                        padding: 6px 14px;
-                    }
                     &:hover {
                         opacity: 1;
+                        animation: status-btn-an2 0.3s linear;
                     }
+                    @media screen and (max-width: 767px) {
+                        padding: 6px 14px;
+                        &:hover {
+                            animation: none;
+                        }
+                    }
+                    
                 }
                 @media screen and (max-width: 767px) {
                     width: 50%;

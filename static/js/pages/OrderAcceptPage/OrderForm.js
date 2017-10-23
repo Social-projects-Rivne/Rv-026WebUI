@@ -111,8 +111,8 @@ class OrderForm extends Component {
                             </div>
                         </FormGroup>
                         <FormGroup className="row">
-                            <label className="col-xs-3 col-sm-2 col-md-2 comment-label" htmlFor="OrderForm--comment">Comment</label>
-                            <div className="col-xs-9 col-sm-10 col-md-10">
+                            <label className="col-xs-12 col-sm-2 col-md-2 comment-label" htmlFor="OrderForm--comment">Comment</label>
+                            <div className="col-xs-12 col-sm-10 col-md-10">
                                 <FormControl
                                     componentClass="textarea"
                                     name="comment"

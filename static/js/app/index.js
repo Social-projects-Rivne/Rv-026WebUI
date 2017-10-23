@@ -1,5 +1,7 @@
 import routes from './routes';
+import configureStore from './store';
 
-export { 
-    routes
+export {
+    routes,
+    configureStore,
 };

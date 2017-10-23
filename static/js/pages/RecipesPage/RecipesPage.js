@@ -95,10 +95,9 @@ class RecipesPage extends Component {
 
     getAllRecipes() {
         const url = `/api/recipes/search?maxId=${findMaxId(this.state.recipes)}`;
-        fetch(url)
-            .then(response => response.json())
+        axios.get(url)
             .then((response) => {
-                const recipes = this.state.recipes.concat(response);
+                const recipes = this.state.recipes.concat(response.data);
                 this.setState({ process: 'fetched', recipes });
             })
             .catch((err) => {
@@ -109,9 +108,11 @@ class RecipesPage extends Component {
 
     getRecipesByTagId(tagId) {
         const url = `/api/${tagId}/recipes`;
-        fetch(url)
-            .then(response => response.json())
-            .then(response => this.setState({ process: 'fetched', recipes: response }))
+        axios.get(url)
+            .then((response) => {
+                const recipes = response.data;
+                this.setState({ process: 'fetched', recipes });
+            })
             .catch((err) => {
                 this.setState({ process: 'failedToFetch' });
                 console.log(err, 'Failed to get recipes data');
@@ -120,9 +121,11 @@ class RecipesPage extends Component {
 
     getRecipesByName(name) {
         const url = `/api/recipes/search/name=${name}`;
-        fetch(url)
-            .then(response => response.json())
-            .then(response => this.setState({ process: 'fetched', recipes: response }))
+        axios.get(url)
+            .then((response) => {
+                const recipes = response.data;
+                this.setState({ process: 'fetched', recipes });
+            })
             .catch((err) => {
                 this.setState({ process: 'failedToFetch' });
                 console.log(err, 'Failed to get recipes data');
@@ -144,9 +147,11 @@ class RecipesPage extends Component {
 
     getRecipesByTagType(tagtype) {
         const url = `/api/recipes/search/tagtype=${tagtype}`;
-        fetch(url)
-            .then(response => response.json())
-            .then(response => this.setState({ process: 'fetched', recipes: response }))
+        axios.get(url)
+            .then((response) => {
+                const recipes = response.data;
+                this.setState({ process: 'fetched', recipes });
+            })
             .catch((err) => {
                 this.setState({ process: 'failedToFetch' });
                 console.log(err, 'Failed to get recipes data');

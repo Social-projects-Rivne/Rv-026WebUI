@@ -24,4 +24,8 @@ constants.centerDiv = {
     width: '10%',
 };
 
+constants.background = {
+    height: 'calc(95vh - 65px)',
+};
+
 export default constants;

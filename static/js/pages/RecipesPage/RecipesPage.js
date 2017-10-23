@@ -14,6 +14,16 @@ const centerDiv = {
     width: '10%',
 };
 
+const findMaxId = (arr) => {
+    let maxId = 0;
+    arr.forEach((el) => {
+        if (el.id > maxId) {
+            maxId = el.id;
+        }
+    });
+    return maxId;
+};
+
 class RecipesPage extends Component {
     constructor(props) {
         super(props);
@@ -22,6 +32,8 @@ class RecipesPage extends Component {
             process: 'fetching',
         };
         this.getRecipes = this.getRecipes.bind(this);
+        this.onBottomScroll = this.onBottomScroll.bind(this);
+        this.getAllRecipes = this.getAllRecipes.bind(this);
     }
 
     componentWillMount() {
@@ -38,10 +50,11 @@ class RecipesPage extends Component {
             this.setState({ process: 'failedToFetch' });
             console.log(err, 'Failed to get recipes data');
         });
+        window.addEventListener('scroll', this.onBottomScroll);
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ process: 'fetching' });
+        this.setState({ process: 'fetching', recipes: [] });
         wait(2000)
         .then(() => {
             this.changeRecipeParams(
@@ -57,11 +70,37 @@ class RecipesPage extends Component {
         });
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.onBottomScroll);
+    }
+
+    onBottomScroll() {
+        const windowHeight = window.innerHeight; // 953
+        const body = document.body;
+        const html = document.documentElement;
+        const docHeight = Math.max(body.scrollHeight, body.offsetHeight,
+            html.clientHeight, html.scrollHeight, html.offsetHeight);
+
+        const windowBottom = windowHeight + window.pageYOffset; // 953 + 317 = 1270
+
+        if (windowBottom >= docHeight - 3) {
+            this.changeRecipeParams(
+                this.props.params.tag_id,
+                this.props.params.name,
+                this.props.params.tagtype,
+                this.props.params.ingredients,
+            );
+        }
+    }
+
     getAllRecipes() {
-        const url = '/api/recipes';
+        const url = `/api/recipes/search?maxId=${findMaxId(this.state.recipes)}`;
         fetch(url)
             .then(response => response.json())
-            .then(response => this.setState({ process: 'fetched', recipes: response }))
+            .then((response) => {
+                const recipes = this.state.recipes.concat(response);
+                this.setState({ process: 'fetched', recipes });
+            })
             .catch((err) => {
                 this.setState({ process: 'failedToFetch' });
                 console.log(err, 'Failed to get recipes data');
@@ -91,9 +130,12 @@ class RecipesPage extends Component {
     }
 
     getRecipesByIngredients(ingredients) {
-        const url = `/api/recipes/search/ingredients=${ingredients}`;
+        const url = `/api/recipes/ingredients/search?ingredients=${ingredients}&maxId=${findMaxId(this.state.recipes)}`;
         axios.get(url)
-        .then(response => this.setState({ process: 'fetched', recipes: response.data }))
+        .then((response) => {
+            const recipes = this.state.recipes.concat(response.data);
+            this.setState({ process: 'fetched', recipes });
+        })
         .catch((err) => {
             this.setState({ process: 'failedToFetch' });
             console.log(err, 'Failed to get recipes data');
@@ -140,7 +182,7 @@ class RecipesPage extends Component {
             );
         } else if (phase === 'fetched') {
             return (
-                <div>
+                <div onScroll={this.onBottomScroll}>
                     <Header />
                     <Grid>
                         <SearchComponent getRecipes={this.getRecipes} />

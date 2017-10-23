@@ -1,38 +1,30 @@
 import React, { Component } from 'react';
-
+import Carousel from 're-carousel';
 import Header from '../../common/Header';
-import TestComponentOnMainPage from './TestComponentOnMainPage';
-
-const bannerBlock = {
-    fontSize: '80px',
-    color: '#ffffff',
-    textAlign: 'center',
-};
-
-const comment = {
-    color: '#ffffff',
-    textAlign: 'center',
-    fontSize: '30px',
-};
 
 const background = {
-    background: "url('/public/images/common/main-page.png')",
-    height: 'calc(100vh - 60px)',
-    textAlign: 'center',
-    backgroundSize: 'cover',
+    height: 'calc(95vh - 65px)',
 };
-
 
 class MainPage extends Component {
     render() {
         return (
-            <div style={background}>
+            <div>
                 <Header />
-                <p style={bannerBlock}>FOOD MAKE & DELIEVERY</p>
-                <p style={comment}>forget about hunger forever with FM&D!</p>
-                <TestComponentOnMainPage />
+                <div className="main-page" style={background}>
+                    <Carousel auto>
+                        <div className="main-slider" style={{ backgroundImage: "url('/public/images/slider/slide-1.jpg')", height: '100%', backgroundSize: 'cover' }}>
+                            <p>FOOD MAKE & DELIEVERY</p>
+                        </div>
+                        <div className="main-slider" style={{ backgroundImage: "url('/public/images/slider/slide-2.jpg')", height: '100%', backgroundSize: 'cover' }}>
+                            <p>Forget about hunger forever!</p>
+                        </div>
+                        <div className="main-slider" style={{ backgroundImage: "url('/public/images/slider/slide-3.jpg')", height: '100%', backgroundSize: 'cover' }}>
+                            <p>Make your life better with FM&D!</p>
+                        </div>
+                    </Carousel>
+                </div>
             </div>
-
         );
     }
 }

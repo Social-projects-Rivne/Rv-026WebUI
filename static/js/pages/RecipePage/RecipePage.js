@@ -128,7 +128,12 @@ class RecipePage extends Component {
                     if (res.status === 200) {
                         console.log("success", `${fieldName}Status`);
                         this.setState({ [`${fieldName}Status`]: 'success' });
-                    } else {
+                    }
+                    else if(res.status === 404){
+                        console.log("request is empty", `${fieldName}Status`);
+                        this.setState({ [`${fieldName}Status`]: 'request is empty' });
+                    }
+                    else {
                         console.log("error");
                         this.setState({ [`${fieldName}Status`]: 'error' });
                     }

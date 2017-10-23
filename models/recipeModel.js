@@ -52,7 +52,7 @@ recipeModel.findRecipesByTagId = (tagId) => {
     return query;
 };
 
-recipeModel.getAllRecipes = () => {
+recipeModel.getAllRecipes = (maxId) => {
     const query = {
         text: `
         SELECT r.id,
@@ -68,6 +68,8 @@ recipeModel.getAllRecipes = () => {
         FULL JOIN recipe_tag rt ON rt.recipe_id = r.id
         LEFT JOIN tags t ON rt.tag_id = t.id
         GROUP BY r.id
+        HAVING r.id > ${maxId}
+        LIMIT 2
         `,
     };
     return query;
@@ -214,7 +216,7 @@ recipeModel.upsertData = (data) => {
     return `INSERT INTO recipes (id,${data.fieldName}) VALUES (${data.id},'${data.value}') ON CONFLICT(id) DO UPDATE SET ${data.fieldName} = '${data.value}'`;
 };
 
-recipeModel.findRecipesByIngredients = (ingredients) => {
+recipeModel.findRecipesByIngredients = (ingredients, maxId) => {
     const query = `
         SELECT r.id,
         r.title,
@@ -231,7 +233,8 @@ recipeModel.findRecipesByIngredients = (ingredients) => {
         full join calc_card cc on cc.recipe_id = r.id
         left join ingredients i on cc.ingredient_id = i.id
         group by r.id
-        having array[${ingredients}] <@ array_agg(distinct i.id)
+        having array[${ingredients}] <@ array_agg(distinct i.id) AND r.id>${maxId}
+        LIMIT 1
     `;
     return query;
 };

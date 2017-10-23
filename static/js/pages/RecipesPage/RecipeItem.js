@@ -2,9 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
+import AddToCartButton from './AddToCartButton';
+
 class RecipeItem extends Component {
+    renderAddToCartButton(recipe) {
+        if (document.cookie) {
+            return (
+                <AddToCartButton item={recipe} />
+            );
+        }
+    }
+
     render() {
-        const recipe = this.props.recipe;
+        const { recipe } = this.props;
         const ids = recipe.tags_id;
         const tagsName = recipe.tags_name;
         const tags = [];
@@ -35,6 +45,7 @@ class RecipeItem extends Component {
                         <Link to={`/recipes/${recipe.id}`}>Read More </Link>
                     </p>
                 </div>
+                {this.renderAddToCartButton(this.props)}
             </div>
         );
     }

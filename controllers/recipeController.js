@@ -222,7 +222,7 @@ recipeController.getRecipesByTagId = (req, res, next) => {
 };
 
 recipeController.getAllRecepies = (req, res, next) => {
-    db.query(recipeModel.getAllRecipes(), (err, result) => {
+    db.query(recipeModel.getAllRecipes(req.query.maxId), (err, result) => {
         if (err) {
             return next(err);
         } else {
@@ -367,7 +367,7 @@ recipeController.getRecipeById = (req, res) => {
 
 recipeController.updateRecipe = (req, res) => {
     const recipeData = req.body;
-
+    const recipeObject = new recipeModel();
     if (recipeData.fieldName == "ingredients" || recipeData.fieldName == "tags") {
         let status = true;
         let fieldConnect = null;
@@ -412,13 +412,18 @@ recipeController.updateRecipe = (req, res) => {
             res.sendStatus(500);
         }
     } else {
-        db.query(recipeModel.upsertData(recipeData), (err) => {
-            if (err) {
-                res.sendStatus(500);
-            } else {
-                res.sendStatus(200);
-            }
-        });
+        if(!recipeData.fieldName || !recipeData.value){
+            res.sendStatus(404);
+        }
+        else{
+            db.query(recipeObject.upsertData(recipeData), (err) => {
+                if (err) {
+                    res.sendStatus(500);
+                } else {
+                    res.sendStatus(200);
+                }
+            });
+        }
     }
 };
 
@@ -434,11 +439,11 @@ recipeController.getAllIngredients = (req, res) => {
 };
 
 recipeController.getRecepiesByIngredients = (req, res) => {
-    const ingredients = req.params.ingredients;
+    const ingredients = req.query.ingredients;
     if (!ingredients) {
         res.sendStatus(404);
     }
-    db.query(recipeModel.findRecipesByIngredients(ingredients), (err, result) => {
+    db.query(recipeModel.findRecipesByIngredients(ingredients, req.query.maxId), (err, result) => {
         if (err) {
             res.sendStatus(500);
             console.log(err);

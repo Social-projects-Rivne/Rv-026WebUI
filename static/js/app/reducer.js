@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import {
-    TestReducer, 
+    RecipesReducer,
+    TestReducer,
 } from '../reducers';
 
 const rootReducer = combineReducers({
+    recipes: RecipesReducer,
     testData: TestReducer,
 });
 

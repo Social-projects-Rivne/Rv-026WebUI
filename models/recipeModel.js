@@ -29,7 +29,7 @@ recipeModel.findTitle = (title) => {
     return `SELECT title,is_deleted FROM recipes WHERE title = '${title}' LIMIT 1`;
 };
 
-recipeModel.findRecipesByTagId = (tagId) => {
+recipeModel.findRecipesByTagId = (tagId, maxId) => {
     const query = {
         text: `
         SELECT r.id,
@@ -46,8 +46,10 @@ recipeModel.findRecipesByTagId = (tagId) => {
         LEFT JOIN tags t ON rt.tag_id = t.id
         GROUP BY r.id
         HAVING $1 = ANY(array_agg(t.id))
+        AND r.id > $2
+        LIMIT 2
         `,
-        values: [tagId],
+        values: [tagId, maxId],
     };
     return query;
 };
@@ -75,7 +77,7 @@ recipeModel.getAllRecipes = (maxId) => {
     return query;
 };
 
-recipeModel.findRicipesByName = (recipeName) => {
+recipeModel.findRicipesByName = (recipeName, maxId) => {
     const query = {
         text:
         `SELECT r.id,
@@ -94,13 +96,15 @@ recipeModel.findRicipesByName = (recipeName) => {
         INNER JOIN users u ON u.id = r.owner_id
         WHERE LOWER(r.title) LIKE $1||'%'
         GROUP BY r.id,u.id
+        HAVING r.id > $2
+        LIMIT 2
         `,
-        values: [recipeName],
+        values: [recipeName, maxId],
     };
     return query;
 };
 
-recipeModel.findRicipesByTagType = (tagType) => {
+recipeModel.findRicipesByTagType = (tagType, maxId) => {
     const query = {
         text: `
         SELECT r.id,
@@ -119,8 +123,10 @@ recipeModel.findRicipesByTagType = (tagType) => {
         INNER JOIN users u ON u.id = r.owner_id
         GROUP BY r.id, u.id
         HAVING $1 = any(array_agg(t.tag_type))
+        AND r.id > $2
+        LIMIT 2
         `,
-        values: [tagType],
+        values: [tagType, maxId],
     };
     return query;
 };

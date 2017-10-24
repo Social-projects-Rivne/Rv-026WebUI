@@ -1,39 +1,28 @@
 import React, { Component } from 'react';
-import { Grid } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
-import axios from 'axios';
+import { Grid } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Recipes from './Recipes';
 import SearchComponent from './SearchComponent';
 import Header from '../../common/Header';
-
+import constants from '../../common/constants';
 import wait from '../../common/wait';
-
-const centerDiv = {
-    margin: 'auto',
-    width: '10%',
-};
-
-const findMaxId = (arr) => {
-    let maxId = 0;
-    arr.forEach((el) => {
-        if (el.id > maxId) {
-            maxId = el.id;
-        }
-    });
-    return maxId;
-};
+import {
+    getAllRecipes,
+    getRecipesByIngredients,
+    getRecipesByTagId,
+    getRecipesByName,
+    getRecipesByTagType,
+    clearRecipes,
+} from '../../actions/recipesAction';
 
 class RecipesPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            recipes: [],
-            process: 'fetching',
-        };
-        this.getRecipes = this.getRecipes.bind(this);
         this.onBottomScroll = this.onBottomScroll.bind(this);
-        this.getAllRecipes = this.getAllRecipes.bind(this);
     }
 
     componentWillMount() {
@@ -45,29 +34,23 @@ class RecipesPage extends Component {
                 this.props.params.tagtype,
                 this.props.params.ingredients,
             );
-        })
-        .catch((err) => {
-            this.setState({ process: 'failedToFetch' });
-            console.log(err, 'Failed to get recipes data');
         });
         window.addEventListener('scroll', this.onBottomScroll);
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ process: 'fetching', recipes: [] });
-        wait(2000)
-        .then(() => {
-            this.changeRecipeParams(
-                nextProps.params.tag_id,
-                nextProps.params.name,
-                nextProps.params.tagtype,
-                nextProps.params.ingredients,
-            );
-        })
-        .catch((err) => {
-            this.setState({ process: 'failedToFetch' });
-            console.log(err, 'Failed to get recipes data');
-        });
+        if (nextProps.params !== this.props.params) {
+            this.props.clearRecipes();
+            wait(2000)
+            .then(() => {
+                this.changeRecipeParams(
+                    nextProps.params.tag_id,
+                    nextProps.params.name,
+                    nextProps.params.tagtype,
+                    nextProps.params.ingredients,
+                );
+            });
+        }
     }
 
     componentWillUnmount() {
@@ -75,13 +58,13 @@ class RecipesPage extends Component {
     }
 
     onBottomScroll() {
-        const windowHeight = window.innerHeight; // 953
+        const windowHeight = window.innerHeight;
         const body = document.body;
         const html = document.documentElement;
         const docHeight = Math.max(body.scrollHeight, body.offsetHeight,
             html.clientHeight, html.scrollHeight, html.offsetHeight);
 
-        const windowBottom = windowHeight + window.pageYOffset; // 953 + 317 = 1270
+        const windowBottom = windowHeight + window.pageYOffset;
 
         if (windowBottom >= docHeight - 3) {
             this.changeRecipeParams(
@@ -93,105 +76,37 @@ class RecipesPage extends Component {
         }
     }
 
-    getAllRecipes() {
-        const url = `/api/recipes/search?maxId=${findMaxId(this.state.recipes)}`;
-        axios.get(url)
-            .then((response) => {
-                const recipes = this.state.recipes.concat(response.data);
-                this.setState({ process: 'fetched', recipes });
-            })
-            .catch((err) => {
-                this.setState({ process: 'failedToFetch' });
-                console.log(err, 'Failed to get recipes data');
-            });
-    }
-
-    getRecipesByTagId(tagId) {
-        const url = `/api/${tagId}/recipes`;
-        axios.get(url)
-            .then((response) => {
-                const recipes = response.data;
-                this.setState({ process: 'fetched', recipes });
-            })
-            .catch((err) => {
-                this.setState({ process: 'failedToFetch' });
-                console.log(err, 'Failed to get recipes data');
-            });
-    }
-
-    getRecipesByName(name) {
-        const url = `/api/recipes/search/name=${name}`;
-        axios.get(url)
-            .then((response) => {
-                const recipes = response.data;
-                this.setState({ process: 'fetched', recipes });
-            })
-            .catch((err) => {
-                this.setState({ process: 'failedToFetch' });
-                console.log(err, 'Failed to get recipes data');
-            });
-    }
-
-    getRecipesByIngredients(ingredients) {
-        const url = `/api/recipes/ingredients/search?ingredients=${ingredients}&maxId=${findMaxId(this.state.recipes)}`;
-        axios.get(url)
-        .then((response) => {
-            const recipes = this.state.recipes.concat(response.data);
-            this.setState({ process: 'fetched', recipes });
-        })
-        .catch((err) => {
-            this.setState({ process: 'failedToFetch' });
-            console.log(err, 'Failed to get recipes data');
-        });
-    }
-
-    getRecipesByTagType(tagtype) {
-        const url = `/api/recipes/search/tagtype=${tagtype}`;
-        axios.get(url)
-            .then((response) => {
-                const recipes = response.data;
-                this.setState({ process: 'fetched', recipes });
-            })
-            .catch((err) => {
-                this.setState({ process: 'failedToFetch' });
-                console.log(err, 'Failed to get recipes data');
-            });
-    }
-
-    getRecipes(elements) {
-        this.setState({ recipes: elements });
-    }
-
     changeRecipeParams(tagId, name, tagtype, ingredients) {
+        const { recipes } =  this.props;
         if (tagId) {
-            this.getRecipesByTagId(tagId);
+            this.props.getRecipesByTagId(tagId, recipes);
         } else if (name) {
-            this.getRecipesByName(name);
+            this.props.getRecipesByName(name, recipes);
         } else if (tagtype) {
-            this.getRecipesByTagType(tagtype);
+            this.props.getRecipesByTagType(tagtype, recipes);
         } else if (ingredients) {
-            this.getRecipesByIngredients(ingredients);
+            this.props.getRecipesByIngredients(ingredients, recipes);
         } else {
-            this.getAllRecipes();
+            this.props.getAllRecipes(recipes);
         }
     }
 
     render() {
-        const phase = this.state.process;
-        if (phase === 'fetching') {
+        const { process, recipes } = this.props;
+        if (process === 'fetching') {
             return (
                 <div>
                     <Header />
-                    <ReactLoading style={centerDiv} type="bars" color="#444" height="70" width="20" />
+                    <ReactLoading style={constants.centerDiv} type="bars" color="#444" height="70" width="20" />
                 </div>
             );
-        } else if (phase === 'fetched') {
+        } else if (process === 'fetched') {
             return (
                 <div onScroll={this.onBottomScroll}>
                     <Header />
                     <Grid>
-                        <SearchComponent getRecipes={this.getRecipes} />
-                        <Recipes result={this.state.recipes} />
+                        <SearchComponent />
+                        <Recipes result={this.props.recipes} />
                     </Grid>
                 </div>
             );
@@ -199,4 +114,33 @@ class RecipesPage extends Component {
     }
 }
 
-export default RecipesPage;
+RecipesPage.PropTypes = {
+    getAllRecipes: PropTypes.func,
+    getRecipesByIngredients: PropTypes.func,
+    getRecipesByTagId: PropTypes.func,
+    getRecipesByName: PropTypes.func,
+    getRecipesByTagType: PropTypes.func,
+    clearRecipes: PropTypes.func,
+    recipes: PropTypes.array.isRequired,
+    process: PropTypes.string.isRequired,
+};
+
+function mapStateToProps(state) {
+    return {
+        recipes: state.recipes.all,
+        process: state.recipes.process,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        getAllRecipes,
+        getRecipesByIngredients,
+        getRecipesByTagId,
+        getRecipesByName,
+        getRecipesByTagType,
+        clearRecipes,
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecipesPage);

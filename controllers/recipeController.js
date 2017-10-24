@@ -202,15 +202,18 @@ recipeController.checkTitleExistence = (req, res) => {
     });
 };
 
-recipeController.getRecipesByTagId = (req, res, next) => {
-    var tagId = req.params.tag_id;
-
-    db.query(recipeModel.findRecipesByTagId(tagId), (err, result) => {
+recipeController.getRecipesByTagId = (req, res) => {
+    const tagId = req.query.tag;
+    if (!tagId) {
+        res.sendStatus(404);
+    }
+    db.query(recipeModel.findRecipesByTagId(tagId, req.query.maxId), (err, result) => {
         if (err) {
-            return next(err);
+            res.sendStatus(500);
+            console.log(err);
         } else {
-            var recipes = result.rows;
-            var recipesNotDeleted = recipes.filter((o) => {
+            const recipes = result.rows;
+            const recipesNotDeleted = recipes.filter((o) => {
                 if (!o.is_deleted) {
                     o.description = o.description.substring(0, 80);
                     return recipes.indexOf(o) !== -1;
@@ -221,13 +224,14 @@ recipeController.getRecipesByTagId = (req, res, next) => {
     });
 };
 
-recipeController.getAllRecepies = (req, res, next) => {
+recipeController.getAllRecepies = (req, res) => {
     db.query(recipeModel.getAllRecipes(req.query.maxId), (err, result) => {
         if (err) {
-            return next(err);
+            res.sendStatus(500);
+            console.log(err);
         } else {
-            var recipes = result.rows;
-            var recipesNotDeleted = recipes.filter((o) => {
+            const recipes = result.rows;
+            const recipesNotDeleted = recipes.filter((o) => {
                 if (!o.is_deleted) {
                     o.description = o.description.substring(0, 80);
                     return recipes.indexOf(o) !== -1;
@@ -238,15 +242,18 @@ recipeController.getAllRecepies = (req, res, next) => {
     });
 };
 
-recipeController.getRecepiesByName = (req, res, next) => {
-    var recipeName = req.params.name;
-    db.query(recipeModel.findRicipesByName(recipeName), (err, result) => {
+recipeController.getRecepiesByName = (req, res) => {
+    const recipeName = req.query.name;
+    if (!recipeName) {
+        res.sendStatus(404);
+    }
+    db.query(recipeModel.findRicipesByName(recipeName, req.query.maxId), (err, result) => {
         if (err) {
-            console.log('error!');
-            return next(err);
+            res.sendStatus(500);
+            console.log(err);
         } else {
-            var recipes = result.rows;
-            var recipesNotDeleted = recipes.filter((o) => {
+            const recipes = result.rows;
+            const recipesNotDeleted = recipes.filter((o) => {
                 if (!o.is_deleted) {
                     return recipes.indexOf(o) !== -1;
                 }
@@ -254,18 +261,20 @@ recipeController.getRecepiesByName = (req, res, next) => {
             res.send(recipesNotDeleted);
         }
     });
+};
 
-}
-
-recipeController.getRecepiesByTagType = (req, res, next) => {
-    var tagType = req.params.tagtype;
-    db.query(recipeModel.findRicipesByTagType(tagType), (err, result) => {
+recipeController.getRecepiesByTagType = (req, res) => {
+    const tagType = req.query.tagtype;
+    if (!tagType) {
+        res.sendStatus(404);
+    }
+    db.query(recipeModel.findRicipesByTagType(tagType, req.query.maxId), (err, result) => {
         if (err) {
-            console.log('error!');
-            return next(err);
+            res.sendStatus(500);
+            console.log(err);
         } else {
-            var recipes = result.rows;
-            var recipesNotDeleted = recipes.filter((o) => {
+            const recipes = result.rows;
+            const recipesNotDeleted = recipes.filter((o) => {
                 if (!o.is_deleted) {
                     return recipes.indexOf(o) !== -1;
                 }
@@ -273,7 +282,7 @@ recipeController.getRecepiesByTagType = (req, res, next) => {
             res.send(recipesNotDeleted);
         }
     });
-}
+};
 
 recipeController.autocompleteRecepiesByTagType = (req, res, next) => {
     var tagType = req.body.item;

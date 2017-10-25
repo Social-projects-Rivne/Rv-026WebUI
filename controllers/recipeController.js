@@ -381,7 +381,7 @@ recipeController.updateRecipe = (req, res) => {
             table = "recipe_tag";
         }
         recipeData.deleteValue.forEach((value) => {
-            db.query(recipeModel.removeDbLink(table, fieldConnect, recipeData.id, value.id), (error) => {
+            db.query(recipeObject.removeDbLink(table, fieldConnect, recipeData.id, value.id), (error) => {
                 if (error) {
                     status = false;
                 }
@@ -391,10 +391,10 @@ recipeController.updateRecipe = (req, res) => {
             res.sendStatus(500)
         }
         recipeData.addValue.forEach((value) => {
-            db.query(recipeModel.updateRecipe(recipeData, value.name), (error, result) => {
+            db.query(recipeObject.updateRecipe(recipeData, value.name), (error, result) => {
                 if (result.rows) {
                     const insertId = result.rows[0].id;
-                    db.query(recipeModel.addDbLink(table, fieldConnect, recipeData.id, insertId), (error) => {
+                    db.query(recipeObject.addDbLink(table, fieldConnect, recipeData.id, insertId), (error) => {
                         if (error) {
                             status = false;
                         } else {
@@ -424,6 +424,7 @@ recipeController.updateRecipe = (req, res) => {
                 }
             });
         }
+        
     }
 };
 

@@ -1,4 +1,5 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import promice from 'redux-promise';
 import asyncRecipes from '../middlewares/asyncRecipes';
 
@@ -10,9 +11,9 @@ export default function configureStore(initialState) {
     const store = createStore(
         rootReducer,
         initialState,
-        compose(
+        composeWithDevTools(
             applyMiddleware(...middlewares),
-        ),
+          ),
     );
 
     return store;

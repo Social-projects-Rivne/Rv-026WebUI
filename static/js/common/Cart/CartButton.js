@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import Cart from './Cart';
-
 
 class CartButton extends Component {
     constructor(props) {
@@ -11,6 +10,10 @@ class CartButton extends Component {
             show: false,
             status: false,
         };
+    }
+    componentWillMount() {
+        var cart = [];
+        this.props.onCartInit(cart);
     }
     onClick() {
         if (this.state.show) {
@@ -52,4 +55,15 @@ class CartButton extends Component {
     }
 }
 
-export default CartButton;
+export default connect(
+    state => ({}),
+    dispatch => ({
+        onCartInit: (cartArray) => {
+            dispatch({
+                type: 'CART_INIT',
+                payloadCart: cartArray,
+            });
+        },
+    }),
+)(CartButton);
+

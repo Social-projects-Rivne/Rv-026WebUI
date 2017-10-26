@@ -23,7 +23,7 @@ class RecipeItem extends Component {
             if (ids[i]) {
                 tags.push(
                     <span key={i}>
-                        <Link to={`/${ids[i]}/recipes`} className="badge card-tag">{tagsName[i]}</Link>{'\u00A0'}
+                        <Link to={`/recipes/search/tag=${ids[i]}`} className="badge card-tag">{tagsName[i]}</Link>{'\u00A0'}
                     </span>);
             }
         }

@@ -192,7 +192,6 @@ class SearchComponent extends Component {
 }
 
 SearchComponent.propTypes = {
-    getRecipes: PropTypes.func,
 };
 
 export default SearchComponent;

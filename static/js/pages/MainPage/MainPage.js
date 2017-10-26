@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import Carousel from 're-carousel';
 import Header from '../../common/Header';
-
-const background = {
-    height: 'calc(95vh - 65px)',
-};
+import constants from '../../common/constants';
 
 class MainPage extends Component {
     render() {
         return (
             <div>
                 <Header />
-                <div className="main-page" style={background}>
+                <div className="main-page" style={constants.background}>
                     <Carousel auto>
                         <div className="main-slider" style={{ backgroundImage: "url('/public/images/slider/slide-1.jpg')", height: '100%', backgroundSize: 'cover' }}>
                             <p>FOOD MAKE & DELIEVERY</p>

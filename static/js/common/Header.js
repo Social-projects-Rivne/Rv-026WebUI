@@ -91,12 +91,12 @@ class Header extends Component {
                     <Navbar.Collapse>
                         <ul className="nav navbar-nav">
                             <li><a href="/recipes">Recipes</a></li>
-                            {this.renderCreateRecipe()};
-                            {this.renderListOfJobs()};
+                            {this.renderCreateRecipe()}
+                            {this.renderListOfJobs()}
                             <li><a href="/about">About Us</a></li>
                         </ul>
-                        {this.renderLoginLogout()};
-                      </Navbar.Collapse>
+                        {this.renderLoginLogout()}
+                    </Navbar.Collapse>
                 </Navbar>
             </header>
         );

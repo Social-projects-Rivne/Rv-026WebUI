@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import {
+    addItem,
+} from '../../actions/cartActions';
 
 class AddToCartButton extends Component {
     constructor(props) {
@@ -10,7 +16,7 @@ class AddToCartButton extends Component {
         this.item.count = 1;
     }
     onClick() {
-        let orderList = [];
+        /*let orderList = [];
         if (!localStorage.getItem('cart')) {
             orderList.push(this.item);
             localStorage.setItem('cart', JSON.stringify(orderList));
@@ -27,7 +33,8 @@ class AddToCartButton extends Component {
                 orderList.push(this.item);
             }
             localStorage.setItem('cart', JSON.stringify(orderList));
-        }
+        }*/
+        this.props.addItem(this.item);
     }
     render() {
         return (
@@ -44,6 +51,17 @@ class AddToCartButton extends Component {
 
 AddToCartButton.PropTypes = {
     item: PropTypes.object,
+    addItem: PropTypes.func,
 };
 
-export default AddToCartButton;
+function mapStateToProps(state) {
+    return { state };
+}
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        addItem,
+    }, dispatch);
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddToCartButton);

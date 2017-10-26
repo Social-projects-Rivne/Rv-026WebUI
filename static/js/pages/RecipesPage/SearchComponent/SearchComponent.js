@@ -97,7 +97,7 @@ class SearchComponent extends Component {
     requestToSearch(item, searchParam) {
         wait(200)
         .then(() => {
-            axios.post(`/api/recipes/search/${searchParam}`, { item })
+            axios.get(`/api/recipes/autocomplete?item=${item}&&searchparam=${searchParam}`)
                 .then(response => this.setState({ process: 'fetched', elements: response.data }))
                 .catch(error => console.log(error));
         })

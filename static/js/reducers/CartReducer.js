@@ -4,10 +4,10 @@ import {
 
 const INITIAL_STATE = { all: [], process: 'fetching' };
 
-export default  function (state = INITIAL_STATE, action) {
+export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
     case CART_INIT:
-        return { ...state, all: action.payloadCart, process: 'fetched' };
+        return { ...state, all: action.all, process: 'fetched' };
     default:
         return state;
     }

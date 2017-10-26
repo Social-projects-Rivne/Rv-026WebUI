@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Cart from './Cart';
+
+import {
+    cartInit,
+} from '../../actions/cartActions';
 
 class CartButton extends Component {
     constructor(props) {
@@ -12,8 +18,7 @@ class CartButton extends Component {
         };
     }
     componentWillMount() {
-        var cart = [];
-        this.props.onCartInit(cart);
+        this.props.cartInit();
     }
     onClick() {
         if (this.state.show) {
@@ -54,16 +59,15 @@ class CartButton extends Component {
         }
     }
 }
+CartButton.PropTypes = {
+    cartInit: PropTypes.func,
+};
+function mapStateToProps(state) {
+    return {state};
+}
 
-export default connect(
-    state => ({}),
-    dispatch => ({
-        onCartInit: (cartArray) => {
-            dispatch({
-                type: 'CART_INIT',
-                payloadCart: cartArray,
-            });
-        },
-    }),
-)(CartButton);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ cartInit }, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CartButton);
 

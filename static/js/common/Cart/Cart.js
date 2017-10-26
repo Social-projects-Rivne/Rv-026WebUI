@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import CartItem from './CartItem';
+
+import {
+    showCart,
+    hideCart,
+} from '../../actions/cartActions';
 
 class Cart extends Component {
     constructor(props) {
@@ -19,8 +26,7 @@ class Cart extends Component {
 
     componentWillMount() {
         let items = [];
-        items = JSON.parse(localStorage.getItem('cart'));
-        this.setState({ cart: items });
+        items = this.props.state.cart.all;
     }
     componentWillUnmount() {
         clearInterval(this.state.interval);
@@ -30,7 +36,7 @@ class Cart extends Component {
     }
 
     render() {
-        const items = this.state.cart;
+        const items = this.props.state.cart.all;
         if (items) {
             const orderList = items.map((item, index) => {
                 return (<CartItem key={index} item={item} />);
@@ -53,4 +59,14 @@ class Cart extends Component {
         }
     }
 }
-export default Cart;
+function mapStateToProps(state) {
+    return { state };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        showCart,
+        hideCart,
+    }, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

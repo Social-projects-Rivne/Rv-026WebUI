@@ -6,29 +6,27 @@ import Cart from './Cart';
 
 import {
     cartInit,
+    showCart,
+    hideCart,
 } from '../../actions/cartActions';
 
 class CartButton extends Component {
     constructor(props) {
         super(props);
         this.onClick = this.onClick.bind(this);
-        this.state = {
-            show: false,
-            status: false,
-        };
     }
     componentWillMount() {
         this.props.cartInit();
     }
     onClick() {
-        if (this.state.show) {
-            this.setState({ show: false });
+        if (this.props.state.cart.status) {
+            this.props.hideCart(this.props.state.cart.status);
         } else {
-            this.setState({ show: true });
+            this.props.showCart(this.props.state.cart.status);
         }
     }
     render() {
-        if (this.state.show) {
+        if (this.props.state.cart.status) {
             return (
                 <div>
                     <button
@@ -38,7 +36,7 @@ class CartButton extends Component {
                     Cart
                     <img className="cartIcon" src="../../../public/images/icons/cart.png" alt="cart" />
                     </button>
-                    <Cart show={this.state.show} />
+                    <Cart />
                     <svg className="octicon-bell" viewBox="-1 -1 2 2">
                         <circle className="circle" cx="0" cy="0" r="1" />
                     </svg>
@@ -61,13 +59,19 @@ class CartButton extends Component {
 }
 CartButton.PropTypes = {
     cartInit: PropTypes.func,
+    showCart: PropTypes.func,
+    hideCart: PropTypes.func,
 };
 function mapStateToProps(state) {
-    return {state};
+    return { state };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ cartInit }, dispatch);
+    return bindActionCreators({
+        cartInit,
+        showCart,
+        hideCart,
+    }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CartButton);
 

@@ -8,3 +8,4 @@ export const GET_RECIPES_BY_TAGTYPE = 'GET_RECIPES_BY_TAGTYPE';
 export const CART_INIT = 'CART_INIT';
 export const SHOW_CART = 'SHOW_CART';
 export const HIDE_CART = 'HIDE_CART';
+export const ADD_ITEM = 'ADD_ITEM';

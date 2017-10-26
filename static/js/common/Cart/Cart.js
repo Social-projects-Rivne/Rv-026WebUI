@@ -13,23 +13,12 @@ import {
 class Cart extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            cart: [],
-            interval:
-                setInterval(() => {
-                    this.setState({ cart: JSON.parse(localStorage.getItem('cart')) });
-                    //console.log(this.state.cart);
-                }, 500),
-        };
         this.onClick = this.onClick.bind(this);
     }
 
     componentWillMount() {
         let items = [];
         items = this.props.state.cart.all;
-    }
-    componentWillUnmount() {
-        clearInterval(this.state.interval);
     }
     onClick() {
         browserHistory.push('/orders/new');

@@ -2,8 +2,8 @@ const signinModel = {};
 
 signinModel.findUserByEmail = (email) => {
     const query = {
-        text: `SELECT u.id, u.email, u.password, r.user_role 
-        FROM users u 
+        text: `SELECT u.id, u.email, u.password, r.user_role, u.is_activated
+        FROM users u
         INNER JOIN users_roles r ON u.role_id = r.id
         WHERE u.email = $1`,
         values: [email],

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
-
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import ReactLoading from 'react-loading';
 
@@ -10,41 +11,32 @@ import SearchBar from './SearchBar';
 import DropDown from './DropDown';
 import SearchElements from './SearchElements';
 
-import wait from '../../../common/wait';
+import { changeProcess, changeType } from '../../../actions/searchAction';
 
-const centerDiv = {
-    margin: 'auto',
-    width: '10%',
-};
+import constants from '../../../common/constants';
+import wait from '../../../common/wait';
 
 class SearchComponent extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            elements: [],
-            type: 'searchByName',
-            item: '',
-            itemNow: '',
-            process: '',
             selectedOptions: [], // selected options' ids from MultiSelect form
             fetchedIngredients: [], // ingredient list after fetching from server
         };
 
-        this.typeChange = this.typeChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.onSearchItemNow = this.onSearchItemNow.bind(this);
-        this.elementSearch = this.elementSearch.bind(this);
         this.onMultiSelectChange = this.onMultiSelectChange.bind(this);
         this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.item !== this.state.item && this.state.item) {
-            this.setState({ process: 'fetching' });
+        if (prevProps.item !== this.props.item && this.props.item) {
+            wait(200)
+            .then(() => {
+                this.props.changeProcess(this.props.item, this.props.searchType, this.props.elements);
+            });
         }
-
-        if (prevState.type !== this.state.type && this.state.type === 'searchByIngredients') {
+        if (prevProps.searchType !== this.props.searchType && this.props.searchType === 'searchByIngredients') {
             axios.get('/api/recipes/getAllIngredients')
             .then((response) => {
                 const sortedData = response.data.sort((a, b) => {
@@ -61,100 +53,50 @@ class SearchComponent extends Component {
             .catch(error => console.log(error));
             return;
         }
-
-        if (prevState.type !== this.state.type) {
-            this.setState({ process: 'fetching' });
-            this.elementSearch(this.state.item);
-        }
     }
 
     onMultiSelectChange(arr) {
         this.setState({ selectedOptions: arr });
     }
 
-    onSearchItemNow(itemNow) {
-        this.setState({ itemNow });
-    }
-
     onSubmit(e) {
         e.preventDefault();
-        const itemNow = this.state.itemNow;
-        const type = this.state.type;
+        const { item, searchType } = this.props;
 
-        if (!itemNow || !type) {
+        if (!item || !searchType) {
             return;
         }
-
-        if (type === 'searchByName') {
-            browserHistory.push(`/recipes/search/name=${itemNow}`);
-        } else if (type === 'searchByTagCategory') {
-            browserHistory.push(`/recipes/search/tagtype=${itemNow}`);
+        this.props.changeType();
+        if (searchType === 'searchByName') {
+            browserHistory.push(`/recipes/search/name=${item}`);
+        } else if (searchType === 'searchByTagCategory') {
+            browserHistory.push(`/recipes/search/tagtype=${item}`);
         }
-
-        this.setState({ elements: [] });
-    }
-
-    requestToSearch(item, searchParam) {
-        wait(200)
-        .then(() => {
-            axios.get(`/api/recipes/autocomplete?item=${item}&&searchparam=${searchParam}`)
-                .then(response => this.setState({ process: 'fetched', elements: response.data }))
-                .catch(error => console.log(error));
-        })
-        .catch((err) => {
-            this.setState({ process: 'failedToFetch' });
-            console.log(err, 'Failed to get recipes data');
-        });
-    }
-
-    elementSearch(item) {
-        this.setState({ item });
-        if (item) {
-            switch (this.state.type) {
-            case 'searchByName':
-                this.requestToSearch(item, 'name');
-                break;
-            case 'searchByTagCategory':
-                this.requestToSearch(item, 'tagtype');
-                break;
-            default:
-                this.setState({ item: '', elements: [], process: 'fetched' });
-            }
-        } else {
-            this.setState({ item: '', elements: [], process: '' });
-        }
-    }
-
-    typeChange(type) {
-        this.setState({ type, elements: [] });
     }
 
     handleSearchButtonClick() {
+        this.props.changeType();
         browserHistory.push(`/recipes/search/ingredients=${this.state.selectedOptions.join(',')}`);
     }
 
     render() {
-        const phase = this.state.process;
-        const type = this.state.type;
+        const { searchType, process } = this.props;
         let searchElement = null;
         let inputSearch = null;
-        if (phase === 'fetching') {
-            searchElement = <ReactLoading style={centerDiv} type="bars" color="#444" height="70" width="20" />;
-        } else if (phase === 'fetched' && (type === 'searchByName' || type === 'searchByTagCategory')) {
-            searchElement = <SearchElements allElements={this.state.elements} />;
+        if (process === 'fetching') {
+            searchElement = <ReactLoading style={constants.centerDiv} type="bars" color="#444" height="70" width="20" />;
+        } else if (process === 'fetched' && (searchType === 'searchByName' || searchType === 'searchByTagCategory')) {
+            searchElement = <SearchElements allElements={this.props.elements} />;
         }
 
-        if (type === 'searchByName' || type === 'searchByTagCategory') {
+        if (searchType === 'searchByName' || searchType === 'searchByTagCategory') {
             inputSearch = (
                 <form onSubmit={this.onSubmit}>
-                    <SearchBar
-                        onSearchItemNow={this.onSearchItemNow}
-                        onSearchItemChange={this.elementSearch}
-                    />
+                    <SearchBar />
                     <button type="submit" className="btn btn-primary btn-search-go">Go!</button>
                 </form>
             );
-        } else if (type === 'searchByIngredients') {
+        } else if (searchType === 'searchByIngredients') {
             inputSearch = (
                 <div style={{ display: 'flex' }}>
                     <MultiSelect
@@ -171,8 +113,6 @@ class SearchComponent extends Component {
                     </button>
                 </div>
             );
-        } else if (type === 'searchByTags') {
-            inputSearch = <div>multy search tags</div>;
         }
         return (
             <section className="search-section">
@@ -180,7 +120,7 @@ class SearchComponent extends Component {
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="input-group header-search-group">
-                            <DropDown onSearchTypeChange={this.typeChange} />
+                            <DropDown />
                             {inputSearch}
                             {searchElement}
                         </div>
@@ -192,6 +132,28 @@ class SearchComponent extends Component {
 }
 
 SearchComponent.propTypes = {
+    changeProcess: PropTypes.func,
+    changeType: PropTypes.func,
+    elements: PropTypes.array,
+    item: PropTypes.string,
+    process: PropTypes.string,
+    searchType: PropTypes.string,
 };
 
-export default SearchComponent;
+function mapStateToProps(state) {
+    return {
+        searchType: state.search.searchType,
+        elements: state.search.elements,
+        item: state.search.item,
+        process: state.search.process,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        changeProcess,
+        changeType,
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchComponent);

@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import {
+    typeChange,
+} from '../../../actions/searchAction';
 
 class DropDown extends Component {
     constructor(props) {
@@ -9,7 +15,8 @@ class DropDown extends Component {
     }
 
     onChange(event) {
-        this.props.onSearchTypeChange(event.target.value);
+        const { item } = this.props;
+        this.props.typeChange(event.target.value);
     }
 
     render() {
@@ -18,15 +25,26 @@ class DropDown extends Component {
                 <option value="searchByName">Name</option>
                 <option value="searchByTagCategory">Category</option>
                 <option value="searchByIngredients">Ingredients</option>
-                <option value="searchByTags">Tags</option>
             </select>
         );
     }
 }
 
 DropDown.propTypes = {
-    onSearchTypeChange: PropTypes.func,
+    typeChange: PropTypes.func,
+    item: PropTypes.string,
 };
 
+function mapStateToProps(state) {
+    return {
+        item: state.search.item,
+    };
+}
 
-export default DropDown;
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        typeChange,
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DropDown);

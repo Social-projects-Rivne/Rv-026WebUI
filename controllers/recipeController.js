@@ -284,10 +284,10 @@ recipeController.getRecepiesByTagType = (req, res) => {
     });
 };
 
-recipeController.autocompleteRecepies = (req, res, next) => {console.log(req.query)
+recipeController.autocompleteRecepies = (req, res, next) => {
     const recipeItem = req.query.item;
     const searchparam = req.query.searchparam;
-    if (searchparam === 'name') {
+    if (searchparam === 'searchByName') {
         db.query(recipeModel.findTop5RicipesByName(recipeItem), (err, result) => {
             if (err) {
                 console.log('error!');
@@ -302,7 +302,7 @@ recipeController.autocompleteRecepies = (req, res, next) => {console.log(req.que
                 res.send(recipesNotDeleted);
             }
         });
-    } else if (searchparam === 'tagtype') {
+    } else if (searchparam === 'searchByTagCategory') {
         db.query(recipeModel.findTop5RicipesByTagType(recipeItem), (err, result) => {
             if (err) {
                 console.log('error!');

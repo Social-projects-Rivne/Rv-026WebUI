@@ -31,7 +31,6 @@ class EditableImage extends Component {
         status: PropTypes.string,
         fieldName: PropTypes.string,
         onSave: PropTypes.func,
-        style: PropTypes.object,
         link: PropTypes.string,
     }
 
@@ -115,6 +114,7 @@ class EditableImage extends Component {
                         <img src={this.props.link} alt="" width="250" />
                     </div>
                     <input
+                        className="form-control"
                         type="text"
                         defaultValue={this.props.link}
                         ref={(input) => { this.input = input; }}/>

@@ -32,13 +32,40 @@
     -o-transform: translateY(-35px);
     transform: translateY(-35px); } }
 
+@-webkit-keyframes text {
+    0% { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
+    30% { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
+    45% { -webkit-transform: translate3d(0, -5px, 0); transform: translate3d(0, -5px, 0); }
+    100% {    -webkit-transform: translate3d(0, 0, 0);    transform: translate3d(0, 0, 0); } }
+@keyframes text {
+    0% { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
+    30% { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
+    45% { -webkit-transform: translate3d(0, -5px, 0); transform: translate3d(0, -5px, 0); }
+    100% {    -webkit-transform: translate3d(0, 0, 0);    transform: translate3d(0, 0, 0); } }
 
 .UserComponent {
-    margin-top: 50px;
+    margin-top: 25px;
     font-size: 20px;
     font-weight: 900;
     word-wrap: break-word;
+    background: rgba(255,255,255,0.6);
+    padding: 50px 15px;
 
+    .status-btn{
+      border: none;
+      transition: 0.5s;
+      border: 3px solid transparent;
+      margin: 5px;
+      &:hover{
+          border: 3px solid #ccc;
+          -webkit-transition: all .35s ease;
+          transition: all .35s ease;
+          animation: text 1000ms ease-in;
+          border-radius: 10px;
+          font-size: 18px;
+          color: #fff;
+          text-shadow: 1px 1px 1px black;
+    }
     input, textarea {
         font-size: 20px;
         font-weight: 900;
@@ -174,4 +201,5 @@
       -webkit-animation: bounce 2s;
       animation: bounce 2s;
     }
+  }
 }

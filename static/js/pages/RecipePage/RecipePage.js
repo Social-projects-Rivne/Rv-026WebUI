@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Link } from 'react-router';
 import ReactLoading from 'react-loading';
 import React, { Component } from 'react';
 import wait from '../../common/wait';
@@ -10,30 +9,16 @@ import EditableText from '../../common/EditableText';
 
 import Header from '../../common/Header';
 
-const photoStyle = {
-    borderRadius: 10,
-    width: '100%',
-    height: 'auto',
-    maxHeight: '300px',
-    maxWidth: '300px',
-    margin: 'auto',
-};
-
 const h1NameStyle = {
     color: '#357786',
     textAlign: 'center',
+    fontSize: '36px',
+    textTransform: 'uppercase',
 };
 
 const h3NameStyle = {
     color: '#357786',
     textAlign: 'center',
-};
-
-const ulIngredients = {
-    float: 'none',
-    display: 'table',
-    margin: '0 auto',
-    width: 'auto',
 };
 
 const centerDiv = {
@@ -159,11 +144,12 @@ class RecipePage extends Component {
             return (
               <div>
                 <Header />
-                <div className="container">
+                <div className="container recipe-page">
                     <div className="row">
-                        <div className="col-sm-5 text-center">
-                        {recipe.is_owner 
-                            ? 
+                        <div className="col-sm-12 text-center">
+                        <div style={h1NameStyle}>
+                        {recipe.is_owner
+                            ?
                         <EditableText
                             updateId={recipe.id}
                             fieldName="title"
@@ -171,36 +157,39 @@ class RecipePage extends Component {
                             style={h1NameStyle}
                             text={recipe.title}
                             onSave={this.saveToDBText}
-                            type={'input'}/> 
-                            : 
+                            type={'input'} />
+                            :
                         <h1 style={h1NameStyle}>{recipe.title}</h1>}
-
-                        {recipe.is_owner 
+                        </div>
+                        {recipe.is_owner
                             ?
                         <EditableImage
                             updateId={recipe.id}
-                            style={photoStyle}
                             fieldName="photo"
                             status={this.state.photoStatus}
                             link={recipe.photo}
-                            onSave={this.saveToDBText}/>
+                            onSave={this.saveToDBText} />
                             :
-                        <img src={recipe.photo} style={photoStyle} alt="" />}
-                        </div>
-                        <div className="col-sm-7">
-                            <h3 style={h3NameStyle}>Rating:{recipe.rating}</h3>
-                            <h3 style={h3NameStyle}>Ingredients:</h3>
-                            <EditableList 
-                                owner = {recipe.is_owner}
-                                updateId={recipe.id}
-                                fieldName="ingredients"
-                                data={recipe.ingredients}
-                                status={this.state.ingredientsStatus}
-                                onSave={this.saveToDBList}/>
+                        <img src={recipe.photo} alt="recipe-image" />}
+                        <h3 style={h3NameStyle}>Rating:{recipe.rating} <span className="glyphicon glyphicon-star"></span></h3>
                         </div>
                     </div>
-                    <div>
-                    {recipe.is_owner 
+                    <div className="row">
+                    <div className="col-sm-3">
+                        <div className="ingredients">
+                        <h3>Ingredients:</h3>
+                        <EditableList
+                            owner = {recipe.is_owner}
+                            updateId={recipe.id}
+                            fieldName="ingredients"
+                            data={recipe.ingredients}
+                            status={this.state.ingredientsStatus}
+                            onSave={this.saveToDBList} />
+                        </div>
+                    </div>
+                    <div className="col-sm-9">
+                    <div className="recipe-description">
+                    {recipe.is_owner
                         ?
                     <EditableText
                         owner = {recipe.is_owner}
@@ -212,9 +201,11 @@ class RecipePage extends Component {
                         type={'textarea'}/>
                         :
                     <p>{recipe.description}</p>
+
                     }
                     </div>
-                    <div> Tags:&ensp;
+
+                    <div className="tags"> <h3>Tags:</h3>
                         <EditableList
                             owner = {recipe.is_owner}
                             updateId={recipe.id}
@@ -223,9 +214,10 @@ class RecipePage extends Component {
                             status={this.state.tagsStatus}
                             onSave={this.saveToDBList}/>
                     </div>
-
+                    </div>
                     </div>
                 </div>
+              </div>
             );
         } else if (phase === 'failedToFetch') {
             return (

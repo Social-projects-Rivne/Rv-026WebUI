@@ -1,0 +1,147 @@
+
+.recipe-page{
+  background: rgba(255,255,255,0.5);
+  border-radius: 10px;
+  margin-top: 25px;
+  padding: 50px 15px;
+
+  .control-button{
+    display: block;
+    width: 100%;
+  }
+
+  button{
+    color: #344847 !important;
+    padding: 5px 10px;
+    background-color: none !important;
+    border: 1px solid transparent;
+    margin: 5px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    &:hover{
+      text-decoration: none !important;
+      box-shadow: 0 0 10px rgba(53,119,134,0.5);
+    }
+  }
+
+  input[type="text"]{
+    max-width: 250px;
+    margin-top: 20px;
+    margin: auto;
+    margin-top: 20px;
+    display: block;
+  }
+
+  label{
+    color: black;
+    font-size: 16px;
+  }
+
+  textarea{
+    width: 100%;
+    resize: vertical;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(53,119,134,0.5);
+  }
+
+  .btn{
+    margin: 5px !important;
+    font-size: 12px !important;
+    padding: 5px !important;
+    color: #fff !important;
+    display: inline-block;
+    float: left;
+  }
+
+  h1{
+    margin-bottom: 20px;
+  }
+  h3{
+    .glyphicon{
+      color: #FFA500;
+    }
+  }
+  img{
+    max-width: 500px;
+    max-width: 500px;
+    border-radius: 10px;
+    width: 100%;
+    height: auto;
+    margin: auto;
+  }
+
+  .recipe-description{
+    font-size: 16px;
+    margin-top: 20px;
+  }
+
+  .ingredients{
+    h3{
+      color: rgb(53, 119, 134);
+    }
+    .list-group{
+      list-style: none;
+      li{
+        font-weight: 600;
+        border-radius: 20px;
+        color: #357786;
+        height: 42px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+                align-items: center;
+        &::before{
+          content: "\e013";
+          font-family: 'Glyphicons Halflings';
+          color: #fff;
+          padding: 1px 2px;
+          background: #357786;
+          border-radius: 31px;
+          font-size: 8px;
+          margin-right: 10px;
+          display: inline-block;
+          vertical-align: bottom;
+          border: 5px solid #5F9EA0;
+        }
+      }
+    }
+  }
+
+  .tags{
+    font-size: 18px;
+    font-weight: 600;
+    color: #357786;
+    .list-group{
+      margin-top: 10px;
+      display: block;
+      width: 100%;
+      float: left;
+        li{
+          display: -webkit-box !important;
+          display: -ms-flexbox !important;
+          display: flex !important;
+          list-style: none;
+          background: #5E9DFA;
+          padding: 5px 10px;
+          font-weight: 600;
+          font-size: 12px;
+          color: #fff;
+          margin-right: 5px;
+          border-radius: 5px;
+          float: left;
+          margin-bottom: 5px;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+                  align-items: center;
+        &:hover{
+          opacity: 0.8;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

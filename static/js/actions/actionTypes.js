@@ -9,3 +9,5 @@ export const CART_INIT = 'CART_INIT';
 export const SHOW_CART = 'SHOW_CART';
 export const HIDE_CART = 'HIDE_CART';
 export const ADD_ITEM = 'ADD_ITEM';
+
+export const PROFILE_INIT = 'PROFILE_INIT';

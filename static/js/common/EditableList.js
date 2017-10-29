@@ -131,52 +131,52 @@ class ItemsList extends Component {
                     className = "btn btn-danger btn-sm" > Remove < /button> : null}</li >
                 }, this);
         if (this.state.editing) {
-            return ( 
+            return (
                 <div> { <AddItemForm addItem = { this.addItem.bind(this) }/>}
                     <div>
-                        <ul className = "list-group" > 
-                            { items } 
-                        </ul> 
-                    </div> 
-                    <div> 
-                        { this.state.message } 
-                    </div> 
+                        <ul className = "list-group" >
+                            { items }
+                        </ul>
+                    </div>
                     <div>
+                        { this.state.message }
+                    </div>
+                    <div className="control-button">
                         <button
                             style = { buttonCommon }
                             onClick = { this.saveEdit }
                             disabled = { this.state.saving } >
-                        Save 
-                        </button> 
+                        Save
+                        </button>
                         <button
                             style = { buttonCommon }
                             onClick = { this.cancelEdit }
                             disabled = { this.state.saving } >
-                        Cancel 
-                        </button> 
-                        { this.renderSavingAnimation() } 
+                        Cancel
+                        </button>
+                        { this.renderSavingAnimation() }
                     </div>
                 </div>
                 );
             }
-            return ( 
+            return (
                 <div>
                 <div>
-                <ul className = "list-group" > 
-                { items } 
+                <ul className = "list-group" >
+                { items }
                 </ul>
                 </div>
-                <div > { this.state.message } </div> 
+                <div > { this.state.message } </div>
                 { this.renderSavingAnimation() }
-                    { this.props.owner ? 
-                    <button 
+                    { this.props.owner ?
+                    <button
                         style = { buttonCommon }
                         onClick = { this.edit }>
                         Edit
                         </button>
-                        : 
+                        :
                         null
-                    }         
+                    }
                     </div>
                 );
             }
@@ -194,21 +194,21 @@ class ItemsList extends Component {
             }
 
             render() {
-                return ( 
+                return (
                     <form className = "form-inline" ref = "itemForm" onSubmit = { this.createItem.bind(this) } >
                     <div className = "form-group">
                     <label htmlFor = "itemItem" >
-                    Item Name 
+                    Item Name
                     <input type = "text"
                         id = "itemItem"
                         ref = "itemName"
                         className = "form-control" / >
-                    </label> 
-                    </div> 
                     <button type = "submit"
-                        className = "btn btn-primary"> 
-                        Add item 
-                        </button>
+                        className = "btn btn-primary">
+                        Add item
+                    </button>
+                    </label>
+                    </div>
                     </form>
                 )
             }

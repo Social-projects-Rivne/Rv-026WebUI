@@ -148,7 +148,7 @@ class EditableText extends Component {
             return (
                 <div>
                     {this.renderEditableElement()}
-                    <div>
+                    <div className="control-button" >
                         <button
                             style={buttonCommon}
                             onClick={this.saveEdit}

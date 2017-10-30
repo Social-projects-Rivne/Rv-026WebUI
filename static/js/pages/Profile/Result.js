@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ImageEdit from './ImageEdit';
-import InlineEditRadio from './InlineEditRadio';
 import InlineEditText from './InlineEditText';
 import ListComponent from './ListComponent';
 import constants from '../../common/constants';
@@ -12,7 +11,8 @@ class Result extends Component {
     }
 
     render() {
-        const profile = this.props.result.map((result) => {
+        const result = this.props.result[0].rows;
+        const profile = result.map((result) => {
             return (
                 <div className="row UserComponent" key={result.id}>
                     <div className="col-sm-5 text-center">

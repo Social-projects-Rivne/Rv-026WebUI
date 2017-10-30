@@ -4,6 +4,7 @@ import {
     TestReducer,
     CartReducer,
     SearchReducer,
+    UserReducer,
 } from '../reducers';
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     testData: TestReducer,
     cart: CartReducer,
     search: SearchReducer,
+    profile: UserReducer,
 });
 
 export default rootReducer;

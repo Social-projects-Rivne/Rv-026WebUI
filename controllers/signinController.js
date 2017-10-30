@@ -20,6 +20,8 @@ signinController.login = (req, res) => {
             response = 'No such email';
         } else if (queryResult.password !== credentials.password) {
             response = 'Email and password do not match';
+        } else if (!queryResult.is_activated) {
+            response = 'Email is not activated';
         } else {
             response = 'ok';
             // adding cookie session to the response

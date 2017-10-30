@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import ReactLoading from 'react-loading';
 import { Grid } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -92,7 +93,14 @@ class RecipesPage extends Component {
     }
 
     render() {
-        const { process, recipes } = this.props;
+        const { process, recipes } = this.props;console.log(recipes);
+        let recipesComponent = null;
+        if (_.isEmpty(recipes)) {
+            recipesComponent = <p className="recipe-not-found">Recipes are not found:( Try again</p>;
+        } else {
+            recipesComponent = <Recipes result={this.props.recipes} />;
+        }
+
         if (process === 'fetching') {
             return (
                 <div>
@@ -106,7 +114,7 @@ class RecipesPage extends Component {
                     <Header />
                     <Grid>
                         <SearchComponent />
-                        <Recipes result={this.props.recipes} />
+                        {recipesComponent}
                     </Grid>
                 </div>
             );

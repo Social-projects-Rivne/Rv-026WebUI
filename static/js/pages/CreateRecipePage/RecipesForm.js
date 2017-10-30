@@ -128,7 +128,7 @@ class RecipesForm extends Component {
             clearTimeout(this.titleCheckTimeout);
         }
         this.titleCheckTimeout = setTimeout(() => {
-            axios.post('/api/checkTitleExistence', { title })
+            axios.get(`/api/checkTitleExistence?title=${title}`)
                 .then((res) => {
                     if (res.data === 'titleExists') {
                         this.setState({ titleExists: 'Title exist' });

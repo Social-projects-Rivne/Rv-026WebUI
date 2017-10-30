@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import {
+    inputChange,
+    requestToAutocomplete,
+} from '../../../actions/searchAction';
 
 class SearchBar extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { item: '' };
-    }
-
     onInputChange(item) {
-        this.setState({ item });
-        this.props.onSearchItemChange(item);
-        this.props.onSearchItemNow(item);
+        const { searchType } = this.props;
+        this.props.inputChange(item, searchType);
+        this.props.requestToAutocomplete(item, searchType);
     }
 
     render() {
@@ -20,7 +21,7 @@ class SearchBar extends Component {
                 type="text"
                 className="form-control input-search"
                 placeholder="Find your dish"
-                value={this.state.item}
+                value={this.props.item}
                 onChange={event => this.onInputChange(event.target.value)}
             />
         );
@@ -28,8 +29,24 @@ class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
-    onSearchItemChange: PropTypes.func,
-    onSearchItemNow: PropTypes.func,
+    inputChange: PropTypes.func,
+    requestToAutocomplete: PropTypes.func,
+    item: PropTypes.string,
+    searchType: PropTypes.string,
 };
 
-export default SearchBar;
+function mapStateToProps(state) {
+    return {
+        item: state.search.item,
+        searchType: state.search.searchType,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        inputChange,
+        requestToAutocomplete,
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

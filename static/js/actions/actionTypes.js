@@ -10,4 +10,9 @@ export const SHOW_CART = 'SHOW_CART';
 export const HIDE_CART = 'HIDE_CART';
 export const ADD_ITEM = 'ADD_ITEM';
 
+export const TYPE_CHANGE = 'TYPE_CHANGE';
+export const INPUT_CHANGE = 'INPUT_CHANGE';
+export const REQUEST_TO_AUTOCOMPLETE = 'REQUEST_TO_AUTOCOMPLETE';
+export const CHANGE_PROCESS = 'CHANGE_PROCESS';
+export const CHANGE_TYPE = 'CHANGE_TYPE';
 export const PROFILE_INIT = 'PROFILE_INIT';

@@ -7,6 +7,11 @@ import db from '../db';
 import recipeModel from '../models/recipeModel';
 import tagModel from '../models/tagModel';
 import ingredientModel from '../models/ingredientModel';
+import {
+    SEARCH_BY_NAME,
+    SEARCH_BY_TAG_CATEGORY,
+    SEARCH_BY_INGREDIENTS,
+} from '../config';
 
 import signinController from '../controllers/signinController';
 
@@ -186,7 +191,7 @@ recipeController.createRecipe = (req, res) => {
 };
 
 recipeController.checkTitleExistence = (req, res) => {
-    const titleForCheck = req.body.title;
+    const titleForCheck = req.query.title;
 
     db.query(recipeModel.findTitle(titleForCheck), (err, result) => {
         if (err) {
@@ -284,42 +289,41 @@ recipeController.getRecepiesByTagType = (req, res) => {
     });
 };
 
-recipeController.autocompleteRecepiesByTagType = (req, res, next) => {
-    var tagType = req.body.item;
-    db.query(recipeModel.findTop5RicipesByTagType(tagType), (err, result) => {
-        if (err) {
-            console.log('error!');
-            return next(err);
-        } else {
-            var recipes = result.rows;
-            var recipesNotDeleted = recipes.filter((o) => {
-                if (!o.is_deleted) {
-                    return recipes.indexOf(o) !== -1;
-                }
-            });
-            res.send(recipesNotDeleted);
-        }
-    });
-}
-
-recipeController.autocompleteRecepiesByName = (req, res, next) => {
-    var recipeName = req.body.item;
-    db.query(recipeModel.findTop5RicipesByName(recipeName), (err, result) => {
-        if (err) {
-            console.log('error!');
-            return next(err);
-        } else {
-            var recipes = result.rows;
-            var recipesNotDeleted = recipes.filter((o) => {
-                if (!o.is_deleted) {
-                    return recipes.indexOf(o) !== -1;
-                }
-            });
-            res.send(recipesNotDeleted);
-        }
-    });
-
-}
+recipeController.autocompleteRecepies = (req, res, next) => {
+    const recipeItem = req.query.item;
+    const searchparam = req.query.searchparam;
+    if (searchparam === SEARCH_BY_NAME) {
+        db.query(recipeModel.findTop5RicipesByName(recipeItem), (err, result) => {
+            if (err) {
+                console.log('error!');
+                return next(err);
+            } else {
+                const recipes = result.rows;
+                const recipesNotDeleted = recipes.filter((o) => {
+                    if (!o.is_deleted) {
+                        return recipes.indexOf(o) !== -1;
+                    }
+                });
+                res.send(recipesNotDeleted);
+            }
+        });
+    } else if (searchparam === SEARCH_BY_TAG_CATEGORY) {
+        db.query(recipeModel.findTop5RicipesByTagType(recipeItem), (err, result) => {
+            if (err) {
+                console.log('error!');
+                return next(err);
+            } else {
+                const recipes = result.rows;
+                const recipesNotDeleted = recipes.filter((o) => {
+                    if (!o.is_deleted) {
+                        return recipes.indexOf(o) !== -1;
+                    }
+                });
+                res.send(recipesNotDeleted);
+            }
+        });
+    }
+};
 
 const recipeHelper = (dbResponse, cookie_id) => {
     const ingredients = [];

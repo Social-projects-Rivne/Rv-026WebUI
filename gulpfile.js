@@ -3,7 +3,7 @@ const babel = require('gulp-babel');
 const sass = require('gulp-sass');
 const webpack = require('webpack-stream');
 const nodemon = require('gulp-nodemon');
-const webpackconfig = require('./webpack2.config.js');
+const webpackconfig = require('./webpack.config.js');
 
 var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;

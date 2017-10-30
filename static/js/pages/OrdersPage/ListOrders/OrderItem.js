@@ -11,11 +11,20 @@ import { ROLE_COOK } from '../../../../../config';
 class OrderItem extends Component {
     render() {
         const role = ROLE_COOK;
-        const { order } = this.props;
-        const { order_contex_id, recipes_id, recipes_title, count } = this.props.order;
+        const { order, orderOwnerCookId } = this.props;
+        const { order_contex_id, recipes_id, recipes_title, count, owner_id } = this.props.order;
         const recipesInOrder = createArrayObjectsFromArrays(order_contex_id, recipes_id, recipes_title, count);
+        
+        let renderStatus = null;
+        const flag = owner_id !== orderOwnerCookId;
+        if (flag) {
+            renderStatus = <ChangeStatus onStatusSubmit={this.props.onStatusSubmit} role={role} orderId={order.id} status={order.status} />;
+        } else {
+            renderStatus = null;
+        }
+
         return (
-            <div className="orders-flexbox-table" key={order.id}>
+            <div className={`orders-flexbox-table ${!flag ? 'my-order' : ''}`} key={order.id}>
                 <div className="cell">{order.id}</div>
                 <div className="cell">
                     <Link to={`/user/${order.owner_id}`}>{order.fullname}</Link>
@@ -27,10 +36,10 @@ class OrderItem extends Component {
                     <RecipesInOrder recipesInOrder={recipesInOrder} />
                 </div>
                 <div className="cell">
-                    {order.price} {"\u20B4"}
+                    {order.price} {'\u20B4'}
                 </div>
                 <div className="cell">
-                    <ChangeStatus onStatusSubmit={this.props.onStatusSubmit} role={role} orderId={order.id} status={order.status} />
+                    {renderStatus}
                 </div>
                 <div className="cell">
                     {order.comment}
@@ -43,6 +52,7 @@ class OrderItem extends Component {
 OrderItem.PropTypes = {
     order: PropTypes.object,
     onStatusSubmit: PropTypes.func,
+    orderOwnerCookId: PropTypes.number,
 };
 
 export default OrderItem;

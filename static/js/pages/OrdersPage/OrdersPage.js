@@ -14,6 +14,7 @@ class OrdersPage extends Component {
 
         this.state = {
             orders: null,
+            orderOwnerCookId: null,
             process: 'fetching',
         };
         this.onStatusSubmit = this.onStatusSubmit.bind(this);
@@ -46,7 +47,6 @@ class OrdersPage extends Component {
                     this.setState({ process: 'failedToFetch' });
                     console.log(err, 'Failed to get orders data');
                 });
-                console.log('good!');
             }
         });
     }
@@ -54,14 +54,14 @@ class OrdersPage extends Component {
     getAllOrders() {
         axios.get('/api/orders')
         .then((res) => {
-            this.setState({ process: 'fetched', orders: res.data });
+            this.setState({ process: 'fetched', orders: res.data.orders, orderOwnerCookId: res.data.orderOwnerCookId });
         }).catch((error) => {
             console.log(error);
         });
     }
 
     render() {
-        const orders = this.state.orders;
+        const { orders, orderOwnerCookId } = this.state;
         const phase = this.state.process;
         if (phase === 'fetching') {
             return (
@@ -75,7 +75,7 @@ class OrdersPage extends Component {
                 <div>
                     <Header />
                     <div className="container">
-                        <ListOrders onStatusSubmit={this.onStatusSubmit} orders={orders} />
+                        <ListOrders onStatusSubmit={this.onStatusSubmit} orders={orders} orderOwnerCookId={orderOwnerCookId} />
                     </div>
                 </div>
             );

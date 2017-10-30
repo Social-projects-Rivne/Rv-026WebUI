@@ -60,12 +60,13 @@ orderController.addOrder = (req, res) => {
 };
 
 orderController.getAllOrders = (req, res) => {
+    const orderOwnerCookId = signinController.sessions[req.cookies.access];
     db.query(orderModel.findAllOrders(), (err, result) => {
         if (err) {
             console.log(err);
         } else {
             const orders = result.rows;
-            res.send(orders);
+            res.send({ orders, orderOwnerCookId });
         }
     });
 };

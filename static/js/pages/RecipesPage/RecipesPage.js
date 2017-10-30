@@ -93,7 +93,7 @@ class RecipesPage extends Component {
     }
 
     render() {
-        const { process, recipes } = this.props;console.log(recipes);
+        const { process, recipes } = this.props;
         let recipesComponent = null;
         if (_.isEmpty(recipes)) {
             recipesComponent = <p className="recipe-not-found">Recipes are not found:( Try again</p>;

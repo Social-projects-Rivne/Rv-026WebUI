@@ -4,6 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import {
+    SEARCH_BY_NAME,
+    SEARCH_BY_TAG_CATEGORY,
+    SEARCH_BY_INGREDIENTS,
+} from '../../../../../config';
+import {
     typeChange,
 } from '../../../actions/searchAction';
 
@@ -22,9 +27,9 @@ class DropDown extends Component {
     render() {
         return (
             <select className="form-control select-search" onChange={this.onChange}>
-                <option value="searchByName">Name</option>
-                <option value="searchByTagCategory">Category</option>
-                <option value="searchByIngredients">Ingredients</option>
+                <option value={SEARCH_BY_NAME}>Name</option>
+                <option value={SEARCH_BY_TAG_CATEGORY}>Category</option>
+                <option value={SEARCH_BY_INGREDIENTS}>Ingredients</option>
             </select>
         );
     }

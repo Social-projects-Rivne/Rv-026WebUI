@@ -15,6 +15,11 @@ import { changeProcess, changeType } from '../../../actions/searchAction';
 
 import constants from '../../../common/constants';
 import wait from '../../../common/wait';
+import {
+    SEARCH_BY_NAME,
+    SEARCH_BY_TAG_CATEGORY,
+    SEARCH_BY_INGREDIENTS,
+} from '../../../../../config';
 
 class SearchComponent extends Component {
     constructor(props) {
@@ -36,7 +41,7 @@ class SearchComponent extends Component {
                 this.props.changeProcess(this.props.item, this.props.searchType, this.props.elements);
             });
         }
-        if (prevProps.searchType !== this.props.searchType && this.props.searchType === 'searchByIngredients') {
+        if (prevProps.searchType !== this.props.searchType && this.props.searchType === SEARCH_BY_INGREDIENTS) {
             axios.get('/api/recipes/getAllIngredients')
             .then((response) => {
                 const sortedData = response.data.sort((a, b) => {
@@ -67,9 +72,9 @@ class SearchComponent extends Component {
             return;
         }
         this.props.changeType();
-        if (searchType === 'searchByName') {
+        if (searchType === SEARCH_BY_NAME) {
             browserHistory.push(`/recipes/search/name=${item}`);
-        } else if (searchType === 'searchByTagCategory') {
+        } else if (searchType === SEARCH_BY_TAG_CATEGORY) {
             browserHistory.push(`/recipes/search/tagtype=${item}`);
         }
     }
@@ -85,18 +90,18 @@ class SearchComponent extends Component {
         let inputSearch = null;
         if (process === 'fetching') {
             searchElement = <ReactLoading style={constants.centerDiv} type="bars" color="#444" height="70" width="20" />;
-        } else if (process === 'fetched' && (searchType === 'searchByName' || searchType === 'searchByTagCategory')) {
+        } else if (process === 'fetched' && (searchType === SEARCH_BY_NAME || searchType === SEARCH_BY_TAG_CATEGORY)) {
             searchElement = <SearchElements allElements={this.props.elements} />;
         }
 
-        if (searchType === 'searchByName' || searchType === 'searchByTagCategory') {
+        if (searchType === SEARCH_BY_NAME || searchType === SEARCH_BY_TAG_CATEGORY) {
             inputSearch = (
                 <form onSubmit={this.onSubmit}>
                     <SearchBar />
                     <button type="submit" className="btn btn-primary btn-search-go">Go!</button>
                 </form>
             );
-        } else if (searchType === 'searchByIngredients') {
+        } else if (searchType === SEARCH_BY_INGREDIENTS) {
             inputSearch = (
                 <div style={{ display: 'flex' }}>
                     <MultiSelect

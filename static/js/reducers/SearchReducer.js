@@ -1,3 +1,5 @@
+import { SEARCH_BY_NAME } from '../../../config';
+
 import {
     TYPE_CHANGE,
     INPUT_CHANGE,
@@ -6,7 +8,7 @@ import {
     CHANGE_TYPE,
 } from '../actions/actionTypes';
 
-const INITIAL_STATE = { searchType: 'searchByName', elements: [], item: '', process: '' };
+const INITIAL_STATE = { searchType: SEARCH_BY_NAME, elements: [], item: '', process: '' };
 
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { SEARCH_BY_NAME } from '../../../config';
 import {
     TYPE_CHANGE,
     INPUT_CHANGE,
@@ -58,7 +59,7 @@ export function changeProcess(item, searchType, elements) {
 
 export function changeType() {
     const payload = {
-        searchType: 'searchByName',
+        searchType: SEARCH_BY_NAME,
         item: '',
         elements: [],
     };

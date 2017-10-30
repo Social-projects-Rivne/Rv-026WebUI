@@ -25,3 +25,7 @@ export const COLOR_DELIVERED = '#00fffb';
 export const COLOR_PAID = '#00ff4d';
 export const COLOR_CANCELED = '#eb4242';
 export const COLOR_REOPENED = '#b73c6f';
+
+export const SEARCH_BY_NAME = 'SEARCH_BY_NAME';
+export const SEARCH_BY_TAG_CATEGORY = 'SEARCH_BY_TAG_CATEGORY';
+export const SEARCH_BY_INGREDIENTS = 'SEARCH_BY_INGREDIENTS';

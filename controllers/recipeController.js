@@ -7,6 +7,11 @@ import db from '../db';
 import recipeModel from '../models/recipeModel';
 import tagModel from '../models/tagModel';
 import ingredientModel from '../models/ingredientModel';
+import {
+    SEARCH_BY_NAME,
+    SEARCH_BY_TAG_CATEGORY,
+    SEARCH_BY_INGREDIENTS,
+} from '../config';
 
 import signinController from '../controllers/signinController';
 
@@ -287,7 +292,7 @@ recipeController.getRecepiesByTagType = (req, res) => {
 recipeController.autocompleteRecepies = (req, res, next) => {
     const recipeItem = req.query.item;
     const searchparam = req.query.searchparam;
-    if (searchparam === 'searchByName') {
+    if (searchparam === SEARCH_BY_NAME) {
         db.query(recipeModel.findTop5RicipesByName(recipeItem), (err, result) => {
             if (err) {
                 console.log('error!');
@@ -302,7 +307,7 @@ recipeController.autocompleteRecepies = (req, res, next) => {
                 res.send(recipesNotDeleted);
             }
         });
-    } else if (searchparam === 'searchByTagCategory') {
+    } else if (searchparam === SEARCH_BY_TAG_CATEGORY) {
         db.query(recipeModel.findTop5RicipesByTagType(recipeItem), (err, result) => {
             if (err) {
                 console.log('error!');

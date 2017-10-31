@@ -63,9 +63,8 @@
     width: 100%;
     background: #fff;
     border-radius: 15px;
-    // display: inline-block;
     &:hover {
-        animation: shake  0.4s linear;
+        //animation: shake  0.4s linear;
         -webkit-box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
         .AddToCartButton{

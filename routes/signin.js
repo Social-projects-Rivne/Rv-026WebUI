@@ -9,5 +9,4 @@ router.get('/api/logout', signinController.logout);
 router.get('/api/checkLogin', signinController.checkLogin);
 router.get('/api/checkLoginCook', signinController.checkLoginCook);
 
-
 module.exports = router;

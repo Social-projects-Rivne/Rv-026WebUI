@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import {
     RecipesReducer,
-    TestReducer,
     CartReducer,
     SearchReducer,
     UserReducer,
@@ -9,7 +8,6 @@ import {
 
 const rootReducer = combineReducers({
     recipes: RecipesReducer,
-    testData: TestReducer,
     cart: CartReducer,
     search: SearchReducer,
     profile: UserReducer,

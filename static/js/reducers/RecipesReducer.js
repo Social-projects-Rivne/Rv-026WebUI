@@ -12,13 +12,9 @@ const INITIAL_STATE = { all: [], process: 'fetching' };
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
     case GET_ALL_RECIPES:
-        return { ...state, all: action.payloadRecipes, process: 'fetched' };
     case GET_RECIPES_BY_INGREDIENTS:
-        return { ...state, all: action.payloadRecipes, process: 'fetched' };
     case GET_RECIPES_BY_TAG_ID:
-        return { ...state, all: action.payloadRecipes, process: 'fetched' };
     case GET_RECIPES_BY_NAME:
-        return { ...state, all: action.payloadRecipes, process: 'fetched' };
     case GET_RECIPES_BY_TAGTYPE:
         return { ...state, all: action.payloadRecipes, process: 'fetched' };
     case CLEAR_RECUPES:

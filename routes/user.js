@@ -11,5 +11,4 @@ router.put('/api/user/:id/update/profile', userController.updateUserInfo);
 router.put('/api/user/:id/update/role', userController.updateUserRole);
 router.put('/api/user/:id/update/gravatar', userController.updateUserAvatar);
 
-
 module.exports = router;

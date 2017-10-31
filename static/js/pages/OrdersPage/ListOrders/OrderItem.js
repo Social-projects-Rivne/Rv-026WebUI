@@ -6,7 +6,7 @@ import RecipesInOrder from './RecipesInOrder';
 import ChangeStatus from '../../../common/ChangeStatus';
 import RenderStatus from '../../../common/OrderHelpers/RenderStatus';
 import createArrayObjectsFromArrays from '../../../common/OrderHelpers/createArrayObjectsFromArrays';
-import { ROLE_COOK } from '../../../../../config';
+import { ROLE_COOK, ROLE_USER } from '../../../../../config';
 
 class OrderItem extends Component {
     render() {
@@ -20,7 +20,7 @@ class OrderItem extends Component {
         if (flag) {
             renderStatus = <ChangeStatus onStatusSubmit={this.props.onStatusSubmit} role={role} orderId={order.id} status={order.status} />;
         } else {
-            renderStatus = null;
+            renderStatus = <ChangeStatus onStatusSubmit={this.props.onStatusSubmit} role={ROLE_USER} orderId={order.id} status={order.status} />;
         }
 
         return (

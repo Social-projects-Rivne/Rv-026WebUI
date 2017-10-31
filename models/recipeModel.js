@@ -47,7 +47,7 @@ recipeModel.findRecipesByTagId = (tagId, maxId) => {
         GROUP BY r.id
         HAVING $1 = ANY(array_agg(t.id))
         AND r.id > $2
-        LIMIT 2
+        LIMIT 10
         `,
         values: [tagId, maxId],
     };
@@ -71,7 +71,7 @@ recipeModel.getAllRecipes = (maxId) => {
         LEFT JOIN tags t ON rt.tag_id = t.id
         GROUP BY r.id
         HAVING r.id > ${maxId}
-        LIMIT 2
+        LIMIT 10
         `,
     };
     return query;
@@ -97,7 +97,7 @@ recipeModel.findRicipesByName = (recipeName, maxId) => {
         WHERE LOWER(r.title) LIKE $1||'%'
         GROUP BY r.id,u.id
         HAVING r.id > $2
-        LIMIT 2
+        LIMIT 10
         `,
         values: [recipeName, maxId],
     };
@@ -124,7 +124,7 @@ recipeModel.findRicipesByTagType = (tagType, maxId) => {
         GROUP BY r.id, u.id
         HAVING $1 = any(array_agg(t.tag_type))
         AND r.id > $2
-        LIMIT 2
+        LIMIT 10
         `,
         values: [tagType, maxId],
     };

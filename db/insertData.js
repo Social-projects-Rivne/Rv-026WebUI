@@ -4,7 +4,7 @@ const usersRoles = {
     fields: 'id, user_role',
     values: [
         "1, 'admin'",
-        "3, 'cooker'",
+        "3, 'cook'",
         "2, 'user'",
     ],
 };

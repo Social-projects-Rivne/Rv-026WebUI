@@ -29,34 +29,40 @@ signupController.checkEmailExistence = (req, res) => {
 signupController.register = (req, res) => {
     const credentials = req.body;
     const activationId = uuidv4();
-
-    db.query(signupModel.upsertIntoUsers(credentials.email, credentials.phone, credentials.password, activationId),
-    (err) => {
-        if (err) {
-            console.log(err);
+    db.query(signupModel.findRoleIdByRoleName(credentials.role), (error, result) => {
+        if (error) {
+            console.log(error);
         } else {
-            const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}/${activationId}`;
-
-            // setup nodemailer
-            const smtpTrans = nodemailer.createTransport(smtpTransport({
-                service: 'Gmail',
-                auth: {
-                    user: 'noreplyfmd@gmail.com',
-                    pass: 'happysmile1',
-                },
-            }));
-
-            const mailOpts = {
-                from: req.body.email,
-                to: credentials.email,
-                subject: 'Confirm registration',
-                text: fullUrl,
-            };
-
-            smtpTrans.sendMail(mailOpts, (e) => {
-                if (e) console.log(e);
+            const roleId = result.rows[0].id;
+            db.query(signupModel.upsertIntoUsers(credentials.email, credentials.phone, credentials.password, activationId, roleId),
+            (err) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}/${activationId}`;
+        
+                    // setup nodemailer
+                    const smtpTrans = nodemailer.createTransport(smtpTransport({
+                        service: 'Gmail',
+                        auth: {
+                            user: 'noreplyfmd@gmail.com',
+                            pass: 'happysmile1',
+                        },
+                    }));
+        
+                    const mailOpts = {
+                        from: req.body.email,
+                        to: credentials.email,
+                        subject: 'Confirm registration',
+                        text: fullUrl,
+                    };
+        
+                    smtpTrans.sendMail(mailOpts, (e) => {
+                        if (e) console.log(e);
+                    });
+                    res.json('registrationSuccessful');
+                }
             });
-            res.json('registrationSuccessful');
         }
     });
 };

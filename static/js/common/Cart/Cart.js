@@ -13,20 +13,21 @@ import {
 class Cart extends Component {
     constructor(props) {
         super(props);
-        this.onClick = this.onClick.bind(this);
+        this.onClick1 = this.onClick1.bind(this);
+        this.onClick2 = this.onClick2.bind(this);
     }
 
-    componentWillMount() {
-        let items = [];
-        items = this.props.state.cart.all;
-    }
-    onClick() {
+    onClick1() {
         browserHistory.push('/orders/new');
+        this.props.hideCart(this.props.state.cart.status);
+    }
+    onClick2() {
+        this.props.hideCart(this.props.state.cart.status);
     }
 
     render() {
         const items = this.props.state.cart.all;
-        if (items) {
+        if (items.length > 0) {
             const orderList = items.map((item, index) => {
                 return (<CartItem key={index} item={item} />);
             });
@@ -34,11 +35,18 @@ class Cart extends Component {
                 <div className="Cart">
                     <div >{ orderList } </div>
                     <Button
-                        onClick={this.onClick}
+                        onClick={this.onClick1}
                         className="MakeOrderButton btn-create"
                     >
                         Make order!
                     </Button>
+                    <Button
+                        onClick={this.onClick2}
+                        className="CloseCart"
+                    >
+                        X
+                    </Button>
+
                 </div>
             );
         } else {

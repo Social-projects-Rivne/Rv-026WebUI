@@ -29,7 +29,7 @@ class OrderAcceptPage extends Component {
             }
         }
         console.log(data);
-        axios.post('/api/addOrder', data)
+        axios.post('/api/order', data)
         .then(() => localStorage.clear())
         .then(res => this.msg.success('your order added!', { type: 'success' }))
         .then(setTimeout(() => browserHistory.push('/recipes'), 2000))

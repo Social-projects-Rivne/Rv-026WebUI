@@ -5,9 +5,9 @@ import OrderItem from './OrderItem';
 
 class ListOrders extends Component {
     render() {
-        const { orders } = this.props;
+        const { orders, orderOwnerCookId } = this.props;
         const orderList = orders.map((order) => {
-            return <OrderItem onStatusSubmit={this.props.onStatusSubmit} key={order.id} order={order} />;
+            return <OrderItem onStatusSubmit={this.props.onStatusSubmit} key={order.id} order={order} orderOwnerCookId={orderOwnerCookId} />;
         });
 
         return (
@@ -30,6 +30,7 @@ class ListOrders extends Component {
 ListOrders.PropTypes = {
     order: PropTypes.array,
     onStatusSubmit: PropTypes.func,
+    orderOwnerCookId: PropTypes.number,
 };
 
 export default ListOrders;

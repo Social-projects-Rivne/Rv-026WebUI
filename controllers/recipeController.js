@@ -260,6 +260,7 @@ recipeController.getRecepiesByName = (req, res) => {
             const recipes = result.rows;
             const recipesNotDeleted = recipes.filter((o) => {
                 if (!o.is_deleted) {
+                    o.description = o.description.substring(0, 80);
                     return recipes.indexOf(o) !== -1;
                 }
             });
@@ -281,6 +282,7 @@ recipeController.getRecepiesByTagType = (req, res) => {
             const recipes = result.rows;
             const recipesNotDeleted = recipes.filter((o) => {
                 if (!o.is_deleted) {
+                    o.description = o.description.substring(0, 80);
                     return recipes.indexOf(o) !== -1;
                 }
             });
@@ -463,6 +465,7 @@ recipeController.getRecepiesByIngredients = (req, res) => {
         } else {
             const recipesNotDeleted = result.rows.filter((o) => {
                 if (!o.is_deleted) {
+                    o.description = o.description.substring(0, 80);
                     return result.rows.indexOf(o) !== -1;
                 }
             });

@@ -23,6 +23,9 @@
 
 
 .orders {
+    .my-order {
+        background: #a5fda542;
+    }
     .orders-flexbox-table {
         @extend .inside-orders-flexbox-table;
         padding: 10px 0;

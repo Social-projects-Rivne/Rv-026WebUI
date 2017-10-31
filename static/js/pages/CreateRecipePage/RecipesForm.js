@@ -195,15 +195,20 @@ class RecipesForm extends Component {
                     {this.errorMessage(this.state.emptyDescription)}
                 </FormGroup>
                 <FormGroup>
-                    <label htmlFor="RecipesForm--photo">Photo *</label>
-                    <FormControl
-                        type="file"
-                        name="photo"
-                        id="RecipesForm--photo"
-                        onChange={this.onPhotoChange}
-                        onClick={this.onPhotoClick}
-                        accept="image/x-png,image/gif,image/jpeg"
-                    />
+                    <div>
+                        <label htmlFor="RecipesForm--photo">Photo *</label>
+                    </div>
+                    <span className="btn btn-primary btn-file">
+                        Browse...
+                        <FormControl
+                            type="file"
+                            name="photo"
+                            id="RecipesForm--photo"
+                            onChange={this.onPhotoChange}
+                            onClick={this.onPhotoClick}
+                            accept="image/x-png,image/gif,image/jpeg"
+                        />
+                    </span>
                     {this.errorMessage(this.state.emptyPhoto)}
                 </FormGroup>
                 {imagePreview}

@@ -3,6 +3,7 @@ import createHash from 'sha.js';
 import { browserHistory, Link } from 'react-router';
 import React, { Component } from 'react';
 import { Button, FormControl, FormGroup, ButtonToolbar, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import { ROLE_COOK, ROLE_USER } from '../../../../config';
 
 const errorStyle = {
     fontSize: '12px',
@@ -39,7 +40,7 @@ class SignUpForm extends Component {
                 value: '',
                 error: '*Required',
             },
-            selectedOption: 'user',
+            selectedOption: ROLE_USER,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -262,11 +263,11 @@ class SignUpForm extends Component {
 
                 <FormGroup>
                     <ButtonToolbar>
-                        <ToggleButtonGroup type="radio" name="options" defaultValue={'user'}>
-                            <ToggleButton value={'user'} checked={this.state.selectedOption === 'user'} onChange={this.handleOptionChange}>
+                        <ToggleButtonGroup type="radio" name="options" defaultValue={ROLE_USER}>
+                            <ToggleButton value={ROLE_USER} checked={this.state.selectedOption === ROLE_USER} onChange={this.handleOptionChange}>
                                 User
                             </ToggleButton>
-                            <ToggleButton value={'cook'} checked={this.state.selectedOption === 'cook'} onChange={this.handleOptionChange}>
+                            <ToggleButton value={ROLE_COOK} checked={this.state.selectedOption === ROLE_COOK} onChange={this.handleOptionChange}>
                                 Cook
                             </ToggleButton>
                         </ToggleButtonGroup>

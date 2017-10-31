@@ -50,7 +50,7 @@
     background-color: #32CD32;
     position: relative;
     border-radius: 0em;
-    width: 100%;
+    width: 90%;
     z-index: 4;
     display: block;
     float: left;
@@ -60,6 +60,23 @@
     }
     &:hover {
         background-color: rgba(0, 255, 0, 0.88);
+    }
+}
+.CloseCart{
+    background-color: red;
+    border: none;
+    outline: none;
+    width: 10%;
+    display: block;
+    float: left;
+    position: relative;
+    border-radius: 0em;
+    &:focus, &:active {
+        background-color: rgba(192, 22, 22, 0.88);
+
+    }
+    &:hover {
+        background-color: rgba(192, 22, 22, 0.88);
     }
 }
 @keyframes anm0 {
@@ -74,8 +91,8 @@
 .Cart{
     animation: anm0 0.4s ease-in-out;
     position: absolute;
-    margin-left: -100px;
-    margin-top: 20px;
+    margin-left: -100%;
+    margin-top: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border: 1px solid #ccc;
     background-color: #fff;

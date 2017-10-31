@@ -2,7 +2,8 @@ import axios from 'axios';
 import createHash from 'sha.js';
 import { browserHistory, Link } from 'react-router';
 import React, { Component } from 'react';
-import { Button, FormControl, FormGroup } from 'react-bootstrap';
+import { Button, FormControl, FormGroup, ButtonToolbar, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import { ROLE_COOK, ROLE_USER } from '../../../../config';
 
 const errorStyle = {
     fontSize: '12px',
@@ -39,9 +40,11 @@ class SignUpForm extends Component {
                 value: '',
                 error: '*Required',
             },
+            selectedOption: ROLE_USER,
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handlePaste = this.handlePaste.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.checkEmailExists = this.checkEmailExists.bind(this);
@@ -68,6 +71,7 @@ class SignUpForm extends Component {
         const credentials = {};
         credentials.email = this.state.email.value;
         credentials.phone = this.state.phone.value;
+        credentials.role = this.state.selectedOption;
         const sha256 = createHash('sha256');
         credentials.password = sha256.update(this.state.password.value, 'utf8').digest('hex');
         axios.post('/api/register', credentials)
@@ -105,6 +109,10 @@ class SignUpForm extends Component {
                 this.clearFieldError(name);
             }
         }
+    }
+
+    handleOptionChange(e) {
+        this.setState({ selectedOption: e.target.value });
     }
 
     handlePaste(e) {
@@ -251,6 +259,19 @@ class SignUpForm extends Component {
                         autoComplete="off"
                     />
                     {this.errorMessage(this.state.passwordConfirm.error)}
+                </FormGroup>
+
+                <FormGroup>
+                    <ButtonToolbar>
+                        <ToggleButtonGroup type="radio" name="options" defaultValue={ROLE_USER}>
+                            <ToggleButton value={ROLE_USER} checked={this.state.selectedOption === ROLE_USER} onChange={this.handleOptionChange}>
+                                User
+                            </ToggleButton>
+                            <ToggleButton value={ROLE_COOK} checked={this.state.selectedOption === ROLE_COOK} onChange={this.handleOptionChange}>
+                                Cook
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                    </ButtonToolbar>
                 </FormGroup>
 
                 <FormGroup>

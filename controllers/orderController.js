@@ -65,7 +65,18 @@ orderController.getAllOrders = (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            const orders = result.rows;
+            const allOrders = result.rows;
+            const cookOrders = allOrders.filter((o) => {
+                if (o.owner_id === orderOwnerCookId) {
+                    return allOrders;
+                }
+            });
+            const allOrdersWithStatusNew = allOrders.filter((o) => {
+                if (o.owner_id !== orderOwnerCookId && o.status === STATUS_NEW) {
+                    return allOrders;
+                }
+            });
+            const orders = [...cookOrders, ...allOrdersWithStatusNew];
             res.send({ orders, orderOwnerCookId });
         }
     });

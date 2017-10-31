@@ -71,6 +71,7 @@ recipeModel.getAllRecipes = (maxId) => {
         LEFT JOIN tags t ON rt.tag_id = t.id
         GROUP BY r.id
         HAVING r.id > ${maxId}
+        ORDER BY r.id ASC
         LIMIT 10
         `,
     };
@@ -97,6 +98,7 @@ recipeModel.findRicipesByName = (recipeName, maxId) => {
         WHERE LOWER(r.title) LIKE $1||'%'
         GROUP BY r.id,u.id
         HAVING r.id > $2
+        ORDER BY r.id ASC
         LIMIT 10
         `,
         values: [recipeName, maxId],
@@ -124,6 +126,7 @@ recipeModel.findRicipesByTagType = (tagType, maxId) => {
         GROUP BY r.id, u.id
         HAVING $1 = any(array_agg(t.tag_type))
         AND r.id > $2
+        ORDER BY r.id ASC
         LIMIT 10
         `,
         values: [tagType, maxId],
@@ -240,6 +243,7 @@ recipeModel.findRecipesByIngredients = (ingredients, maxId) => {
         left join ingredients i on cc.ingredient_id = i.id
         group by r.id
         having array[${ingredients}] <@ array_agg(distinct i.id) AND r.id>${maxId}
+        ORDER BY r.id ASC
         LIMIT 1
     `;
     return query;

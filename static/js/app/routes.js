@@ -11,15 +11,13 @@ import SignInPage from '../pages/SignInPage';
 import RecipesPage from '../pages/RecipesPage';
 import CreateRecipePage from '../pages/CreateRecipePage';
 import RecipePage from '../pages/RecipePage';
-
 import OrderAcceptPage from '../pages/OrderAcceptPage';
 import SignUpPage from '../pages/SignUpPage';
 import SignUpSuccess from '../pages/SignUpSuccess';
 import Terms from '../pages/Terms';
 import User from '../pages/Profile';
 import OrdersPage from '../pages/OrdersPage';
-import UserPAge from '../pages/UserPage';
-
+import UserPage from '../pages/UserPage';
 
 const routes = (
     <Route path="/" component={MainLayout}>
@@ -38,7 +36,7 @@ const routes = (
         <Route path="/profile" onEnter={checkUserId} component={User} />
         <Route path="/orders/new" component={OrderAcceptPage} />
         <Route path="/orders" onEnter={checkLoginCook} component={OrdersPage} />
-        <Route path="/user/:id" component={UserPAge} />
+        <Route path="/user/:id" component={UserPage} />
         <Route path="*" component={NotFound} />
     </Route>
 );

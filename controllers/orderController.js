@@ -68,12 +68,12 @@ orderController.getAllOrders = (req, res) => {
             const allOrders = result.rows;
             const cookOrders = allOrders.filter((o) => {
                 if (o.owner_id === orderOwnerCookId) {
-                    return allOrders.indexOf(o) !== -1;
+                    return allOrders;
                 }
             });
             const allOrdersWithStatusNew = allOrders.filter((o) => {
-                if (o.owner_id !== orderOwnerCookId && o.status === 'new') {
-                    return allOrders.indexOf(o) !== -1;
+                if (o.owner_id !== orderOwnerCookId && o.status === STATUS_NEW) {
+                    return allOrders;
                 }
             });
             const orders = [...cookOrders, ...allOrdersWithStatusNew];

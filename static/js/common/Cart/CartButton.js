@@ -37,9 +37,6 @@ class CartButton extends Component {
                     <img className="cartIcon" src="../../../public/images/icons/cart.png" alt="cart" />
                     </button>
                     <Cart />
-                    <svg className="octicon-bell" viewBox="-1 -1 2 2">
-                        <circle className="circle" cx="0" cy="0" r="1" />
-                    </svg>
                 </div>
             );
         } else {

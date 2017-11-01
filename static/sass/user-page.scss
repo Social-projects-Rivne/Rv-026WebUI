@@ -65,7 +65,10 @@
           font-size: 18px;
           color: #fff;
           text-shadow: 1px 1px 1px black;
+      }
     }
+
+
     input, textarea {
         font-size: 20px;
         font-weight: 900;
@@ -107,7 +110,7 @@
     h1, h2, h3 {
         font-weight: 900;
     }
-}
+  }
 
   .flexbox-table{
     display: -webkit-box;
@@ -201,5 +204,5 @@
       -webkit-animation: bounce 2s;
       animation: bounce 2s;
     }
-  }
+
 }

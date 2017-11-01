@@ -112,10 +112,10 @@ class RecipesPage extends Component {
             return (
                 <div onScroll={this.onBottomScroll}>
                     <Header />
-                    <Grid>
+                    <div className="container-fluid">
                         <SearchComponent />
                         {recipesComponent}
-                    </Grid>
+                    </div>
                 </div>
             );
         }

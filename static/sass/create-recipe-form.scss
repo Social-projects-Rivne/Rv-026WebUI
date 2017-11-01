@@ -1,0 +1,60 @@
+.create-recipe-form {
+    width: 45%;
+    margin: 20px auto 50px auto;
+    background-color: rgba(197, 197, 255, 0.4);
+    border-radius: 7px;
+    padding: 10px;
+    .title {
+        text-align: center;
+    }
+
+    .btn-cancel{
+        margin-left: 1%;
+        width: 25%;
+    }
+
+    .btn-create{
+        width: 25%;
+    }
+
+    .btn-file{
+        position: relative;
+        overflow: hidden;
+        input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+    }
+
+    img{
+        max-height: 200px;
+    }
+
+    .button-block {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+    }
+
+}
+
+@media (max-width: 1000px) {
+	.create-recipe-form {
+		width: 70%;
+	}
+}
+@media (max-width: 500px) {
+	.create-recipe-form {
+		width: 100%;
+	}
+}

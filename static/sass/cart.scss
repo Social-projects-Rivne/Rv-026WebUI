@@ -1,0 +1,128 @@
+.octicon-bell{
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top: 13px;
+    left: 48px;
+    z-index: 2;
+    border: 3px solid #272727;
+    border-radius: 50px;
+    .circle{
+        fill: rgb(30, 105, 218);
+    }
+}
+@keyframes spin {
+    0% { transform: rotate(0deg)}
+    100% {
+        transform: rotate(360deg)
+    }
+}
+.cartButton{
+    padding-top: 15px;
+    background: none;
+    border: none;
+    outline: none;
+    color: #9d9d9d;
+    font-size: 14px;
+    font-family: 'Play', sans-serif;
+    &:focus, &:active {
+        background: none;
+        border: none;
+        outline: none;
+    }
+    &:hover {
+
+        color: #fff;
+    }
+}
+.cartIcon{
+    margin-bottom: 5px;
+    margin-left: 5px;
+    width: auto;
+    height: 20px;
+    &:hover {
+        animation: spin 1s, linear infinite;
+    }
+}
+.MakeOrderButton{
+    border: none;
+    outline: none;
+    background-color: #32CD32;
+    position: relative;
+    border-radius: 0em;
+    width: 90%;
+    z-index: 4;
+    display: block;
+    float: left;
+    &:focus, &:active {
+        background-color: rgba(0, 255, 0, 0.88);
+
+    }
+    &:hover {
+        background-color: rgba(0, 255, 0, 0.88);
+    }
+}
+.CloseCart{
+    background-color: red;
+    border: none;
+    outline: none;
+    width: 10%;
+    display: block;
+    float: left;
+    position: relative;
+    border-radius: 0em;
+    &:focus, &:active {
+        background-color: rgba(192, 22, 22, 0.88);
+
+    }
+    &:hover {
+        background-color: rgba(192, 22, 22, 0.88);
+    }
+}
+@keyframes anm0 {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.1;
+    }
+}
+
+.Cart{
+    animation: anm0 0.4s ease-in-out;
+    position: absolute;
+    margin-left: -100%;
+    margin-top: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+    background-color: #fff;
+    z-index: 100;
+    width: 400px;
+    height: auto;
+    max-height: 200px;
+    overflow: auto;
+    .cartItem{
+        font-size: 16px;
+        float: left;
+        width: 100%;
+        z-index: 101;
+        .cartItemTitle{
+            font-family: 'Play', sans-serif;
+            display: block;
+            float: left;
+            margin-left: 5%;
+        }
+        .cartItemImg{
+            display: block;
+            float: left;
+            width: 60px;
+            height: auto;
+        }
+        .cartItemCount{
+            font-family: 'Play', sans-serif;
+            display: block;
+            float: right;
+            margin-right: 5%;
+        }
+    }
+}
